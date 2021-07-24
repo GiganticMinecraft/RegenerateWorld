@@ -1,17 +1,13 @@
-package click.seichi.regenerateworld;
+package click.seichi.regenerateworld
 
-import org.bukkit.plugin.java.JavaPlugin;
+import org.bukkit.plugin.java.JavaPlugin
 
-public final class RegenerateWorld extends JavaPlugin {
+class RegenerateWorld : JavaPlugin() {
+    override fun onEnable() {
+        // Plugin startup logic
+    }
 
-  @Override
-  public void onEnable() {
-    // Plugin startup logic
-
-  }
-
-  @Override
-  public void onDisable() {
-    // Plugin shutdown logic
-  }
+    override fun onDisable() {
+        // Plugin shutdown logic
+    }
 }
