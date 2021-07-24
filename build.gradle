@@ -1,14 +1,30 @@
-import org.apache.tools.ant.filters.ReplaceTokens
-
-plugins {
-    id 'java'
+buildscript {
+    ext {
+        kotlin_version = '1.5.21'
+        spigot_version = '1.12.2-R0.1-SNAPSHOT'
+        mutiverse_core_version = '6.2'
+    }
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+    }
 }
+
+apply plugin: 'java'
+apply plugin: 'kotlin'
 
 group = 'click.seichi'
 version = '0.1.0'
 
 sourceCompatibility = '1.8'
 targetCompatibility = '1.8'
+
+configurations {
+    embed
+    implementation.extendsFrom(embed)
+}
 
 repositories {
     mavenCentral()
@@ -23,11 +39,20 @@ repositories {
 }
 
 dependencies {
-    compileOnly 'org.spigotmc:spigot-api:1.12.2-R0.1-SNAPSHOT'
+    implementation "org.spigotmc:spigot-api:$spigot_version"
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
+    embed "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
 }
 
+import org.apache.tools.ant.filters.ReplaceTokens
+
 processResources {
+    filteringCharset = 'UTF-8'
     from(sourceSets.main.resources.srcDirs) {
         filter ReplaceTokens, tokens: [version: version]
     }
+}
+
+jar {
+    from configurations.embed.collect { it.isDirectory() ? it : zipTree(it) }
 }
