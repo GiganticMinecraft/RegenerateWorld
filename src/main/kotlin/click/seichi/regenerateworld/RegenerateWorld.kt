@@ -3,8 +3,13 @@ package click.seichi.regenerateworld
 import org.bukkit.plugin.java.JavaPlugin
 
 class RegenerateWorld : JavaPlugin() {
+    companion object {
+        lateinit var plugin: RegenerateWorld
+            private set
+    }
+
     override fun onEnable() {
-        // Plugin startup logic
+        plugin = this
     }
 
     override fun onDisable() {
