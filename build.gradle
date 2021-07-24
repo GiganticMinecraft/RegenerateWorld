@@ -2,6 +2,7 @@ buildscript {
     ext.versions = [
         kotlin: '1.5.21',
         spigot: '1.12.2-R0.1-SNAPSHOT',
+        multiverse: '2.5.0'
     ]
     repositories {
         mavenCentral()
@@ -35,11 +36,23 @@ repositories {
         name = 'sonatype'
         url = 'https://oss.sonatype.org/content/groups/public/'
     }
+    maven {
+        name = 'multiverse'
+        url = 'https://repo.onarandombox.com/content/repositories/multiverse/'
+    }
 }
 
 dependencies {
     implementation "org.spigotmc:spigot-api:${versions.spigot}"
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:${versions.kotlin}"
+    implementation("com.onarandombox.multiversecore:Multiverse-Core:${versions.multiverse}") {
+        exclude group: 'net.milkbowl.vault', module: 'VaultAPI'
+        exclude group: 'me.main__.util', module: 'SerializationConfig'
+        exclude group: 'com.pneumaticraft.commandhandler', module: 'CommandHandler'
+        exclude group: 'com.dumptruckman.minecraft', module: 'buscript'
+        exclude group: 'com.dumptruckman.minecraft', module: 'Logging'
+        exclude group: 'org.mcstats.bukkit', module: 'metrics'
+    }
     embed "org.jetbrains.kotlin:kotlin-stdlib:${versions.kotlin}"
 }
 
