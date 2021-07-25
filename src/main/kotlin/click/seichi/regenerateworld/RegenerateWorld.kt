@@ -10,6 +10,7 @@ class RegenerateWorld : JavaPlugin() {
 
     override fun onEnable() {
         plugin = this
+        Multiverse.load()
     }
 
     override fun onDisable() {
