@@ -1,7 +1,10 @@
 package click.seichi.regenerateworld
 
+import click.seichi.regenerateworld.events.PreRegenerateWorldEvent
+import click.seichi.regenerateworld.events.RegenerateWorldEvent
 import com.onarandombox.MultiverseCore.MultiverseCore
 import com.onarandombox.MultiverseCore.api.MultiverseWorld
+import org.bukkit.Bukkit
 import org.bukkit.Location
 import org.bukkit.World
 
@@ -16,8 +19,15 @@ object Multiverse {
 
     fun findMvWorld(world: World): MultiverseWorld? = instance.mvWorldManager.getMVWorld(world)
 
-    private fun regenWorld(world: MultiverseWorld, isNewSeed: Boolean, isRandomSeed: Boolean, seed: String?) =
+    private fun regenWorld(world: MultiverseWorld, isNewSeed: Boolean, isRandomSeed: Boolean, seed: String?) {
+        val preEvent = PreRegenerateWorldEvent(world.name)
+        Bukkit.getPluginManager()?.callEvent(preEvent)
+        if (preEvent.isCancelled) return
+
         instance.mvWorldManager.regenWorld(world.name, isNewSeed, isRandomSeed, seed)
+
+        Bukkit.getPluginManager()?.callEvent(RegenerateWorldEvent(world.name))
+    }
 
     fun regenWorldWithCurrentSeed(world: MultiverseWorld) =
         regenWorld(world, isNewSeed = false, isRandomSeed = false, seed = null)
