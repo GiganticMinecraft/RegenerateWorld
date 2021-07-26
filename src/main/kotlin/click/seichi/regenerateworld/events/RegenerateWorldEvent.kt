@@ -9,7 +9,5 @@ class RegenerateWorldEvent(private val worldName: String) : Event() {
         val handlerList = HandlerList()
     }
 
-    override fun getHandlers(): HandlerList {
-        return handlerList
-    }
+    override fun getHandlers() = handlerList
 }

@@ -11,15 +11,9 @@ class PreRegenerateWorldEvent(private val worldName: String) : Event(), Cancella
         val handlerList = HandlerList()
     }
 
-    override fun getHandlers(): HandlerList {
-        return handlerList
-    }
+    override fun getHandlers() = handlerList
 
-    override fun isCancelled(): Boolean {
-        return isCancelled
-    }
+    override fun isCancelled() = isCancelled
 
-    override fun setCancelled(isCancelled: Boolean) {
-        this.isCancelled = isCancelled
-    }
+    override fun setCancelled(isCancelled: Boolean) { this.isCancelled = isCancelled }
 }
