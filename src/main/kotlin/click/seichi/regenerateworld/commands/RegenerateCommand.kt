@@ -51,6 +51,7 @@ object RegenerateCommand : TabExecutor {
                         setOf("ワールドの再生成を開始します。", "この処理には時間がかかる可能性があります。")
                             .map { msg -> "${ChatColor.GREEN}$msg" }
                             .forEach { msg -> sender.sendMessage(msg) }
+                        // TODO: Seed変更に対応する
                         Multiverse.regenWorld(it, SeedType.NEW_SEED)
                             .onFailure { err -> err.withLog(sender) }
                         sender.sendMessage("${ChatColor.GREEN}ワールドの再生成が終了しました。")
