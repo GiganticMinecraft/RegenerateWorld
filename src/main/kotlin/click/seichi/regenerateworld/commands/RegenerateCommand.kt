@@ -45,8 +45,11 @@ object RegenerateCommand : TabExecutor {
         }
 
         when (commandType) {
-            CommandType.HELP -> CommandType.values().forEach {
-                sender.sendMessage("${ChatColor.GOLD}${it.usage}${ChatColor.WHITE}: ${it.description}")
+            CommandType.HELP -> {
+                sender.sendMessage("${ChatColor.WHITE}-RegenerateWorld Commands-")
+                CommandType.values().forEach {
+                    sender.sendMessage("${ChatColor.GOLD}${it.usage}${ChatColor.WHITE}: ${it.description}")
+                }
             }
             CommandType.REGEN -> {
                 val world = Bukkit.getWorld(args[1])
