@@ -1,9 +1,12 @@
 package click.seichi.regenerateworld.commands
 
+import click.seichi.regenerateworld.IError
 import click.seichi.regenerateworld.Multiverse
 import click.seichi.regenerateworld.SeedType
+import com.github.michaelbull.result.getOrElse
 import com.github.michaelbull.result.mapBoth
 import com.github.michaelbull.result.onFailure
+import com.github.michaelbull.result.toResultOr
 import org.bukkit.Bukkit
 import org.bukkit.ChatColor
 import org.bukkit.command.Command
@@ -27,24 +30,28 @@ object RegenerateCommand : TabExecutor {
         args: Array<out String>
     ): Boolean {
         if (args.isEmpty()) {
-            sender.sendMessage("${ChatColor.RED}引数が不足しています。詳細については「/rw help」を参照してください。")
+            RegenerateCommandError.ARGS_ARE_SUFFICIENT.withLog(sender)
             return true
         }
+
         val commandType =
-            CommandType.values().find { it.name.lowercase() == args[0].lowercase() } ?: run {
-                sender.sendMessage("${ChatColor.RED}操作識別子が間違っています。詳細については「/rw help」を参照してください。")
-                return true
-            }
+            CommandType.values().find { it.name.lowercase() == args[0].lowercase() }
+                .toResultOr { RegenerateCommandError.OPERATOR_IS_INCORRECT.withLog(sender) }
+                .getOrElse { return true }
+
+        if (args.size < commandType.argsSize) {
+            RegenerateCommandError.ARGS_ARE_SUFFICIENT.withLog(sender)
+            return true
+        }
 
         when (commandType) {
             CommandType.HELP -> CommandType.values().forEach {
                 sender.sendMessage("${ChatColor.GOLD}${it.usage}${ChatColor.WHITE}: ${it.description}")
             }
             CommandType.REGEN -> {
-                val world = Bukkit.getWorld(args[1]) ?: run {
-                    sender.sendMessage("${ChatColor.RED}指定されたBukkitワールドは見つかりませんでした。")
-                    return true
-                }
+                val world = Bukkit.getWorld(args[1])
+                    .toResultOr { RegenerateCommandError.WORLD_IS_NOT_FOUND.withLog(sender) }
+                    .getOrElse { return true }
 
                 Multiverse.findMvWorld(world).mapBoth(
                     success = {
@@ -67,8 +74,17 @@ object RegenerateCommand : TabExecutor {
     }
 }
 
-private enum class CommandType(val usage: String, val description: String) {
-    HELP("/rw help", "RegenerateWorldのコマンドの一覧を表示します。"),
-    REGEN("/rw regen", "指定されたワールドの再生成を行います。"),
-    SCHEDULE("/rw schedule", "指定されたワールドの再生成をスケジュールします。")
+private enum class RegenerateCommandError(private val reason: String) : IError {
+    ARGS_ARE_SUFFICIENT("引数が不足しています。詳細については「/rw help」を参照してください。"),
+    OPERATOR_IS_INCORRECT("操作識別子が間違っています。詳細については「/rw help」を参照してください。"),
+    WORLD_IS_NOT_FOUND("指定されたBukkitワールドは見つかりませんでした。");
+
+    override fun errorName() = this.name
+    override fun reason() = this.reason
+}
+
+private enum class CommandType(val usage: String, val description: String, val argsSize: Int) {
+    HELP("/rw help", "RegenerateWorldのコマンドの一覧を表示します。", 0),
+    REGEN("/rw regen", "指定されたワールドの再生成を行います。", 1), // TODO 引数の数を適切に
+    SCHEDULE("/rw schedule", "指定されたワールドの再生成をスケジュールします。", 1)
 }
