@@ -1,5 +1,6 @@
 package click.seichi.regenerateworld
 
+import click.seichi.regenerateworld.commands.RegenerateCommand
 import org.bukkit.plugin.java.JavaPlugin
 
 class RegenerateWorld : JavaPlugin() {

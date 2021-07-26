@@ -1,5 +1,6 @@
-package click.seichi.regenerateworld
+package click.seichi.regenerateworld.commands
 
+import click.seichi.regenerateworld.Multiverse
 import org.bukkit.Bukkit
 import org.bukkit.ChatColor
 import org.bukkit.command.Command
