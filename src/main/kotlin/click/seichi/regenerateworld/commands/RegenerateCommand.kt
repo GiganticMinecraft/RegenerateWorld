@@ -5,7 +5,6 @@ import click.seichi.regenerateworld.Multiverse
 import click.seichi.regenerateworld.SeedType
 import com.github.michaelbull.result.getOrElse
 import com.github.michaelbull.result.mapBoth
-import com.github.michaelbull.result.onFailure
 import com.github.michaelbull.result.toResultOr
 import org.bukkit.Bukkit
 import org.bukkit.ChatColor
@@ -62,9 +61,10 @@ object RegenerateCommand : TabExecutor {
                             .map { msg -> "${ChatColor.GREEN}$msg" }
                             .forEach { msg -> sender.sendMessage(msg) }
                         // TODO: Seed変更に対応する
-                        Multiverse.regenWorld(it, SeedType.NEW_SEED)
-                            .onFailure { err -> err.withLog(sender) }
-                        sender.sendMessage("${ChatColor.GREEN}ワールドの再生成が終了しました。")
+                        Multiverse.regenWorld(it, SeedType.NEW_SEED).mapBoth(
+                            success = { sender.sendMessage("${ChatColor.GREEN}ワールドの再生成が終了しました。") },
+                            failure = { err -> err.withLog(sender) }
+                        )
                     },
                     failure = { it.withLog(sender) }
                 )
