@@ -18,7 +18,8 @@ object Multiverse {
         if (plugin != null && plugin is MultiverseCore) instance = plugin
     }
 
-    fun findMvWorld(world: World): MultiverseWorld? = instance.mvWorldManager.getMVWorld(world)
+    fun findMvWorld(world: World) =
+        instance.mvWorldManager.getMVWorld(world).toResultOr { MultiverseError.WORLD_IS_NOT_FOUND }
 
     private fun regenWorld(
         world: MultiverseWorld,
@@ -56,8 +57,9 @@ enum class SeedType(val isNewSeed: Boolean, val isRandomSeed: Boolean) {
     RANDOM_NEW_SEED(true, true)
 }
 
-private enum class MultiverseError(private val reason: String) : IError {
-    SEED_IS_NON_NULL("Seed値が指定されていません。");
+enum class MultiverseError(private val reason: String) : IError {
+    SEED_IS_NON_NULL("Seed値が指定されていません。"),
+    WORLD_IS_NOT_FOUND("指定されたMultiverseワールドは存在しません。");
 
     override fun errorName() = this.name
     override fun reason() = this.reason
