@@ -60,7 +60,7 @@ object RegenerateCommand : TabExecutor {
     }
 }
 
-enum class CommandType(val usage: String, val description: String) {
+private enum class CommandType(val usage: String, val description: String) {
     HELP("/rw help", "RegenerateWorldのコマンドの一覧を表示します。"),
     REGEN("/rw regen", "指定されたワールドの再生成を行います。"),
     SCHEDULE("/rw schedule", "指定されたワールドの再生成をスケジュールします。")
