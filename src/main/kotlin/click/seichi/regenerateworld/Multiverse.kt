@@ -21,12 +21,12 @@ object Multiverse {
 
     private fun regenWorld(world: MultiverseWorld, isNewSeed: Boolean, isRandomSeed: Boolean, seed: String?) {
         val preEvent = PreRegenerateWorldEvent(world.name)
-        Bukkit.getPluginManager()?.callEvent(preEvent)
+        Bukkit.getPluginManager().callEvent(preEvent)
         if (preEvent.isCancelled) return
 
         instance.mvWorldManager.regenWorld(world.name, isNewSeed, isRandomSeed, seed)
 
-        Bukkit.getPluginManager()?.callEvent(RegenerateWorldEvent(world.name))
+        Bukkit.getPluginManager().callEvent(RegenerateWorldEvent(world.name))
     }
 
     fun regenWorldWithCurrentSeed(world: MultiverseWorld) =
