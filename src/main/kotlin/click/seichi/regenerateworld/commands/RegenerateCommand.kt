@@ -2,6 +2,7 @@ package click.seichi.regenerateworld.commands
 
 import click.seichi.regenerateworld.Multiverse
 import click.seichi.regenerateworld.SeedType
+import com.github.michaelbull.result.mapBoth
 import com.github.michaelbull.result.onFailure
 import org.bukkit.Bukkit
 import org.bukkit.ChatColor
@@ -44,17 +45,18 @@ object RegenerateCommand : TabExecutor {
                     sender.sendMessage("${ChatColor.RED}指定されたBukkitワールドは見つかりませんでした。")
                     return true
                 }
-                Multiverse.findMvWorld(world)?.let {
-                    setOf("ワールドの再生成を開始します。", "この処理には時間がかかる可能性があります。")
-                        .map { msg -> "${ChatColor.GREEN}$msg" }
-                        .forEach { msg -> sender.sendMessage(msg) }
-                    // TODO: seedを選べるように
-                    Multiverse.regenWorld(it, SeedType.NEW_SEED)
-                        .onFailure { err -> err.withLog(sender) }
-                    sender.sendMessage("${ChatColor.GREEN}ワールドの再生成が終了しました。")
-                } ?: run {
-                    sender.sendMessage("${ChatColor.RED}指定されたMultiverseワールドは見つかりませんでした。")
-                }
+
+                Multiverse.findMvWorld(world).mapBoth(
+                    success = {
+                        setOf("ワールドの再生成を開始します。", "この処理には時間がかかる可能性があります。")
+                            .map { msg -> "${ChatColor.GREEN}$msg" }
+                            .forEach { msg -> sender.sendMessage(msg) }
+                        Multiverse.regenWorld(it, SeedType.NEW_SEED)
+                            .onFailure { err -> err.withLog(sender) }
+                        sender.sendMessage("${ChatColor.GREEN}ワールドの再生成が終了しました。")
+                    },
+                    failure = { it.withLog(sender) }
+                )
             }
             // TODO: 実装する
             CommandType.SCHEDULE -> sender.sendMessage("schedule")
