@@ -1,12 +1,14 @@
 package click.seichi.regenerateworld.events
 
 import org.bukkit.event.HandlerList
-import org.bukkit.event.Cancellable
 import org.bukkit.event.Event
 
 class RegenerateWorldEvent(val worldName: String) : Event() {
     companion object {
-        val handlerList = HandlerList()
+        private val handlerList = HandlerList()
+
+        @JvmStatic
+        fun getHandlerList() = handlerList
     }
 
     override fun getHandlers() = handlerList

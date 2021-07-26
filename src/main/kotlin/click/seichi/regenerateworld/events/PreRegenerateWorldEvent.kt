@@ -8,7 +8,10 @@ class PreRegenerateWorldEvent(val worldName: String) : Event(), Cancellable {
     private var isCancelled = false
 
     companion object {
-        val handlerList = HandlerList()
+        private val handlerList = HandlerList()
+
+        @JvmStatic
+        fun getHandlerList() = handlerList
     }
 
     override fun getHandlers() = handlerList
