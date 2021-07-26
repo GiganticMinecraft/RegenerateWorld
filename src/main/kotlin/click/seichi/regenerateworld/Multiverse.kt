@@ -26,23 +26,24 @@ object Multiverse {
         isNewSeed: Boolean,
         isRandomSeed: Boolean,
         seed: String?
-    ) {
+    ): Result<Boolean, MultiverseError> {
         val preEvent = PreRegenerateWorldEvent(world.name)
         Bukkit.getPluginManager().callEvent(preEvent)
-        if (preEvent.isCancelled) return
+        if (preEvent.isCancelled) return Err(MultiverseError.EVENT_IS_CANCELLED)
 
-        instance.mvWorldManager.regenWorld(world.name, isNewSeed, isRandomSeed, seed)
-
+        val result = instance.mvWorldManager.regenWorld(world.name, isNewSeed, isRandomSeed, seed)
         Bukkit.getPluginManager().callEvent(RegenerateWorldEvent(world.name))
+
+        return Ok(result)
     }
 
     fun regenWorld(
         world: MultiverseWorld,
         seedType: SeedType,
         seed: String? = null
-    ): Result<Unit, MultiverseError> =
+    ): Result<Boolean, MultiverseError> =
         if (seedType == SeedType.NEW_SEED && seed == null) Err(MultiverseError.SEED_IS_NON_NULL)
-        else Ok(regenWorld(world, seedType.isNewSeed, seedType.isRandomSeed, seed))
+        else regenWorld(world, seedType.isNewSeed, seedType.isRandomSeed, seed)
 
     fun getSpawnWorld(): MultiverseWorld = instance.mvWorldManager.spawnWorld
 
@@ -58,7 +59,8 @@ enum class SeedType(val isNewSeed: Boolean, val isRandomSeed: Boolean) {
 }
 
 enum class MultiverseError(private val reason: String) : IError {
-    SEED_IS_NON_NULL("Seed値が指定されていません。"),
+    EVENT_IS_CANCELLED("イベントがキャンセルされています。"),
+    SEED_IS_NON_NULL("シード値が指定されていません。"),
     WORLD_IS_NOT_FOUND("指定されたMultiverseワールドは存在しません。");
 
     override fun errorName() = this.name
