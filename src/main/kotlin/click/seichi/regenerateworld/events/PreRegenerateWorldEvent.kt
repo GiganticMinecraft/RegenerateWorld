@@ -4,7 +4,7 @@ import org.bukkit.event.HandlerList
 import org.bukkit.event.Cancellable
 import org.bukkit.event.Event
 
-class PreRegenerateWorldEvent(private val worldName: String) : Event(), Cancellable {
+class PreRegenerateWorldEvent(val worldName: String) : Event(), Cancellable {
     private var isCancelled = false
 
     companion object {
