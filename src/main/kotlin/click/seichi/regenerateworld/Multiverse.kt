@@ -39,17 +39,17 @@ object Multiverse {
     fun getSpawnWorld(): MultiverseWorld = instance.mvWorldManager.spawnWorld
 
     fun setSpawnLocation(world: MultiverseWorld, location: Location) { world.spawnLocation = location }
-
-    private enum class MultiverseError(private val reason: String) : IError {
-        SEED_IS_NON_NULL("Seed値が指定されていません。");
-
-        override fun errorName() = this.name
-        override fun reason() = this.reason
-    }
 }
 
 enum class SeedType(val isNewSeed: Boolean, val isRandomSeed: Boolean) {
     CURRENT_SEED(false, false),
     NEW_SEED(true, false),
     RANDOM_NEW_SEED(true, true)
+}
+
+private enum class MultiverseError(private val reason: String) : IError {
+    SEED_IS_NON_NULL("Seed値が指定されていません。");
+
+    override fun errorName() = this.name
+    override fun reason() = this.reason
 }
