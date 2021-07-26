@@ -38,5 +38,7 @@ object Multiverse {
     fun regenWorldWithRandomNewSeed(world: MultiverseWorld) =
         regenWorld(world, isNewSeed = true, isRandomSeed = true, seed = null)
 
+    fun getSpawnWorld() = instance.mvWorldManager.spawnWorld
+
     fun setSpawnLocation(world: MultiverseWorld, location: Location) { world.spawnLocation = location }
 }
