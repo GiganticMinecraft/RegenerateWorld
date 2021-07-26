@@ -11,6 +11,7 @@ interface IError {
         sender.sendMessage("${ChatColor.RED}${reason()}")
         return this
     }
+
     fun withServerLog(): IError = run {
         setOf("処理中にエラーが発生しました。", "${errorName()}: ${reason()}")
             .forEach { Bukkit.getServer().logger.severe(it) }
