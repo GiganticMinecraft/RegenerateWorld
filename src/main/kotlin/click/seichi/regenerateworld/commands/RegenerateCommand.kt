@@ -27,10 +27,11 @@ object RegenerateCommand : TabExecutor {
             sender.sendMessage("${ChatColor.RED}引数が不足しています。詳細については「/rw help」を参照してください。")
             return true
         }
-        val commandType = CommandType.values().find { it.name.lowercase() == args[0].lowercase() } ?: run {
-            sender.sendMessage("${ChatColor.RED}操作識別子が間違っています。詳細については「/rw help」を参照してください。")
-            return true
-        }
+        val commandType =
+            CommandType.values().find { it.name.lowercase() == args[0].lowercase() } ?: run {
+                sender.sendMessage("${ChatColor.RED}操作識別子が間違っています。詳細については「/rw help」を参照してください。")
+                return true
+            }
 
         when(commandType) {
             CommandType.HELP -> CommandType.values().forEach {
