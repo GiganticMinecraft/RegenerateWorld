@@ -1,6 +1,8 @@
 package click.seichi.regenerateworld.commands
 
 import click.seichi.regenerateworld.Multiverse
+import click.seichi.regenerateworld.SeedType
+import com.github.michaelbull.result.onFailure
 import org.bukkit.Bukkit
 import org.bukkit.ChatColor
 import org.bukkit.command.Command
@@ -33,7 +35,7 @@ object RegenerateCommand : TabExecutor {
                 return true
             }
 
-        when(commandType) {
+        when (commandType) {
             CommandType.HELP -> CommandType.values().forEach {
                 sender.sendMessage("${ChatColor.GOLD}${it.usage}${ChatColor.WHITE}: ${it.description}")
             }
@@ -47,7 +49,8 @@ object RegenerateCommand : TabExecutor {
                         .map { msg -> "${ChatColor.GREEN}$msg" }
                         .forEach { msg -> sender.sendMessage(msg) }
                     // TODO: seedを選べるように
-                    Multiverse.regenWorldWithRandomNewSeed(it)
+                    Multiverse.regenWorld(it, SeedType.NEW_SEED)
+                        .onFailure { err -> err.withLog(sender) }
                     sender.sendMessage("${ChatColor.GREEN}ワールドの再生成が終了しました。")
                 } ?: run {
                     sender.sendMessage("${ChatColor.RED}指定されたMultiverseワールドは見つかりませんでした。")
