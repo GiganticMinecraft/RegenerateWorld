@@ -11,6 +11,7 @@ class RegenerateWorld : JavaPlugin() {
     override fun onEnable() {
         plugin = this
         Multiverse.load()
+        getCommand("regenerateworld").executor = RegenerateCommand
     }
 
     override fun onDisable() {
