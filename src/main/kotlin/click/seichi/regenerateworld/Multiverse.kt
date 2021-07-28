@@ -21,6 +21,10 @@ object Multiverse {
         if (plugin != null && plugin is MultiverseCore) instance = plugin
     }
 
+    fun findMvWorld(worldName: String) =
+        instance.mvWorldManager.getMVWorld(worldName)
+            .toResultOr { MultiverseError.WORLD_IS_NOT_FOUND }
+
     fun findMvWorld(world: World) =
         instance.mvWorldManager.getMVWorld(world).toResultOr { MultiverseError.WORLD_IS_NOT_FOUND }
 
