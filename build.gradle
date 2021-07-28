@@ -40,9 +40,9 @@ repositories {
 }
 
 dependencies {
-    implementation "org.spigotmc:spigot-api:${spigotVersion}"
-    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:${kotlinVersion}"
-    implementation("com.onarandombox.multiversecore:Multiverse-Core:${multiverseVersion}") {
+    implementation "org.spigotmc:spigot-api:$spigotVersion"
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlinVersion"
+    implementation("com.onarandombox.multiversecore:Multiverse-Core:$multiverseVersion") {
         exclude group: 'net.milkbowl.vault', module: 'VaultAPI'
         exclude group: 'me.main__.util', module: 'SerializationConfig'
         exclude group: 'com.pneumaticraft.commandhandler', module: 'CommandHandler'
@@ -50,8 +50,8 @@ dependencies {
         exclude group: 'com.dumptruckman.minecraft', module: 'Logging'
         exclude group: 'org.mcstats.bukkit', module: 'metrics'
     }
-    embed "com.michael-bull.kotlin-result:kotlin-result:${kotlinResultVersion}"
-    embed "org.jetbrains.kotlin:kotlin-stdlib:${kotlinVersion}"
+    embed "com.michael-bull.kotlin-result:kotlin-result:$kotlinResultVersion"
+    embed "org.jetbrains.kotlin:kotlin-stdlib:$kotlinVersion"
 }
 
 import org.apache.tools.ant.filters.ReplaceTokens
