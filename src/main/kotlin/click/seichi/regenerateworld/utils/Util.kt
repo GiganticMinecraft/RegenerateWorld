@@ -1,6 +1,9 @@
 package click.seichi.regenerateworld.utils
 
-import click.seichi.regenerateworld.*
+import click.seichi.regenerateworld.Config
+import click.seichi.regenerateworld.PathType
+import click.seichi.regenerateworld.RegenerateTask
+import click.seichi.regenerateworld.RegenerateWorld
 import org.bukkit.Bukkit
 import java.time.Duration
 import java.time.ZonedDateTime
@@ -8,7 +11,7 @@ import java.time.format.DateTimeFormatter
 
 object Util {
     fun scheduleRegenerateTask(plan: Plan) {
-        Bukkit.getScheduler().cancelTask(plan.taskId)
+        Bukkit.getScheduler().cancelTask(plan.bukkitTaskId)
         val now = ZonedDateTime.now()
         val nextDate = now.plusMinutes(plan.interval)
         val taskId = RegenerateTask(plan).runTaskTimer(

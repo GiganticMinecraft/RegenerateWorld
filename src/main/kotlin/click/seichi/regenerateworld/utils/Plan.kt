@@ -13,7 +13,7 @@ data class Plan(
     /**
      * BukkitScheduler上のタスクID。
      */
-    val taskId: Int,
+    val bukkitTaskId: Int,
     /**
      * 最後に再生成を実行した日時。
      */
