@@ -1,17 +1,10 @@
 # ここを手動で書き換えないでください。
 regeneration:
   a:
-    date: 2021-07-28=19:24:47.134+09:00
-    interval: 3
-    worlds:
-      - "TEST"
-  b:
-    date: 2021-08-28=17:24:47.134+09:00
-    interval: 2
-    worlds:
-      - "TEST"
-  c:
-    date: 2021-08-28=17:24:47.134+09:00
+    task_id: 0
+    date: 2021-07-28T23:12:27.400+09:00[Asia/Tokyo]
     interval: 1
+    seed_type: CURRENT_SEED
     worlds:
-      - "TEST"
+      - world
+      - world_TES
