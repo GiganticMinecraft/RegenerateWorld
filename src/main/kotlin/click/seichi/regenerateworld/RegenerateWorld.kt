@@ -33,6 +33,6 @@ class RegenerateWorld : JavaPlugin() {
     }
 
     override fun onDisable() {
-        Config.loadPlans().map { it.taskId }.forEach { Bukkit.getScheduler().cancelTask(it) }
+        Bukkit.getScheduler().cancelTasks(plugin)
     }
 }
