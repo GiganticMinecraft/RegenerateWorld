@@ -1,17 +1,17 @@
 # ここを手動で書き換えないでください。
 regeneration:
   a:
-    date: 1
+    date: 2021-07-28=19:24:47.134+09:00
     interval: 3
     worlds:
       - "TEST"
   b:
-    date: 2
+    date: 2021-08-28=17:24:47.134+09:00
     interval: 2
     worlds:
       - "TEST"
   c:
-    date: 3
+    date: 2021-08-28=17:24:47.134+09:00
     interval: 1
     worlds:
       - "TEST"
