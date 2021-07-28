@@ -1,20 +1,16 @@
 buildscript {
-    ext.versions = [
-        kotlin: '1.5.21',
-        spigot: '1.12.2-R0.1-SNAPSHOT',
-        multiverse: '2.5.0',
-        kotlin_result: '1.1.12'
-    ]
     repositories {
         mavenCentral()
     }
     dependencies {
-        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:${versions.kotlin}"
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:${kotlinVersion}"
     }
 }
 
-apply plugin: 'java'
-apply plugin: 'kotlin'
+plugins {
+    id 'java'
+    id 'org.jetbrains.kotlin.jvm' version "${kotlinVersion}"
+}
 
 group = 'click.seichi'
 version = '0.1.0'
@@ -44,9 +40,9 @@ repositories {
 }
 
 dependencies {
-    implementation "org.spigotmc:spigot-api:${versions.spigot}"
-    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:${versions.kotlin}"
-    implementation("com.onarandombox.multiversecore:Multiverse-Core:${versions.multiverse}") {
+    implementation "org.spigotmc:spigot-api:${spigotVersion}"
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:${kotlinVersion}"
+    implementation("com.onarandombox.multiversecore:Multiverse-Core:${multiverseVersion}") {
         exclude group: 'net.milkbowl.vault', module: 'VaultAPI'
         exclude group: 'me.main__.util', module: 'SerializationConfig'
         exclude group: 'com.pneumaticraft.commandhandler', module: 'CommandHandler'
@@ -54,8 +50,8 @@ dependencies {
         exclude group: 'com.dumptruckman.minecraft', module: 'Logging'
         exclude group: 'org.mcstats.bukkit', module: 'metrics'
     }
-    embed "com.michael-bull.kotlin-result:kotlin-result:${versions.kotlin_result}"
-    embed "org.jetbrains.kotlin:kotlin-stdlib:${versions.kotlin}"
+    embed "com.michael-bull.kotlin-result:kotlin-result:${kotlinResultVersion}"
+    embed "org.jetbrains.kotlin:kotlin-stdlib:${kotlinVersion}"
 }
 
 import org.apache.tools.ant.filters.ReplaceTokens
