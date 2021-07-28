@@ -1,5 +1,6 @@
 package click.seichi.regenerateworld
 
+import click.seichi.regenerateworld.utils.ConfigPaths
 import click.seichi.regenerateworld.utils.Logger
 import click.seichi.regenerateworld.utils.Plan
 import click.seichi.regenerateworld.utils.Util
@@ -39,7 +40,7 @@ class RegenerateTask(val plan: Plan) : BukkitRunnable() {
                     }
 
                     val nextDate = plan.lastRegeneratedDate.plusMinutes(plan.interval)
-                    Config.setData(PathType.DATE, plan.id, nextDate.toString())
+                    Config.setData(ConfigPaths.DATE, plan.id, nextDate.toString())
                     Util.scheduleRegenerateTask(plan)
                 }
             }.runTask(RegenerateWorld.plugin)

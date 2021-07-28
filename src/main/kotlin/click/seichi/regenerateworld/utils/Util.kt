@@ -1,7 +1,6 @@
 package click.seichi.regenerateworld.utils
 
 import click.seichi.regenerateworld.Config
-import click.seichi.regenerateworld.PathType
 import click.seichi.regenerateworld.RegenerateTask
 import click.seichi.regenerateworld.RegenerateWorld
 import org.bukkit.Bukkit
@@ -24,7 +23,7 @@ object Util {
                 nextDate.format(DateTimeFormatter.ISO_LOCAL_TIME)
             }」"
         )
-        Config.setData(PathType.TASK_ID, plan.id, taskId)
-        Config.setData(PathType.DATE, plan.id, nextDate.toString())
+        Config.setData(ConfigPaths.TASK_ID, plan.id, taskId)
+        Config.setData(ConfigPaths.DATE, plan.id, nextDate.toString())
     }
 }

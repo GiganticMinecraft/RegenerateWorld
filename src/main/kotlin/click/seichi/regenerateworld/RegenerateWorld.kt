@@ -2,6 +2,7 @@ package click.seichi.regenerateworld
 
 import click.seichi.regenerateworld.commands.RegenerateCommand
 import click.seichi.regenerateworld.listener.RegenerateWorldEventListener
+import click.seichi.regenerateworld.utils.ConfigPaths
 import click.seichi.regenerateworld.utils.Util
 import org.bukkit.Bukkit
 import org.bukkit.plugin.java.JavaPlugin
@@ -23,7 +24,7 @@ class RegenerateWorld : JavaPlugin() {
         Config.loadPlans().forEach {
             val now = ZonedDateTime.now()
             if (it.lastRegeneratedDate.isBefore(now)) {
-                Config.setData(PathType.DATE, it.id, now.toString())
+                Config.setData(ConfigPaths.DATE, it.id, now.toString())
                 RegenerateTask(it).runTaskTimer(plugin, 0, 20L * 1) //TODO: 1secごとなので1minに
             } else Util.scheduleRegenerateTask(it)
         }
