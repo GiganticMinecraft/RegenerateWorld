@@ -19,9 +19,9 @@ object Util {
             20L * 1
         ).taskId
         Logger.info(
-            "次回再生成は「${nextDate.format(DateTimeFormatter.ISO_LOCAL_DATE)} ${
+            "[ID: ${plan.id}、ワールド名: ${plan.worlds}] 次回再生成は「${nextDate.format(DateTimeFormatter.ISO_LOCAL_DATE)} ${
                 nextDate.format(DateTimeFormatter.ISO_LOCAL_TIME)
-            }」"
+            }」です。"
         )
         Config.setData(ConfigPaths.TASK_ID, plan.id, taskId)
         Config.setData(ConfigPaths.DATE, plan.id, nextDate.toString())
