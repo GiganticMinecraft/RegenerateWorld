@@ -2,6 +2,7 @@ package click.seichi.regenerateworld
 
 import click.seichi.regenerateworld.commands.RegenerateCommand
 import click.seichi.regenerateworld.listener.RegenerateWorldEventListener
+import click.seichi.regenerateworld.utils.Util
 import org.bukkit.Bukkit
 import org.bukkit.plugin.java.JavaPlugin
 import java.time.ZonedDateTime
