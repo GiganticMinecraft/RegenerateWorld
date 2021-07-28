@@ -48,9 +48,13 @@ object Multiverse {
         world: MultiverseWorld,
         seedType: SeedType,
         seed: String? = null
-    ): Result<Boolean, MultiverseError> =
-        if (seedType == SeedType.NEW_SEED && seed == null) Err(MultiverseError.SEED_IS_NON_NULL)
-        else regenWorld(world, seedType.isNewSeed, seedType.isRandomSeed, seed)
+    ): Result<Boolean, MultiverseError> {
+        // TODO: 戻す
+        println("Regened!")
+        return Ok(true)
+    }
+//        if (seedType.isSeedNecessary() && seed == null) Err(MultiverseError.SEED_IS_NON_NULL)
+//        else regenWorld(world, seedType.isNewSeed, seedType.isRandomSeed, seed)
 
     fun getSpawnWorld(): MultiverseWorld = instance.mvWorldManager.spawnWorld
 
