@@ -23,7 +23,7 @@ object Util {
                 nextDate.format(DateTimeFormatter.ISO_LOCAL_TIME)
             }」"
         )
-        Config.setData(ConfigPaths.TASK_ID, plan.id, taskId)
+        Config.setData(ConfigPaths.BUKKIT_TASK_ID, plan.id, taskId)
         Config.setData(ConfigPaths.DATE, plan.id, nextDate.toString())
     }
 }
