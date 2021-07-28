@@ -1,6 +1,6 @@
 package click.seichi.regenerateworld
 
-import org.bukkit.Bukkit
+import click.seichi.regenerateworld.utils.Logger
 import org.bukkit.ChatColor
 import org.bukkit.command.CommandSender
 
@@ -12,9 +12,9 @@ interface IError {
         return this
     }
 
-    fun withServerLog(): IError = run {
-        setOf("処理中にエラーが発生しました。", "${errorName()}: ${reason()}")
-            .forEach { Bukkit.getServer().logger.severe(it) }
+    fun withServerLog(additionalMessage: String = "なし"): IError = run {
+        setOf("処理中にエラーが発生しました。", "${errorName()}: ${reason()}(追加情報: $additionalMessage)")
+            .forEach { Logger.severe(it) }
         return this
     }
 }
