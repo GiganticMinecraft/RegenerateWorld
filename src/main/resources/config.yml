@@ -1,0 +1,17 @@
+# ここを手動で書き換えないでください。
+regeneration:
+  a:
+    date: 1
+    interval: 3
+    worlds:
+      - "TEST"
+  b:
+    date: 2
+    interval: 2
+    worlds:
+      - "TEST"
+  c:
+    date: 3
+    interval: 1
+    worlds:
+      - "TEST"
