@@ -3,7 +3,7 @@ package click.seichi.regenerateworld
 import org.bukkit.configuration.file.FileConfiguration
 import java.time.ZonedDateTime
 
-const val PLANS_SECTION_NAME = "regeneration"
+private const val PLANS_SECTION_NAME = "regeneration"
 
 data class Plan(
     val id: String,
