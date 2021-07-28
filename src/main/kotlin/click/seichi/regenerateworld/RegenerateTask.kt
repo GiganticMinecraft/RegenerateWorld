@@ -1,7 +1,6 @@
 package click.seichi.regenerateworld
 
 import click.seichi.regenerateworld.utils.ConfigPaths
-import click.seichi.regenerateworld.utils.Logger
 import click.seichi.regenerateworld.utils.Plan
 import click.seichi.regenerateworld.utils.Util
 import com.github.michaelbull.result.get
@@ -30,11 +29,7 @@ class RegenerateTask(val plan: Plan) : BukkitRunnable() {
                             .mapError { err -> err.withServerLog("ワールド名: $it") }.get()
                     }.forEach { world ->
                         Multiverse.regenWorld(world, plan.seedType, plan.seed).mapBoth(
-                            success = {
-                                val msg = "${world.name}の再生成を行いました。"
-                                Logger.info(msg)
-                                Bukkit.broadcastMessage(msg)
-                            },
+                            success = { Bukkit.broadcastMessage("${world.name}の再生成を行いました。") },
                             failure = { err -> err.withServerLog("ID: ${plan.id}") }
                         )
                     }
