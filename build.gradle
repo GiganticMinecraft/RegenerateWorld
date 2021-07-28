@@ -57,6 +57,7 @@ dependencies {
 import org.apache.tools.ant.filters.ReplaceTokens
 
 processResources {
+    duplicatesStrategy = DuplicatesStrategy.INCLUDE
     filteringCharset = 'UTF-8'
     from(sourceSets.main.resources.srcDirs) {
         filter ReplaceTokens, tokens: [version: version]
@@ -64,5 +65,6 @@ processResources {
 }
 
 jar {
+    exclude("META-INF/versions/9/module-info.class")
     from configurations.embed.collect { it.isDirectory() ? it : zipTree(it) }
 }
