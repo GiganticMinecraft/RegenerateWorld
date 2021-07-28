@@ -1,19 +1,10 @@
 package click.seichi.regenerateworld
 
+import click.seichi.regenerateworld.utils.Plan
 import org.bukkit.configuration.file.FileConfiguration
 import java.time.ZonedDateTime
 
 private const val PLANS_SECTION_NAME = "regeneration"
-
-data class Plan(
-    val id: String,
-    val taskId: Int,
-    val date: ZonedDateTime,
-    val interval: Long,
-    val seedType: SeedType,
-    val seed: String?,
-    val worlds: List<String>
-)
 
 object Config {
     private lateinit var config: FileConfiguration

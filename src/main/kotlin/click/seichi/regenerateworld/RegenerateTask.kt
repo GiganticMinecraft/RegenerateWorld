@@ -1,6 +1,7 @@
 package click.seichi.regenerateworld
 
 import click.seichi.regenerateworld.utils.Logger
+import click.seichi.regenerateworld.utils.Plan
 import click.seichi.regenerateworld.utils.Util
 import com.github.michaelbull.result.get
 import com.github.michaelbull.result.mapBoth
