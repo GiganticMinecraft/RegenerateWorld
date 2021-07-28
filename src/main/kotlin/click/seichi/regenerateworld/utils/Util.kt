@@ -1,5 +1,6 @@
-package click.seichi.regenerateworld
+package click.seichi.regenerateworld.utils
 
+import click.seichi.regenerateworld.*
 import org.bukkit.Bukkit
 import java.time.Duration
 import java.time.ZonedDateTime
@@ -15,7 +16,7 @@ object Util {
             Duration.between(now, nextDate).toMinutes() * 60 * 20,
             20L * 1
         ).taskId
-        Bukkit.getServer().logger.info(
+        Logger.info(
             "次回再生成は「${nextDate.format(DateTimeFormatter.ISO_LOCAL_DATE)} ${
                 nextDate.format(DateTimeFormatter.ISO_LOCAL_TIME)
             }」"
