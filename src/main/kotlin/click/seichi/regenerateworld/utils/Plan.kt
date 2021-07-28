@@ -17,7 +17,7 @@ data class Plan(
     /**
      * 最後に再生成を実行した日時。
      */
-    val date: ZonedDateTime,
+    val lastRegeneratedDate: ZonedDateTime,
     /**
      * 再生成を行う間隔。
      */

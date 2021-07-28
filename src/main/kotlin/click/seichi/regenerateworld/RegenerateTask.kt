@@ -38,7 +38,7 @@ class RegenerateTask(val plan: Plan) : BukkitRunnable() {
                         )
                     }
 
-                    val nextDate = plan.date.plusMinutes(plan.interval)
+                    val nextDate = plan.lastRegeneratedDate.plusMinutes(plan.interval)
                     Config.setData(PathType.DATE, plan.id, nextDate.toString())
                     Util.scheduleRegenerateTask(plan)
                 }
