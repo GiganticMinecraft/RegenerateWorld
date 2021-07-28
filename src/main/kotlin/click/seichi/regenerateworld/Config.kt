@@ -23,7 +23,7 @@ object Config {
         val plans = config.getConfigurationSection(PLANS_SECTION_NAME)
         return plans.getKeys(false).map { id ->
             // TODO 各項目の存在確認
-            val taskId = plans.getInt(ConfigPaths.BUKKIT_TASK_ID.shortPath(id))
+            val taskId = plans.getInt(ConfigPaths.TASK_ID.shortPath(id))
             val date = ZonedDateTime.parse(
                 plans.getString(ConfigPaths.DATE.shortPath(id)).replace("=", "T")
             )
