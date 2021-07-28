@@ -1,6 +1,5 @@
 package click.seichi.regenerateworld.utils
 
-import click.seichi.regenerateworld.SeedType
 import java.time.ZonedDateTime
 
 data class Plan(

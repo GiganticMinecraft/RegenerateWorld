@@ -3,6 +3,7 @@ package click.seichi.regenerateworld
 import click.seichi.regenerateworld.events.PreRegenerateWorldEvent
 import click.seichi.regenerateworld.events.RegenerateWorldEvent
 import click.seichi.regenerateworld.utils.IError
+import click.seichi.regenerateworld.utils.SeedType
 import com.github.michaelbull.result.Err
 import com.github.michaelbull.result.Ok
 import com.github.michaelbull.result.Result
@@ -62,14 +63,6 @@ object Multiverse {
     fun setSpawnLocation(world: MultiverseWorld, location: Location) {
         world.spawnLocation = location
     }
-}
-
-enum class SeedType(val isNewSeed: Boolean, val isRandomSeed: Boolean) {
-    CURRENT_SEED(false, false),
-    NEW_SEED(true, false),
-    RANDOM_NEW_SEED(true, true);
-
-    fun isSeedNecessary() = this == NEW_SEED
 }
 
 enum class MultiverseError(private val reason: String) : IError {

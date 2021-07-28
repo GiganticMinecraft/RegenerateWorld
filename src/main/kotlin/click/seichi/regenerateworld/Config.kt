@@ -1,6 +1,7 @@
 package click.seichi.regenerateworld
 
 import click.seichi.regenerateworld.utils.Plan
+import click.seichi.regenerateworld.utils.SeedType
 import org.bukkit.configuration.file.FileConfiguration
 import java.time.ZonedDateTime
 
