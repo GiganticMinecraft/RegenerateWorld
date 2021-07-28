@@ -2,6 +2,7 @@ package click.seichi.regenerateworld
 
 import click.seichi.regenerateworld.events.PreRegenerateWorldEvent
 import click.seichi.regenerateworld.events.RegenerateWorldEvent
+import click.seichi.regenerateworld.utils.IError
 import com.github.michaelbull.result.Err
 import com.github.michaelbull.result.Ok
 import com.github.michaelbull.result.Result

@@ -1,6 +1,5 @@
-package click.seichi.regenerateworld
+package click.seichi.regenerateworld.utils
 
-import click.seichi.regenerateworld.utils.Logger
 import org.bukkit.ChatColor
 import org.bukkit.command.CommandSender
 
