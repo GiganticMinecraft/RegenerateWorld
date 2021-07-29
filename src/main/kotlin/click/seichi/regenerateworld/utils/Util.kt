@@ -16,7 +16,7 @@ object Util {
         val taskId = RegenerateTask(plan).runTaskTimer(
             RegenerateWorld.plugin,
             Duration.between(now, nextDate).toMinutes() * 60 * 20,
-            20L * 1
+            20L * 1  //TODO: 1secごとなので1minに
         ).taskId
         Logger.info(
             "[ID: ${plan.id}、ワールド名: ${plan.worlds}] 次回再生成は「${nextDate.format(DateTimeFormatter.ISO_LOCAL_DATE)} ${
