@@ -28,14 +28,14 @@ object Config {
                 plans.getString(ConfigPaths.DATE.shortPath(id)).replace("=", "T")
             )
             val interval = plans.getLong(ConfigPaths.INTERVAL.shortPath(id))
-            val seedType =
+            val seedPattern =
                 SeedPatterns.valueOf(plans.getString(ConfigPaths.SEED_TYPE.shortPath(id)))
             val seed =
-                if (seedType.isSeedNecessary()) plans.getString(ConfigPaths.SEED.shortPath(id)) else null
+                if (seedPattern.isSeedNecessary()) plans.getString(ConfigPaths.SEED.shortPath(id)) else null
             val worlds =
                 plans.getList(ConfigPaths.WORLDS.shortPath(id)).toList().filterIsInstance<String>()
 
-            Plan(id, taskId, date, interval, seedType, seed, worlds)
+            Plan(id, taskId, date, interval, seedPattern, seed, worlds)
         }
     }
 
