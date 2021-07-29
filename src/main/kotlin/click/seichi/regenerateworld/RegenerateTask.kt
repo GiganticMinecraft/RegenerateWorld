@@ -28,7 +28,7 @@ class RegenerateTask(val plan: Plan) : BukkitRunnable() {
                         Multiverse.findMvWorld(it)
                             .mapError { err -> err.withServerLog("ワールド名: $it") }.get()
                     }.forEach { world ->
-                        Multiverse.regenWorld(world, plan.seedType, plan.seed).mapBoth(
+                        Multiverse.regenWorld(world, plan.seedPatterns, plan.seed).mapBoth(
                             success = { Bukkit.broadcastMessage("${world.name}の再生成を行いました。") },
                             failure = { err -> err.withServerLog("ID: ${plan.id}") }
                         )

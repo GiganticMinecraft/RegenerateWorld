@@ -2,7 +2,7 @@ package click.seichi.regenerateworld.commands
 
 import click.seichi.regenerateworld.Multiverse
 import click.seichi.regenerateworld.utils.IError
-import click.seichi.regenerateworld.utils.SeedType
+import click.seichi.regenerateworld.utils.SeedPatterns
 import com.github.michaelbull.result.getOrElse
 import com.github.michaelbull.result.mapBoth
 import com.github.michaelbull.result.toResultOr
@@ -61,7 +61,7 @@ object RegenerateCommand : TabExecutor {
                             .map { msg -> "${ChatColor.GREEN}$msg" }
                             .forEach { msg -> sender.sendMessage(msg) }
                         // TODO: Seed変更に対応する
-                        Multiverse.regenWorld(it, SeedType.NEW_SEED).mapBoth(
+                        Multiverse.regenWorld(it, SeedPatterns.NEW_SEED).mapBoth(
                             success = { sender.sendMessage("${ChatColor.GREEN}ワールドの再生成が終了しました。") },
                             failure = { err -> err.withLog(sender) }
                         )

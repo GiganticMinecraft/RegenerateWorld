@@ -2,7 +2,7 @@ package click.seichi.regenerateworld
 
 import click.seichi.regenerateworld.utils.ConfigPaths
 import click.seichi.regenerateworld.utils.Plan
-import click.seichi.regenerateworld.utils.SeedType
+import click.seichi.regenerateworld.utils.SeedPatterns
 import org.bukkit.configuration.file.FileConfiguration
 import java.time.ZonedDateTime
 
@@ -28,7 +28,8 @@ object Config {
                 plans.getString(ConfigPaths.DATE.shortPath(id)).replace("=", "T")
             )
             val interval = plans.getLong(ConfigPaths.INTERVAL.shortPath(id))
-            val seedType = SeedType.valueOf(plans.getString(ConfigPaths.SEED_TYPE.shortPath(id)))
+            val seedType =
+                SeedPatterns.valueOf(plans.getString(ConfigPaths.SEED_TYPE.shortPath(id)))
             val seed =
                 if (seedType.isSeedNecessary()) plans.getString(ConfigPaths.SEED.shortPath(id)) else null
             val worlds =

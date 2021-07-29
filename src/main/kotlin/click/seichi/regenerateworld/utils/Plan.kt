@@ -27,12 +27,12 @@ data class Plan(
     val interval: Long,
 
     /**
-     * Seed値に関する設定。詳細は[[SeedType]]を参照。
+     * Seed値に関する設定。詳細は[[SeedPatterns]]を参照。
      */
-    val seedType: SeedType,
+    val seedPatterns: SeedPatterns,
 
     /**
-     * Seed値を設定する。詳細は[[SeedType]]を参照。
+     * Seed値を設定する。詳細は[[SeedPatterns]]を参照。
      */
     val seed: String?,
 
