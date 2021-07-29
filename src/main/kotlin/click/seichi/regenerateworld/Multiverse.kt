@@ -48,7 +48,7 @@ object Multiverse {
 
     fun regenWorld(
         world: MultiverseWorld,
-        seedPatterns: SeedPatterns,
+        seedPattern: SeedPatterns,
         seed: String? = null
     ): Result<Boolean, MultiverseError> {
         // TODO: 戻す
