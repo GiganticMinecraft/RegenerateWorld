@@ -41,8 +41,8 @@ object Config {
 
     // TODO valueの型を限定的にする
     @Deprecated("This method can make a destructive change.")
-    fun setData(pathType: ConfigPaths, id: String, value: Any) {
-        config.set(pathType.fullPath(id), value)
+    fun setData(configPath: ConfigPaths, id: String, value: Any) {
+        config.set(configPath.fullPath(id), value)
         RegenerateWorld.plugin.saveConfig()
     }
 }
