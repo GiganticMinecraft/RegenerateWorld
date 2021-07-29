@@ -9,13 +9,13 @@ enum class ConfigPaths {
     TASK_ID, DATE, INTERVAL, SEED_TYPE, SEED, WORLDS;
 
     /**
-     * サブ階層のみ。
+     * サブ階層のみへのパス文字列を返す。
      * @param id UniqueID。
      */
     fun shortPath(id: String) = "$id.${this.name.lowercase()}"
 
     /**
-     * ルートからの絶対パスのような指定。すべての階層を含む。
+     * すべての階層を含むパス文字列を返す。ルートからの絶対パスのようなもの。
      * @param id UniqueID。
      */
     fun fullPath(id: String) = "$PLANS_SECTION_NAME.${shortPath(id)}"
