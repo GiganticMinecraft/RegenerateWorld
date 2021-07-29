@@ -5,7 +5,7 @@ package click.seichi.regenerateworld.utils
  * @param isNewSeed 新しいSeed値を使うかどうか。
  * @param isRandomSeed Seed値をランダムに決めるかどうか。
  */
-enum class SeedType(val isNewSeed: Boolean, val isRandomSeed: Boolean) {
+enum class SeedType(private val isNewSeed: Boolean, private val isRandomSeed: Boolean) {
     /**
      * 現在のSeed値をそのまま利用する。
      */
