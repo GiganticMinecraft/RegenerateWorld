@@ -9,9 +9,7 @@ import java.time.ZonedDateTime
 const val PLANS_SECTION_NAME = "regeneration"
 
 object Config {
-    private lateinit var config: FileConfiguration
-
-    fun load() {
+    private val config: FileConfiguration by lazy {
         RegenerateWorld.plugin.let {
             it.saveDefaultConfig()
             it.reloadConfig()
