@@ -27,7 +27,7 @@ object Config {
     private fun filterBadPlanConfigs(plans: ConfigurationSection) = plans.getKeys(false).map { id ->
         id to ConfigPaths.values()
             .map { path -> path to plans.get(path.shortPath(id)) }
-            .map { (path, value) -> path to path.exists(value) }
+            .map { (path, value) -> path to path.isProperType(value) }
             .filterNot { it.second }
     }.filterNot { it.second.isEmpty() }.map { it.first to it.second.map { (paths, _) -> paths } }
 

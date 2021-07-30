@@ -7,23 +7,23 @@ import click.seichi.regenerateworld.PLANS_SECTION_NAME
  */
 enum class ConfigPaths {
     TASK_ID {
-        override fun exists(value: Any?) = value is Int
+        override fun isProperType(value: Any?) = value is Int
     },
     DATE {
-        override fun exists(value: Any?) = value is String
+        override fun isProperType(value: Any?) = value is String
     },
     INTERVAL {
-        override fun exists(value: Any?) = value is Int
+        override fun isProperType(value: Any?) = value is Int
     },
     SEED_TYPE {
-        override fun exists(value: Any?) =
+        override fun isProperType(value: Any?) =
             value is String && SeedPatterns.safeValueOf(value) != null
     },
     SEED {
-        override fun exists(value: Any?) = value is String?
+        override fun isProperType(value: Any?) = value is String?
     },
     WORLDS {
-        override fun exists(value: Any?) = value is List<*> && value.all { it is String }
+        override fun isProperType(value: Any?) = value is List<*> && value.all { it is String }
     };
 
     /**
@@ -38,5 +38,5 @@ enum class ConfigPaths {
      */
     fun fullPath(id: String) = "$PLANS_SECTION_NAME.${shortPath(id)}"
 
-    abstract fun exists(value: Any?): Boolean
+    abstract fun isProperType(value: Any?): Boolean
 }
