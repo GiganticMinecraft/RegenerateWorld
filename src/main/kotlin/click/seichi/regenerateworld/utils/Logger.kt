@@ -7,8 +7,8 @@ object Logger {
     private const val MESSAGE_PREFIX = "[RegenerateWorld]"
 
     fun info(msg: String) = serverLogger.info(msg)
-    fun infoWithPrefix(msg: String) = serverLogger.info("$MESSAGE_PREFIX $msg")
+    fun infoWithPrefix(msg: String) = info("$MESSAGE_PREFIX $msg")
 
     fun severe(msg: String) = serverLogger.severe(msg)
-    fun severeWithPrefix(msg: String) = serverLogger.severe("$MESSAGE_PREFIX $msg")
+    fun severeWithPrefix(msg: String) = severe("$MESSAGE_PREFIX $msg")
 }
