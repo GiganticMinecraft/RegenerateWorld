@@ -21,6 +21,14 @@ enum class SeedPatterns(private val isNewSeed: Boolean, private val isRandomSeed
      */
     RANDOM_NEW_SEED(true, true);
 
+    companion object {
+        fun safeValueOf(type: String): SeedPatterns? = try {
+            java.lang.Enum.valueOf(SeedPatterns::class.java, type)
+        } catch (_: IllegalArgumentException) {
+            null
+        }
+    }
+
     /**
      * Seed値の設定が必要かどうか。
      */
