@@ -13,7 +13,7 @@ object Config {
         RegenerateWorld.plugin.let {
             it.saveDefaultConfig()
             it.reloadConfig()
-            config = it.config
+            it.config
         }
     }
 
