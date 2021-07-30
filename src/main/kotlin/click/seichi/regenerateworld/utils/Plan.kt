@@ -8,7 +8,7 @@ import java.util.*
  */
 data class Plan(
     /**
-     * UniqueID。TODO: 自動で割り振るUUID
+     * UniqueID。
      */
     val id: UUID,
 
