@@ -7,6 +7,7 @@ import com.github.michaelbull.result.Result
 import org.bukkit.configuration.ConfigurationSection
 import org.bukkit.configuration.file.FileConfiguration
 import java.time.ZonedDateTime
+import java.util.*
 
 const val PLANS_SECTION_NAME = "regeneration"
 
@@ -27,7 +28,7 @@ object Config {
     /**
      * 各項目に対して、ConfigPaths.existsを実行して、すべてtrueではない（存在しないか型が合わない）PlanのListを返す
      */
-    private fun filterBadPlanConfigs(plans: ConfigurationSection) = plans.getKeys(false).map { id ->
+    private fun filterBadPlanConfigs(plans: ConfigurationSection, ids: List<UUID>) = ids.map { id ->
         id to ConfigPaths.values()
             .map { path -> path to plans.get(path.shortPath(id)) }
             .map { (path, value) -> path to path.isProperType(value) }
@@ -35,9 +36,13 @@ object Config {
     }.filterNot { it.second.isEmpty() }.map { it.first to it.second.map { (paths, _) -> paths } }
 
     fun loadPlans() = plansSection?.let { plans ->
-        val invalidPlanConfigs = filterBadPlanConfigs(plans)
+        val validUuids =
+            plans.getKeys(false).mapNotNull { runCatching { UUID.fromString(it) }.getOrNull() }
+        val invalidPlanConfigs = filterBadPlanConfigs(plans, validUuids)
         val validPlanIds =
-            plans.getKeys(false).filterNot { invalidPlanConfigs.map { (id, _) -> id }.contains(it) }
+            validUuids.filterNot {
+                invalidPlanConfigs.map { (invalidConfigId, _) -> invalidConfigId }.contains(it)
+            }
 
         if (invalidPlanConfigs.isEmpty() || validPlanIds.isEmpty())
             Logger.infoWithPrefix("すべての再生成スケジュールを読み込みました。")
@@ -65,7 +70,7 @@ object Config {
         listOf()
     }
 
-    fun setData(configPath: ConfigPaths, id: String, value: Any): Result<Any, ConfigError> =
+    fun setData(configPath: ConfigPaths, id: UUID, value: Any): Result<Any, ConfigError> =
         if (configPath.isProperType(value)) {
             config.set(configPath.fullPath(id), value)
             RegenerateWorld.plugin.saveConfig()
@@ -73,7 +78,7 @@ object Config {
         } else Err(ConfigError.ARG_IS_TYPE_INVALID)
 }
 
-enum class ConfigError(val reason: String) : IError {
+enum class ConfigError(private val reason: String) : IError {
     ARG_IS_TYPE_INVALID("指定された引数の型は不適切です。"),
     PATH_IS_NOT_FOUND("指定されたパスはConfigに存在しません。");
 

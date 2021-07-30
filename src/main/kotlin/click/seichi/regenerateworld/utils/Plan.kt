@@ -1,6 +1,7 @@
 package click.seichi.regenerateworld.utils
 
 import java.time.ZonedDateTime
+import java.util.*
 
 /**
  * 再生成の計画及び必要な情報を集めたデータクラス。
@@ -9,7 +10,7 @@ data class Plan(
     /**
      * UniqueID。TODO: 自動で割り振るUUID
      */
-    val id: String,
+    val id: UUID,
 
     /**
      * BukkitScheduler上のタスクID。
