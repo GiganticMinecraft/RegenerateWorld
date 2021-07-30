@@ -9,7 +9,7 @@ import com.github.michaelbull.result.mapError
 import org.bukkit.Bukkit
 import org.bukkit.scheduler.BukkitRunnable
 
-class RegenerateTask(val plan: Plan) : BukkitRunnable() {
+class RegenerateTask(private val plan: Plan) : BukkitRunnable() {
     private val warningMinutes = setOf(1, 3, 5, 10)
     private var count: Int = 10
 
