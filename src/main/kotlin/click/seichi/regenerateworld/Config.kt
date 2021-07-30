@@ -65,13 +65,12 @@ object Config {
         listOf()
     }
 
-    fun setData(configPath: ConfigPaths, id: String, value: Any): Result<*, ConfigError> =
+    fun setData(configPath: ConfigPaths, id: String, value: Any): Result<Any, ConfigError> =
         if (configPath.isProperType(value)) {
             config.set(configPath.fullPath(id), value)
             RegenerateWorld.plugin.saveConfig()
-            Ok((_))
+            Ok(value)
         } else Err(ConfigError.ARG_IS_TYPE_INVALID)
-}
 }
 
 enum class ConfigError(val reason: String) : IError {
