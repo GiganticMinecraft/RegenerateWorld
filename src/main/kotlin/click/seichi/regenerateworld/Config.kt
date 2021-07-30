@@ -1,6 +1,9 @@
 package click.seichi.regenerateworld
 
 import click.seichi.regenerateworld.utils.*
+import com.github.michaelbull.result.Err
+import com.github.michaelbull.result.Ok
+import com.github.michaelbull.result.Result
 import org.bukkit.configuration.ConfigurationSection
 import org.bukkit.configuration.file.FileConfiguration
 import java.time.ZonedDateTime
@@ -62,15 +65,17 @@ object Config {
         listOf()
     }
 
-    // TODO valueの型を限定的にする
-    @Deprecated("This method can make a destructive change.")
-    fun setData(configPath: ConfigPaths, id: String, value: Any) {
-        config.set(configPath.fullPath(id), value)
-        RegenerateWorld.plugin.saveConfig()
-    }
+    fun setData(configPath: ConfigPaths, id: String, value: Any): Result<*, ConfigError> =
+        if (configPath.isProperType(value)) {
+            config.set(configPath.fullPath(id), value)
+            RegenerateWorld.plugin.saveConfig()
+            Ok((_))
+        } else Err(ConfigError.ARG_IS_TYPE_INVALID)
+}
 }
 
 enum class ConfigError(val reason: String) : IError {
+    ARG_IS_TYPE_INVALID("指定された引数の型は不適切です。"),
     PATH_IS_NOT_FOUND("指定されたパスはConfigに存在しません。");
 
     override fun errorName() = this.name
