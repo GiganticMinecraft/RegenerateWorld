@@ -13,7 +13,7 @@ interface IError {
 
     fun withServerLog(additionalMessage: String = "なし"): IError = run {
         setOf("処理中にエラーが発生しました。", "${errorName()}: ${reason()}(追加情報: $additionalMessage)")
-            .forEach { Logger.severe(it) }
+            .forEach { Logger.severeWithPrefix(it) }
         return this
     }
 }

@@ -18,7 +18,7 @@ object Util {
             Duration.between(now, nextDate).toMinutes() * 60 * 20,
             20L * 1  //TODO: 1secごとなので1minに
         ).taskId
-        Logger.info(
+        Logger.infoWithPrefix(
             "[ID: ${plan.id}、ワールド名: ${plan.worlds}] 次回再生成は「${nextDate.format(DateTimeFormatter.ISO_LOCAL_DATE)} ${
                 nextDate.format(DateTimeFormatter.ISO_LOCAL_TIME)
             }」です。"
