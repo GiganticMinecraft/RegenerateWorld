@@ -17,7 +17,6 @@ class RegenerateWorld : JavaPlugin() {
     override fun onEnable() {
         plugin = this
         Multiverse.load()
-        Config.load()
         // TODO: debug
         println(Config.loadPlans())
 
