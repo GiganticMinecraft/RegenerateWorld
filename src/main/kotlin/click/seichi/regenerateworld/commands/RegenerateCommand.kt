@@ -19,9 +19,11 @@ object RegenerateCommand : TabExecutor {
         command: Command?,
         alias: String?,
         args: Array<out String>?
-    ): MutableList<String> {
-        TODO("Not yet implemented")
-    }
+    ): MutableList<String> =
+        when (args?.size) {
+            0 -> CommandType.values().map { it.name.lowercase() }
+            else -> listOf()
+        }.toMutableList()
 
     override fun onCommand(
         sender: CommandSender,
