@@ -75,11 +75,11 @@ object Config {
             config.set(configPath.fullPath(id), value)
             RegenerateWorld.plugin.saveConfig()
             Ok(value)
-        } else Err(ConfigError.ARG_IS_TYPE_INVALID)
+        } else Err(ConfigError.ARG_IS_INVALID_TYPE)
 }
 
 enum class ConfigError(private val reason: String) : IError {
-    ARG_IS_TYPE_INVALID("指定された引数の型は不適切です。"),
+    ARG_IS_INVALID_TYPE("指定された引数の型は不適切です。"),
     PATH_IS_NOT_FOUND("指定されたパスはConfigに存在しません。");
 
     override fun errorName() = this.name
