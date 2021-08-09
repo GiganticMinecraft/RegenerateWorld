@@ -77,8 +77,6 @@ object RegenerateCommand : TabExecutor {
             CommandType.LIST -> {
                 val commands = Config.loadPlans()
                     .map { "${it.id}: ${it.worlds} | ${it.interval} | ${it.seedPatterns.name} | ${it.seed ?: "---"}" }
-                    .toSet()
-
                 setOf(
                     "-RegenerateWorld ScheduleLists-",
                     "UUID: ワールド | 再生成間隔 | シード値の設定 | 指定したシード値"
