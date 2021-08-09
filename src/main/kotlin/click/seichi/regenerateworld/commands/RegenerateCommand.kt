@@ -69,7 +69,6 @@ object RegenerateCommand : TabExecutor {
                     failure = { it.withLog(sender) }
                 )
             }
-            // TODO: 実装する
             CommandType.SCHEDULE -> {
                 sender.sendMessage("schedule")
                 executeScheduleSubCommand(args.drop(1), sender)
@@ -100,7 +99,8 @@ private fun executeScheduleSubCommand(args: List<String>, sender: CommandSender)
                 sender.sendMessage("${ChatColor.GOLD}${it.usage}${ChatColor.WHITE}: ${it.description}")
             }
         }
-        else -> TODO("Unimplemented")
+        // TODO: 実装する
+        else -> sender.sendMessage("Unimplemented")
     }
 }
 
