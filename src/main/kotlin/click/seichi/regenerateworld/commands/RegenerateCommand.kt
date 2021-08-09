@@ -1,5 +1,6 @@
 package click.seichi.regenerateworld.commands
 
+import click.seichi.regenerateworld.Config
 import click.seichi.regenerateworld.Multiverse
 import click.seichi.regenerateworld.utils.IError
 import click.seichi.regenerateworld.utils.SeedPatterns
@@ -73,8 +74,18 @@ object RegenerateCommand : TabExecutor {
                 sender.sendMessage("schedule")
                 executeScheduleSubCommand(args.drop(1), sender)
             }
-            // TODO: 実装する
-            CommandType.LIST -> sender.sendMessage("list")
+            CommandType.LIST -> {
+                val commands = Config.loadPlans()
+                    .map { "${it.id}: ${it.worlds} | ${it.interval} | ${it.seedPatterns.name} | ${it.seed ?: "---"}" }
+                    .toSet()
+
+                setOf(
+                    "-RegenerateWorld ScheduleLists-",
+                    "UUID: ワールド | 再生成間隔 | シード値の設定 | 指定したシード値"
+                ).map { "${ChatColor.WHITE}$it" }.plus(commands).forEach {
+                    sender.sendMessage(it)
+                }
+            }
         }
 
         return true
