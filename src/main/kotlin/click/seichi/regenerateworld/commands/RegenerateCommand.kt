@@ -71,6 +71,8 @@ object RegenerateCommand : TabExecutor {
             }
             // TODO: 実装する
             CommandType.SCHEDULE -> sender.sendMessage("schedule")
+            // TODO: 実装する
+            CommandType.LIST -> sender.sendMessage("list")
         }
 
         return true
@@ -90,5 +92,6 @@ private enum class RegenerateCommandError(private val reason: String) : IError {
 private enum class CommandType(val usage: String, val description: String, val argsSize: Int) {
     HELP("/rw help", "RegenerateWorldのコマンドの一覧を表示します。", 0),
     REGEN("/rw regen", "指定されたワールドの再生成を行います。", 1), // TODO 引数の数を適切に
-    SCHEDULE("/rw schedule", "指定されたワールドの再生成をスケジュールします。", 1)
+    SCHEDULE("/rw schedule", "指定されたワールドの再生成をスケジュールします。", 1),
+    LIST("/rw list", "有効な再生成予定の一覧を表示します。", 0)
 }
