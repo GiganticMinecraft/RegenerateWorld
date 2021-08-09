@@ -17,9 +17,6 @@ class RegenerateWorld : JavaPlugin() {
     override fun onEnable() {
         plugin = this
         Multiverse.load()
-        // TODO: debug
-        println(Config.loadPlans())
-
         Config.loadPlans().forEach {
             val now = ZonedDateTime.now()
             if (it.lastRegeneratedDate.isBefore(now)) {
@@ -27,7 +24,6 @@ class RegenerateWorld : JavaPlugin() {
                 RegenerateTask(it).runTaskTimer(plugin, 0, 20L * 1) //TODO: 1secごとなので1minに
             } else Util.scheduleRegenerateTask(it)
         }
-
         getCommand("regenerateworld").executor = RegenerateCommand
         server.pluginManager.registerEvents(RegenerateWorldEventListener, this)
     }

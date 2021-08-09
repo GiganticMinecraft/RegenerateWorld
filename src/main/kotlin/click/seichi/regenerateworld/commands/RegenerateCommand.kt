@@ -123,7 +123,6 @@ private enum class RegenerateCommandError(private val reason: String) : IError {
 }
 
 // TODO 引数の数を適切に
-// TODO: すべての再生成計画を表示するコマンド
 private enum class CommandType(val usage: String, val description: String, val argsSize: Int) {
     HELP("/rw help", "RegenerateWorldのコマンドの一覧を表示します。", 0),
     REGEN("/rw regen <ワールド名、コンマ区切り>", "指定されたワールドの再生成を行います。", 1),

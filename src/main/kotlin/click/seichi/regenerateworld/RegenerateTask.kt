@@ -14,9 +14,6 @@ class RegenerateTask(private val plan: Plan) : BukkitRunnable() {
     private var count: Int = 10
 
     override fun run() {
-        // FIXME remove debug
-        println("task was running")
-        println(count)
         val worldNames = plan.worlds.mapNotNull { Multiverse.findMvWorld(it).get() }.map { it.name }
         if (warningMinutes.contains(count)) {
             Bukkit.broadcastMessage("あと${count}分で${worldNames}の再生成が行われます。")
