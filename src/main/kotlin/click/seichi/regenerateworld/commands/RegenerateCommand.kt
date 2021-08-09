@@ -70,12 +70,37 @@ object RegenerateCommand : TabExecutor {
                 )
             }
             // TODO: 実装する
-            CommandType.SCHEDULE -> sender.sendMessage("schedule")
+            CommandType.SCHEDULE -> {
+                sender.sendMessage("schedule")
+                executeScheduleSubCommand(args.drop(1), sender)
+            }
             // TODO: 実装する
             CommandType.LIST -> sender.sendMessage("list")
         }
 
         return true
+    }
+}
+
+private fun executeScheduleSubCommand(args: List<String>, sender: CommandSender) {
+    val subCommandType =
+        ScheduleCommandSubType.values().find { it.name.lowercase() == args[0].lowercase() }
+            .toResultOr { RegenerateCommandError.OPERATOR_IS_INCORRECT.withLog(sender) }
+            .getOrElse { return }
+
+    if (args.size < subCommandType.argsSize) {
+        RegenerateCommandError.ARGS_ARE_SUFFICIENT.withLog(sender)
+        return
+    }
+
+    when (subCommandType) {
+        ScheduleCommandSubType.HELP -> {
+            sender.sendMessage("${ChatColor.WHITE}-RegenerateWorld ScheduleSubCommands-")
+            ScheduleCommandSubType.values().forEach {
+                sender.sendMessage("${ChatColor.GOLD}${it.usage}${ChatColor.WHITE}: ${it.description}")
+            }
+        }
+        else -> TODO("Unimplemented")
     }
 }
 
@@ -88,10 +113,30 @@ private enum class RegenerateCommandError(private val reason: String) : IError {
     override fun reason() = this.reason
 }
 
+// TODO 引数の数を適切に
 // TODO: すべての再生成計画を表示するコマンド
 private enum class CommandType(val usage: String, val description: String, val argsSize: Int) {
     HELP("/rw help", "RegenerateWorldのコマンドの一覧を表示します。", 0),
-    REGEN("/rw regen", "指定されたワールドの再生成を行います。", 1), // TODO 引数の数を適切に
-    SCHEDULE("/rw schedule", "指定されたワールドの再生成をスケジュールします。", 1),
+    REGEN("/rw regen <ワールド名、コンマ区切り>", "指定されたワールドの再生成を行います。", 1),
+    SCHEDULE("/rw schedule <add/edit/remove>", "再生成スケジュールを追加・変更・削除します。", 1),
     LIST("/rw list", "有効な再生成予定の一覧を表示します。", 0)
+}
+
+private enum class ScheduleCommandSubType(
+    val usage: String,
+    val description: String,
+    val argsSize: Int
+) {
+    HELP("/rw schedule help", "RegenerateWorldのコマンドのうち、/rw scheduleのサブコマンドの一覧を表示します。", 0),
+    ADD(
+        "/rw schedule add [w:world_SW,world_SW_2 i:1m s:random_new n:newseed]",
+        "再生成のスケジュールを追加します。",
+        1
+    ),
+    EDIT(
+        "/rw schedule edit <UUID> [w:world_SW,world_SW_2 i:1m s:random_new n:newseed]",
+        "指定された再生成のスケジュールを編集します。",
+        2
+    ),
+    REMOVE("/rw schedule remove <UUID、コンマ区切り>", "指定された再生成のスケジュールを削除します。", 1)
 }
