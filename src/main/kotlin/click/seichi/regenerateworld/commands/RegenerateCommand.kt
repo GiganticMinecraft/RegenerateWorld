@@ -41,6 +41,7 @@ object RegenerateCommand : TabExecutor {
                 .toResultOr { RegenerateCommandError.OPERATOR_IS_INCORRECT.withLog(sender) }
                 .getOrElse { return true }
 
+        // rw regen : 1
         if (args.size < commandType.argsSize) {
             RegenerateCommandError.ARGS_ARE_SUFFICIENT.withLog(sender)
             return true
@@ -73,12 +74,14 @@ object RegenerateCommand : TabExecutor {
                 )
             }
             CommandType.SCHEDULE -> {
+                // TODO:
                 sender.sendMessage("schedule")
                 executeScheduleSubCommand(args.drop(1), sender)
             }
             CommandType.LIST -> {
                 val commands = Config.loadPlans()
                     .map { "${it.id}: ${it.worlds} | ${it.interval} | ${it.seedPatterns.name} | ${it.seed ?: "---"}" }
+                // TODO: リストが空なら項目名を表示せずに空という旨を表示
                 setOf(
                     "-RegenerateWorld ScheduleLists-",
                     "UUID: ワールド | 再生成間隔 | シード値の設定 | 指定したシード値"
@@ -124,11 +127,10 @@ private enum class RegenerateCommandError(private val reason: String) : IError {
     override fun reason() = this.reason
 }
 
-// TODO 引数の数を適切に
 private enum class CommandType(val usage: String, val description: String, val argsSize: Int) {
     HELP("/rw help", "RegenerateWorldのコマンドの一覧を表示します。", 0),
-    REGEN("/rw regen <ワールド名、コンマ区切り>", "指定されたワールドの再生成を行います。", 1),
-    SCHEDULE("/rw schedule <add/edit/remove>", "再生成スケジュールを追加・変更・削除します。", 1),
+    REGEN("/rw regen <ワールド名、コンマ区切り>", "指定されたワールドの再生成を行います。", 2),
+    SCHEDULE("/rw schedule <add/edit/remove>", "再生成スケジュールを追加・変更・削除します。", 3),
     LIST("/rw list", "有効な再生成予定の一覧を表示します。", 0)
 }
 
@@ -141,12 +143,12 @@ private enum class ScheduleCommandSubType(
     ADD(
         "/rw schedule add [w:world_SW,world_SW_2 i:1m s:random_new n:newseed]",
         "再生成のスケジュールを追加します。",
-        1
+        3
     ),
     EDIT(
         "/rw schedule edit <UUID> [w:world_SW,world_SW_2 i:1m s:random_new n:newseed]",
         "指定された再生成のスケジュールを編集します。",
-        2
+        4
     ),
-    REMOVE("/rw schedule remove <UUID、コンマ区切り>", "指定された再生成のスケジュールを削除します。", 1)
+    REMOVE("/rw schedule remove <UUID、コンマ区切り>", "指定された再生成のスケジュールを削除します。", 3)
 }
