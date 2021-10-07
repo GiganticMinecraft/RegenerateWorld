@@ -1,5 +1,8 @@
 package click.seichi.regenerateworld.utils
 
+import com.github.michaelbull.result.Result
+import com.github.michaelbull.result.toResultOr
+
 /**
  * Seed値のパターンをまとめた列挙クラス。
  * @param isNewSeed 新しいSeed値を使うかどうか。
@@ -22,13 +25,20 @@ enum class SeedPatterns(private val isNewSeed: Boolean, private val isRandomSeed
     RANDOM_NEW_SEED(true, true);
 
     companion object {
-        fun safeValueOf(type: String): SeedPatterns? = runCatching {
+        fun safeValueOf(type: String): Result<SeedPatterns, SeedPatternsError> = runCatching {
             java.lang.Enum.valueOf(SeedPatterns::class.java, type)
-        }.getOrNull()
+        }.getOrNull().toResultOr { SeedPatternsError.SEED_PATTERN_NOT_FOUND }
     }
 
     /**
      * Seed値の設定が必要かどうか。
      */
     fun isSeedNecessary() = this == NEW_SEED
+}
+
+enum class SeedPatternsError(private val reason: String) : IError {
+    SEED_PATTERN_NOT_FOUND("指定されたシード値パターンは存在しません。");
+
+    override fun errorName() = this.name
+    override fun reason() = this.reason
 }
