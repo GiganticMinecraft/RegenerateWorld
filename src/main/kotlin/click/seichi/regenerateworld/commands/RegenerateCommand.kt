@@ -81,8 +81,6 @@ object RegenerateCommand : TabExecutor {
                 }.onFailure { it.withLog(sender) }
             }
             CommandType.SCHEDULE -> {
-                // TODO:
-                sender.sendMessage("schedule")
                 executeScheduleSubCommand(args.drop(1), sender)
             }
             CommandType.LIST -> {
