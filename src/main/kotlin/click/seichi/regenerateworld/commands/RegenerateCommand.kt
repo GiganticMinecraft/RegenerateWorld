@@ -22,8 +22,11 @@ object RegenerateCommand : TabExecutor {
     ): MutableList<String> =
         when (args?.size) {
             0 -> CommandType.values().map { it.name.lowercase() }
+            1 -> CommandType.safeValueOf(args[0])?.takeIf { it == CommandType.SCHEDULE }?.let {
+                ScheduleCommandSubType.values().map { it.name.lowercase() }
+            }
             else -> listOf()
-        }.toMutableList()
+        }?.toMutableList() ?: mutableListOf()
 
     override fun onCommand(
         sender: CommandSender,
