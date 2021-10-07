@@ -86,12 +86,10 @@ object RegenerateCommand : TabExecutor {
             CommandType.LIST -> {
                 val commands = Config.loadPlans()
                     .map { "${it.id}: ${it.worlds} | ${it.interval} | ${it.seedPatterns.name} | ${it.seed ?: "---"}" }
-                val message =
-                    if (commands.isEmpty()) "再生成予定は存在しません。"
-                    else setOf(
-                        "-RegenerateWorld ScheduleLists-",
-                        "UUID: ワールド | 再生成間隔 | シード値の設定 | 指定したシード値"
-                    ).map { "${ChatColor.WHITE}$it" }.plus(commands).joinToString("\n")
+                val message = commands.takeIf { it.isEmpty() }?.let { "再生成予定はありません。" } ?: setOf(
+                    "-RegenerateWorld ScheduleLists-",
+                    "UUID: ワールド | 再生成間隔 | シード値の設定 | 指定したシード値"
+                ).map { "${ChatColor.WHITE}$it" }.plus(commands).joinToString("\n")
                 sender.sendMessage(message)
             }
         }
