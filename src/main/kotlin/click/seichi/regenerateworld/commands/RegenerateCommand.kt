@@ -4,14 +4,14 @@ import click.seichi.regenerateworld.Config
 import click.seichi.regenerateworld.Multiverse
 import click.seichi.regenerateworld.utils.IError
 import click.seichi.regenerateworld.utils.SeedPatterns
-import com.github.michaelbull.result.getOrElse
-import com.github.michaelbull.result.mapBoth
-import com.github.michaelbull.result.toResultOr
+import com.github.michaelbull.result.*
 import org.bukkit.Bukkit
 import org.bukkit.ChatColor
 import org.bukkit.command.Command
 import org.bukkit.command.CommandSender
 import org.bukkit.command.TabExecutor
+import kotlin.onFailure
+import kotlin.runCatching
 
 object RegenerateCommand : TabExecutor {
     override fun onTabComplete(
@@ -57,20 +57,26 @@ object RegenerateCommand : TabExecutor {
                 val world = Bukkit.getWorld(args[1])
                     .toResultOr { RegenerateCommandError.WORLD_IS_NOT_FOUND.withLog(sender) }
                     .getOrElse { return true }
+                val seedType = SeedPatterns.safeValueOf(args[2]).getOrElse {
+                    it.withLog(sender)
+                    return false
+                }
+                val newSeed = runCatching { args[3] }.onFailure {
+                    if (seedType.isSeedNecessary()) {
+                        RegenerateCommandError.ARGS_ARE_SUFFICIENT.withLog(sender)
+                        return true
+                    }
+                }.getOrNull()
 
-                Multiverse.findMvWorld(world).mapBoth(
-                    success = {
-                        setOf("ワールドの再生成を開始します。", "この処理には時間がかかる可能性があります。")
-                            .map { msg -> "${ChatColor.GREEN}$msg" }
-                            .forEach { msg -> sender.sendMessage(msg) }
-                        // TODO: Seed変更に対応する
-                        Multiverse.regenWorld(it, SeedPatterns.NEW_SEED).mapBoth(
-                            success = { sender.sendMessage("${ChatColor.GREEN}ワールドの再生成が終了しました。") },
-                            failure = { err -> err.withLog(sender) }
-                        )
-                    },
-                    failure = { it.withLog(sender) }
-                )
+                Multiverse.findMvWorld(world).andThen { mvWorld ->
+                    setOf("ワールドの再生成を開始します。", "この処理には時間がかかる可能性があります。")
+                        .map { msg -> "${ChatColor.GREEN}$msg" }
+                        .forEach { msg -> sender.sendMessage(msg) }
+
+                    Multiverse.regenWorld(mvWorld, seedType, newSeed).onSuccess {
+                        sender.sendMessage("${ChatColor.GREEN}ワールドの再生成が終了しました。")
+                    }
+                }.onFailure { it.withLog(sender) }
             }
             CommandType.SCHEDULE -> {
                 // TODO:
