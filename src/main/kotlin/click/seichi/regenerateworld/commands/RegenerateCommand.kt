@@ -41,7 +41,6 @@ object RegenerateCommand : TabExecutor {
                 .toResultOr { RegenerateCommandError.OPERATOR_IS_INCORRECT.withLog(sender) }
                 .getOrElse { return true }
 
-        // rw regen : 1
         if (args.size < commandType.argsSize) {
             RegenerateCommandError.ARGS_ARE_SUFFICIENT.withLog(sender)
             return true
