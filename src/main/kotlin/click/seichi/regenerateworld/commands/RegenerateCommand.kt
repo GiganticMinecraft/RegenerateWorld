@@ -36,10 +36,9 @@ object RegenerateCommand : TabExecutor {
             return true
         }
 
-        val commandType =
-            CommandType.values().find { it.name.lowercase() == args[0].lowercase() }
-                .toResultOr { RegenerateCommandError.OPERATOR_IS_INCORRECT.withLog(sender) }
-                .getOrElse { return true }
+        val commandType = CommandType.safeValueOf(args[0])
+            .toResultOr { RegenerateCommandError.OPERATOR_IS_INCORRECT.withLog(sender) }
+            .getOrElse { return true }
 
         if (args.size < commandType.argsSize) {
             RegenerateCommandError.ARGS_ARE_SUFFICIENT.withLog(sender)
@@ -136,7 +135,11 @@ private enum class CommandType(val usage: String, val description: String, val a
     HELP("/rw help", "RegenerateWorldのコマンドの一覧を表示します。", 0),
     REGEN("/rw regen <ワールド名> <シード値パターン> <新しいシード値>", "指定されたワールドの再生成を行います。", 2),
     SCHEDULE("/rw schedule <add/edit/remove>", "再生成スケジュールを追加・変更・削除します。", 3),
-    LIST("/rw list", "有効な再生成予定の一覧を表示します。", 0)
+    LIST("/rw list", "有効な再生成予定の一覧を表示します。", 0);
+
+    companion object {
+        fun safeValueOf(str: String) = values().find { it.name.lowercase() == str.lowercase() }
+    }
 }
 
 private enum class ScheduleCommandSubType(
