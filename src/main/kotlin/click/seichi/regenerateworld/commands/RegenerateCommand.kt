@@ -128,7 +128,7 @@ private enum class RegenerateCommandError(private val reason: String) : IError {
 
 private enum class CommandType(val usage: String, val description: String, val argsSize: Int) {
     HELP("/rw help", "RegenerateWorldのコマンドの一覧を表示します。", 0),
-    REGEN("/rw regen <ワールド名、コンマ区切り>", "指定されたワールドの再生成を行います。", 2),
+    REGEN("/rw regen <ワールド名> <シード値パターン> <新しいシード値>", "指定されたワールドの再生成を行います。", 2),
     SCHEDULE("/rw schedule <add/edit/remove>", "再生成スケジュールを追加・変更・削除します。", 3),
     LIST("/rw list", "有効な再生成予定の一覧を表示します。", 0)
 }
