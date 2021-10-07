@@ -57,12 +57,12 @@ object RegenerateCommand : TabExecutor {
                 val world = Bukkit.getWorld(args[1])
                     .toResultOr { RegenerateCommandError.WORLD_IS_NOT_FOUND.withLog(sender) }
                     .getOrElse { return true }
-                val seedType = SeedPatterns.safeValueOf(args[2]).getOrElse {
+                val seedPattern = SeedPatterns.safeValueOf(args[2]).getOrElse {
                     it.withLog(sender)
                     return false
                 }
                 val newSeed = runCatching { args[3] }.onFailure {
-                    if (seedType.isSeedNecessary()) {
+                    if (seedPattern.isSeedNecessary()) {
                         RegenerateCommandError.ARGS_ARE_SUFFICIENT.withLog(sender)
                         return true
                     }
@@ -73,7 +73,7 @@ object RegenerateCommand : TabExecutor {
                         .map { msg -> "${ChatColor.GREEN}$msg" }
                         .forEach { msg -> sender.sendMessage(msg) }
 
-                    Multiverse.regenWorld(mvWorld, seedType, newSeed).onSuccess {
+                    Multiverse.regenWorld(mvWorld, seedPattern, newSeed).onSuccess {
                         sender.sendMessage("${ChatColor.GREEN}ワールドの再生成が終了しました。")
                     }
                 }.onFailure { it.withLog(sender) }
