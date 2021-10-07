@@ -39,10 +39,9 @@ object Config {
         val validUuids =
             plans.getKeys(false).mapNotNull { runCatching { UUID.fromString(it) }.getOrNull() }
         val invalidPlanConfigs = filterBadPlanConfigs(plans, validUuids)
-        val validPlanIds =
-            validUuids.filterNot {
-                invalidPlanConfigs.map { (invalidConfigId, _) -> invalidConfigId }.contains(it)
-            }
+        val validPlanIds = validUuids.filterNot {
+            invalidPlanConfigs.map { (invalidConfigId, _) -> invalidConfigId }.contains(it)
+        }
 
         if (invalidPlanConfigs.isEmpty() || validPlanIds.isEmpty())
             Logger.infoWithPrefix("すべての再生成スケジュールを読み込みました。")
