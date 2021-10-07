@@ -1,6 +1,7 @@
 package click.seichi.regenerateworld.utils
 
 import click.seichi.regenerateworld.PLANS_SECTION_NAME
+import com.github.michaelbull.result.Ok
 import java.util.*
 
 /**
@@ -18,7 +19,7 @@ enum class ConfigPaths {
     },
     SEED_TYPE {
         override fun isProperType(value: Any?) =
-            value is String && SeedPatterns.safeValueOf(value) != null
+            value is String && SeedPatterns.safeValueOf(value) is Ok
     },
     SEED {
         override fun isProperType(value: Any?) = value is String?
