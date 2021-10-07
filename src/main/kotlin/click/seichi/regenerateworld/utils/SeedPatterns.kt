@@ -1,6 +1,5 @@
 package click.seichi.regenerateworld.utils
 
-import com.github.michaelbull.result.Result
 import com.github.michaelbull.result.toResultOr
 
 /**
@@ -25,7 +24,7 @@ enum class SeedPatterns(private val isNewSeed: Boolean, private val isRandomSeed
     RANDOM_NEW_SEED(true, true);
 
     companion object {
-        fun safeValueOf(type: String): Result<SeedPatterns, SeedPatternsError> = runCatching {
+        fun safeValueOf(type: String) = runCatching {
             java.lang.Enum.valueOf(SeedPatterns::class.java, type)
         }.getOrNull().toResultOr { SeedPatternsError.SEED_PATTERN_NOT_FOUND }
     }
