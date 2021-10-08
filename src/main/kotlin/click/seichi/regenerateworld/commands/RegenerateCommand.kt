@@ -1,6 +1,7 @@
 package click.seichi.regenerateworld.commands
 
 import click.seichi.regenerateworld.Config
+import click.seichi.regenerateworld.ConfigError
 import click.seichi.regenerateworld.Multiverse
 import click.seichi.regenerateworld.utils.IError
 import click.seichi.regenerateworld.utils.SeedPatterns
@@ -10,6 +11,7 @@ import org.bukkit.ChatColor
 import org.bukkit.command.Command
 import org.bukkit.command.CommandSender
 import org.bukkit.command.TabExecutor
+import java.util.*
 import kotlin.onFailure
 import kotlin.runCatching
 
@@ -115,6 +117,14 @@ private fun executeScheduleSubCommand(args: List<String>, sender: CommandSender)
             ScheduleCommandSubType.values().forEach {
                 sender.sendMessage("${ChatColor.GOLD}${it.usage}${ChatColor.WHITE}: ${it.description}")
             }
+        }
+        ScheduleCommandSubType.REMOVE -> {
+            runCatching { UUID.fromString(args[1]) }.getOrNull()
+                .toResultOr { ConfigError.PATH_IS_NOT_FOUND }.andThen { Config.removeData(it) }
+                .mapBoth(
+                    success = { sender.sendMessage("${ChatColor.GREEN}再生成スケジュールの削除に成功しました。") },
+                    failure = { it.withLog(sender) }
+                )
         }
         // TODO: 実装する
         else -> sender.sendMessage("Unimplemented")
