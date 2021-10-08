@@ -3,6 +3,8 @@ package click.seichi.regenerateworld
 import click.seichi.regenerateworld.utils.*
 import com.github.michaelbull.result.Err
 import com.github.michaelbull.result.Ok
+import com.github.michaelbull.result.onSuccess
+import com.github.michaelbull.result.toResultOr
 import org.bukkit.configuration.ConfigurationSection
 import org.bukkit.configuration.file.FileConfiguration
 import java.time.ZonedDateTime
@@ -76,6 +78,11 @@ object Config {
                 "Config($configPath)に以下の値を設定しようとしました。: id:$id -> value:$value"
             )
         )
+
+    fun removeData(id: UUID) =
+        plansSection?.get(id.toString()).toResultOr { ConfigError.PATH_IS_NOT_FOUND }.onSuccess {
+            plansSection?.set(id.toString(), null)
+        }
 }
 
 enum class ConfigError(private val reason: String) : IError {
