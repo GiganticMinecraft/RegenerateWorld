@@ -33,10 +33,10 @@ object Config {
     }.filter { it.second.isNotEmpty() }.map { it.first to it.second.map { (paths, _) -> paths } }
 
     fun loadPlans() = plansSection?.let { plans ->
-        val validUuids =
+        val validIdsAsUuid =
             plans.getKeys(false).mapNotNull { runCatching { UUID.fromString(it) }.getOrNull() }
-        val invalidPlanConfigs = filterBadPlanConfigs(plans, validUuids)
-        val validPlanIds = validUuids.filterNot {
+        val invalidPlanConfigs = filterBadPlanConfigs(plans, validIdsAsUuid)
+        val validPlanIds = validIdsAsUuid.filterNot {
             invalidPlanConfigs.map { (invalidConfigId, _) -> invalidConfigId }.contains(it)
         }
 
