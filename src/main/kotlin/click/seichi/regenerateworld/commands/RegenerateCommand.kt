@@ -157,5 +157,5 @@ private enum class ScheduleCommandSubType(
         "指定された再生成のスケジュールを編集します。",
         4
     ),
-    REMOVE("/rw schedule remove <UUID、コンマ区切り>", "指定された再生成のスケジュールを削除します。", 3)
+    REMOVE("/rw schedule remove <UUID>", "指定された再生成のスケジュールを削除します。", 3)
 }
