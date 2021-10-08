@@ -30,7 +30,7 @@ object Config {
             .map { path -> path to plans.get(path.shortPath(id)) }
             .map { (path, value) -> path to path.isProperType(value) }
             .filterNot { it.second }
-    }.filterNot { it.second.isEmpty() }.map { it.first to it.second.map { (paths, _) -> paths } }
+    }.filter { it.second.isNotEmpty() }.map { it.first to it.second.map { (paths, _) -> paths } }
 
     fun loadPlans() = plansSection?.let { plans ->
         val validUuids =
