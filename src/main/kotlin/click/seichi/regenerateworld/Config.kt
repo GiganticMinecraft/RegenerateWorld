@@ -3,7 +3,6 @@ package click.seichi.regenerateworld
 import click.seichi.regenerateworld.utils.*
 import com.github.michaelbull.result.Err
 import com.github.michaelbull.result.Ok
-import com.github.michaelbull.result.Result
 import org.bukkit.configuration.ConfigurationSection
 import org.bukkit.configuration.file.FileConfiguration
 import java.time.ZonedDateTime
@@ -20,9 +19,7 @@ object Config {
         }
     }
     private val plansSection: ConfigurationSection? by lazy {
-        config.getConfigurationSection(
-            PLANS_SECTION_NAME
-        )
+        config.getConfigurationSection(PLANS_SECTION_NAME)
     }
 
     /**
@@ -69,12 +66,16 @@ object Config {
         listOf()
     }
 
-    fun setData(configPath: ConfigPaths, id: UUID, value: Any): Result<Any, ConfigError> =
+    fun setData(configPath: ConfigPaths, id: UUID, value: Any) =
         if (configPath.isProperType(value)) {
             config.set(configPath.fullPath(id), value)
             RegenerateWorld.plugin.saveConfig()
             Ok(value)
-        } else Err(ConfigError.ARG_IS_INVALID_TYPE)
+        } else Err(
+            ConfigError.ARG_IS_INVALID_TYPE.withServerLog(
+                "Config($configPath)に以下の値を設定しようとしました。: id:$id -> value:$value"
+            )
+        )
 }
 
 enum class ConfigError(private val reason: String) : IError {

@@ -5,7 +5,7 @@ import click.seichi.regenerateworld.utils.Plan
 import click.seichi.regenerateworld.utils.Util
 import com.github.michaelbull.result.get
 import com.github.michaelbull.result.mapBoth
-import com.github.michaelbull.result.mapError
+import com.github.michaelbull.result.onFailure
 import org.bukkit.Bukkit
 import org.bukkit.scheduler.BukkitRunnable
 
@@ -23,7 +23,7 @@ class RegenerateTask(private val plan: Plan) : BukkitRunnable() {
                     // 実際に再生成を行うまで時間があるので、この間にMultiverseからアンロードされている可能性を考えて、生成を行うときには再度MultiverseWorldを探す
                     plan.worlds.mapNotNull {
                         Multiverse.findMvWorld(it)
-                            .mapError { err -> err.withServerLog("ワールド名: $it") }.get()
+                            .onFailure { err -> err.withServerLog("ワールド名: $it") }.get()
                     }.forEach { world ->
                         Multiverse.regenWorld(world, plan.seedPatterns, plan.seed).mapBoth(
                             success = { Bukkit.broadcastMessage("${world.name}の再生成を行いました。") },
