@@ -120,7 +120,7 @@ private fun executeScheduleSubCommand(args: List<String>, sender: CommandSender)
         }
         ScheduleCommandSubType.REMOVE -> {
             runCatching { UUID.fromString(args[1]) }.getOrNull()
-                .toResultOr { ConfigError.PATH_IS_NOT_FOUND }.andThen { Config.removeData(it) }
+                .toResultOr { ConfigError.PATH_IS_NOT_FOUND }.andThen { Config.removePlan(it) }
                 .mapBoth(
                     success = { sender.sendMessage("${ChatColor.GREEN}再生成スケジュールの削除に成功しました。") },
                     failure = { it.withLog(sender) }

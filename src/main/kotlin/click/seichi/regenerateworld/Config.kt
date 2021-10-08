@@ -79,7 +79,7 @@ object Config {
             )
         )
 
-    fun removeData(id: UUID) =
+    fun removePlan(id: UUID) =
         plansSection?.get(id.toString()).toResultOr { ConfigError.PATH_IS_NOT_FOUND }.onSuccess {
             plansSection?.set(id.toString(), null)
         }
