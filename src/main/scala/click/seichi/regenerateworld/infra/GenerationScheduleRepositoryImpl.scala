@@ -9,7 +9,11 @@ import java.util.UUID
 import scala.jdk.CollectionConverters._
 import scala.util.Try
 
-class GenerationScheduleRepositoryImpl(getConfig: () => FileConfiguration, saveConfig: () => Unit) extends GenerationScheduleRepository {
+class GenerationScheduleRepositoryImpl(
+  getConfig: () => FileConfiguration,
+  saveConfig: () => Unit,
+  reloadConfig: () => Unit
+) extends GenerationScheduleRepository {
   private def config = getConfig().getConfigurationSection("schedules")
 
   override def list(): Set[GenerationSchedule] = {
@@ -35,11 +39,13 @@ class GenerationScheduleRepositoryImpl(getConfig: () => FileConfiguration, saveC
   override def upsert(schedule: GenerationSchedule): Unit = {
     config.get(schedule.id.toString).asInstanceOf[MemorySection].write(schedule)
     saveConfig()
+    reloadConfig()
   }
 
   override def remove(uuid: UUID): Boolean = {
     config.set(uuid.toString, null)
     saveConfig()
+    reloadConfig()
 
     !config.isSet(uuid.toString)
   }

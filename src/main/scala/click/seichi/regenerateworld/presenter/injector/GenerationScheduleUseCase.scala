@@ -7,7 +7,7 @@ import click.seichi.regenerateworld.usecase.GenerationScheduleUseCase
 
 trait MixInGenerateScheduleRepository extends UseGenerateScheduleRepository {
   val generateScheduleRepository: GenerationScheduleRepository = new GenerationScheduleRepositoryImpl(
-    INSTANCE.getConfig, INSTANCE.saveConfig
+    INSTANCE.getConfig, INSTANCE.saveConfig, INSTANCE.reloadConfig
   )
 }
 
