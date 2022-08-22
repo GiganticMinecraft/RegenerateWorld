@@ -1,0 +1,9 @@
+# ここを手動で書き換えないでください。
+regeneration:
+  d863cee6-c381-4255-87a5-1ef17cf041e9:
+    next-date: 2021-07-28 23:12:27
+    interval: 1
+    seed_pattern: CURRENT_SEED
+    worlds:
+      - world
+      - world_TEST
