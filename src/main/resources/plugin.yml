@@ -1,0 +1,12 @@
+name: RegenerateWorld
+version: @version@
+main: click.seichi.regenerateworld.RegenerateWorld
+depend: [ Multiverse-Core ]
+commands:
+  regenerateworld:
+    usage: /rw
+    aliases:
+      - regenworld
+      - rw
+    description: This is the command for RegenerateWorld.
+    default: op
