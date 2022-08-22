@@ -1,8 +1,9 @@
 package click.seichi.regenerateworld.infra
 
 import click.seichi.regenerateworld.domain.{GenerationSchedule, GenerationScheduleRepository}
-import click.seichi.regenerateworld.infra.model.GenerationScheduleConfig
 import org.bukkit.configuration.file.FileConfiguration
+import GenerationScheduleConverter._
+import org.bukkit.configuration.MemorySection
 
 import java.util.UUID
 import scala.jdk.CollectionConverters._
@@ -15,10 +16,9 @@ class GenerationScheduleRepositoryImpl(getConfig: () => FileConfiguration, saveC
     val set = for {
       id <- config.getKeys(false).asScala
       uuid <- Try(UUID.fromString(id)).toOption
-      section = config.get(id)
-    } yield section match {
-      case c: GenerationScheduleConfig => c.toGenerationSchedule(uuid)
-    }
+      section = config.get(id).asInstanceOf[MemorySection]
+      schedule <- section.read(uuid)
+    } yield schedule
 
     set.toSet
   }
@@ -27,14 +27,13 @@ class GenerationScheduleRepositoryImpl(getConfig: () => FileConfiguration, saveC
     for {
       id <- config.getKeys(false).asScala.find(_ == uuid.toString)
       uuid <- Try(UUID.fromString(id)).toOption
-      section = config.get(id)
-    } yield section match {
-      case c: GenerationScheduleConfig => c.toGenerationSchedule(uuid)
-    }
+      section = config.get(id).asInstanceOf[MemorySection]
+      schedule <- section.read(uuid)
+    } yield schedule
   }
 
   override def upsert(schedule: GenerationSchedule): Unit = {
-    config.set(schedule.id.toString, GenerationScheduleConfig.fromGenerationSchedule(schedule))
+    config.get(schedule.id.toString).asInstanceOf[MemorySection].write(schedule)
     saveConfig()
   }
 
