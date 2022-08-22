@@ -1,21 +1,17 @@
 package click.seichi.regenerateworld.domain
 
-import java.time.LocalDateTime
-import java.time.format.DateTimeFormatter
+import java.time.ZonedDateTime
 import java.util.UUID
 import scala.util.Try
 
-case class GenerationSchedule(id: UUID, nextDate: LocalDateTime, interval: Int, seedPattern: SeedPattern, worlds: Set[String])
+case class GenerationSchedule(id: UUID, nextDate: ZonedDateTime, interval: Int, seedPattern: SeedPattern, worlds: Set[String])
 
 object GenerationSchedule {
-  private val formatter = DateTimeFormatter.ofPattern("")
-
-  def fromRepository(id: String, nextDate: String, interval: Int, seedPattern: String, worlds: Set[String]): Option[GenerationSchedule] = {
+  def fromRepository(id: UUID, nextDate: String, interval: Int, seedPattern: String, worlds: Set[String]): Option[GenerationSchedule] = {
     for {
-      uuid <- Try(UUID.fromString(id)).toOption
-      date <- Try(LocalDateTime.parse(nextDate, formatter)).toOption
+      date <- Try(ZonedDateTime.parse(nextDate)).toOption
       pattern <- SeedPattern.fromString(seedPattern)
-    } yield this (uuid, date, interval, pattern, worlds)
+    } yield this (id, date, interval, pattern, worlds)
   }
 
   // TODO: impl some methods to update
