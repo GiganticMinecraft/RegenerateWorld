@@ -1,6 +1,6 @@
 import sbt.Keys.baseDirectory
+import ReleaseTransformations._
 
-ThisBuild / version := "0.1.0"
 ThisBuild / scalaVersion := "2.13.8"
 
 resolvers ++= Seq(
@@ -11,6 +11,20 @@ resolvers ++= Seq(
 libraryDependencies ++= Seq(
   "org.spigotmc" % "spigot-api" % "1.12.2-R0.1-SNAPSHOT",
   "com.beachape" %% "enumeratum" % "1.7.0"
+)
+
+releaseProcess := Seq[ReleaseStep](
+  checkSnapshotDependencies,
+  inquireVersions,
+  runClean,
+  runTest,
+  setReleaseVersion,
+  commitReleaseVersion,
+  tagRelease,
+  releaseStepCommandAndRemaining("publishSigned"),
+  setNextVersion,
+  commitNextVersion,
+  pushChanges
 )
 
 lazy val root = (project in file("."))
