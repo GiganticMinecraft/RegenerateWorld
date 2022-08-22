@@ -1,7 +1,7 @@
 # ここを手動で書き換えないでください。
 schedules:
   d863cee6-c381-4255-87a5-1ef17cf041e9:
-    next-date: 2021-07-28 23:12:27
+    next-date: '2011-12-03T10:15:30+09:00[Asia/Tokyo]'
     interval: 1
     seed-pattern: CURRENT_SEED
     worlds:
