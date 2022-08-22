@@ -11,7 +11,7 @@ class RegenerateWorld extends JavaPlugin {
 
     ConfigurationSerialization.registerClass(classOf[GenerationScheduleConfig])
 
-    getCommand("/regenworld").setExecutor(Command)
+    getCommand("regenworld").setExecutor(Command)
   }
 }
 
