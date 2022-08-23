@@ -3,9 +3,7 @@ package click.seichi.regenerateworld.presenter.mixin
 import click.seichi.regenerateworld.RegenerateWorld.INSTANCE
 import click.seichi.regenerateworld.domain.GenerationScheduleRepository
 import click.seichi.regenerateworld.infra.GenerationScheduleRepositoryImpl
-import click.seichi.regenerateworld.usecase.usetraits.{Clock, UseClock, UseGenerationScheduleRepository}
-
-import java.time.ZonedDateTime
+import click.seichi.regenerateworld.usecase.usetraits.UseGenerationScheduleRepository
 
 trait MixInGenerationScheduleRepository extends UseGenerationScheduleRepository {
   override def generationScheduleRepository: GenerationScheduleRepository = GenerationScheduleRepositoryImpl(
