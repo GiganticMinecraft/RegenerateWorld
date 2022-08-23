@@ -1,6 +1,6 @@
 package click.seichi.regenerateworld.usecase
 
-import click.seichi.regenerateworld.domain.{GenerationSchedule, SeedPattern}
+import click.seichi.regenerateworld.domain.{GenerationSchedule, Interval, SeedPattern}
 import click.seichi.regenerateworld.usecase.usetraits.{UseClock, UseGenerationScheduleRepository}
 
 import java.util.UUID
@@ -37,7 +37,12 @@ trait GenerationScheduleUseCase extends UseGenerationScheduleRepository with Use
     } yield generationScheduleRepository.save(newSchedule)
   }
 
-  def changeInterval(): Unit = ???
+  def changeInterval(id: UUID, interval: Interval): Unit = {
+    for {
+      schedule <- findById(id)
+      newSchedule = GenerationSchedule(schedule.id, schedule.nextDateTime, interval, schedule.seedPattern, schedule.worlds)
+    } yield generationScheduleRepository.save(newSchedule)
+  }
 
   def changeSeedPattern(id: UUID, pattern: SeedPattern): Unit = {
     for {
