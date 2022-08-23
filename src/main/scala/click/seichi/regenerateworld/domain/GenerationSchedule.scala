@@ -9,7 +9,7 @@ import scala.util.Try
 case class GenerationSchedule(id: UUID, nextDate: ZonedDateTime, interval: Int, seedPattern: SeedPattern, worlds: Set[String]) {
   // region Init
 
-  if (interval <= 0) throw new IllegalArgumentException("The interval value must be more than 0")
+  if (interval <= 0) throw new IllegalArgumentException("The value of Interval must be more than 0")
 
   // endregion
 
