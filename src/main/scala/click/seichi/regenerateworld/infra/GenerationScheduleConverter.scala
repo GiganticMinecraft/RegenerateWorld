@@ -17,11 +17,11 @@ private object GenerationScheduleConverter {
   implicit class Converter(val section: MemorySection) {
     def read(id: UUID): Option[GenerationSchedule] = {
       for {
-        nextDate <- Option(section.getString(ConfigKeys.NextDateTime))
+        nextDateTime <- Option(section.getString(ConfigKeys.NextDateTime))
         interval <- Option(section.getLong(ConfigKeys.Interval))
         seedPattern <- Option(section.getString(ConfigKeys.SeedPattern))
         worlds = section.getStringList(ConfigKeys.Worlds).asScala.toSet.filterNot(_ == null)
-        schedule <- GenerationSchedule.fromRepository(id, nextDate, interval, seedPattern, worlds)
+        schedule <- GenerationSchedule.fromRepository(id, nextDateTime, interval, seedPattern, worlds)
       } yield schedule
     }
 
