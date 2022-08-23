@@ -5,8 +5,7 @@ import java.util.UUID
 import scala.util.Try
 
 //TODO: rename interval to minutesInterval
-//TODO: rename nextDate to nextDateTime
-case class GenerationSchedule(id: UUID, nextDate: ZonedDateTime, interval: Long, seedPattern: SeedPattern, worlds: Set[String]) {
+case class GenerationSchedule(id: UUID, nextDateTime: ZonedDateTime, interval: Long, seedPattern: SeedPattern, worlds: Set[String]) {
   // region Init
 
   if (interval <= 0) throw new IllegalArgumentException("The value of Interval must be more than 0")
@@ -14,17 +13,17 @@ case class GenerationSchedule(id: UUID, nextDate: ZonedDateTime, interval: Long,
   // endregion
 
   def finish(now: ZonedDateTime): GenerationSchedule = {
-    val maybeNextDate = nextDate.plusMinutes(interval)
-    val newNextDate = if (maybeNextDate.isBefore(now)) now.plusMinutes(interval) else maybeNextDate
+    val maybeNextDateTime = nextDateTime.plusMinutes(interval)
+    val newNextDateTime = if (maybeNextDateTime.isBefore(now)) now.plusMinutes(interval) else maybeNextDateTime
 
-    GenerationSchedule(id, newNextDate, interval, seedPattern, worlds)
+    GenerationSchedule(id, newNextDateTime, interval, seedPattern, worlds)
   }
 }
 
 object GenerationSchedule {
-  def fromRepository(id: UUID, nextDate: String, interval: Long, seedPattern: String, worlds: Set[String]): Option[GenerationSchedule] = {
+  def fromRepository(id: UUID, nextDateTime: String, interval: Long, seedPattern: String, worlds: Set[String]): Option[GenerationSchedule] = {
     for {
-      date <- Try(ZonedDateTime.parse(nextDate)).toOption
+      date <- Try(ZonedDateTime.parse(nextDateTime)).toOption
       pattern <- SeedPattern.fromString(seedPattern)
     } yield this (id, date, interval, pattern, worlds)
   }
