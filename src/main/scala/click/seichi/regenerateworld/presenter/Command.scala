@@ -1,6 +1,5 @@
 package click.seichi.regenerateworld.presenter
 
-import click.seichi.regenerateworld.presenter.injector.GenerationScheduleUseCase
 import org.bukkit.command.{Command, CommandSender, TabExecutor}
 
 import java.util
@@ -10,6 +9,7 @@ object Command extends TabExecutor {
   override def onCommand(commandSender: CommandSender, command: Command, s: String, strings: Array[String]): Boolean = {
     val list = GenerationScheduleUseCase.list()
     println(list)
+
     true
   }
 
