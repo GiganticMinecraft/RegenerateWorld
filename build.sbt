@@ -11,7 +11,7 @@ resolvers ++= Seq(
 )
 
 libraryDependencies ++= Seq(
-  "org.spigotmc" % "spigot-api" % "1.12.2-R0.1-SNAPSHOT",
+  "org.spigotmc" % "spigot-api" % "1.12.2-R0.1-SNAPSHOT" % "provided",
   "com.beachape" %% "enumeratum" % "1.7.0"
 )
 
