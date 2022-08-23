@@ -1,8 +1,8 @@
 package click.seichi.regenerateworld.infra
 
 import click.seichi.regenerateworld.domain.{GenerationSchedule, GenerationScheduleRepository}
-import org.bukkit.configuration.file.FileConfiguration
 import GenerationScheduleConverter._
+import org.bukkit.configuration.file.FileConfiguration
 import org.bukkit.configuration.MemorySection
 
 import java.util.UUID
