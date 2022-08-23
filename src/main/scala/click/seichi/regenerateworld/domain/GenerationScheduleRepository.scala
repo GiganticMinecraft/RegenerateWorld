@@ -7,11 +7,7 @@ trait GenerationScheduleRepository {
 
   def find(uuid: UUID): Option[GenerationSchedule]
 
-  def upsert(schedule: GenerationSchedule): Unit
+  def save(schedule: GenerationSchedule): Unit
 
   def remove(uuid: UUID): Boolean
-}
-
-trait UseGenerateScheduleRepository {
-  val generateScheduleRepository: GenerationScheduleRepository
 }
