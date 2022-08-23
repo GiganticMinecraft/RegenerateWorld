@@ -36,7 +36,7 @@ class GenerationScheduleRepositoryImpl(
     } yield schedule
   }
 
-  override def upsert(schedule: GenerationSchedule): Unit = {
+  override def save(schedule: GenerationSchedule): Unit = {
     config.get(schedule.id.toString).asInstanceOf[MemorySection].write(schedule)
     saveConfig()
     reloadConfig()
