@@ -22,7 +22,7 @@ case class GenerationSchedule(id: UUID, nextDate: ZonedDateTime, interval: Int, 
 }
 
 object GenerationSchedule {
-  def fromRepository(id: UUID, nextDate: String, interval: Int, seedPattern: String, worlds: Set[String]): Option[GenerationSchedule] = {
+  def fromRepository(id: UUID, nextDate: String, interval: Long, seedPattern: String, worlds: Set[String]): Option[GenerationSchedule] = {
     for {
       date <- Try(ZonedDateTime.parse(nextDate)).toOption
       pattern <- SeedPattern.fromString(seedPattern)

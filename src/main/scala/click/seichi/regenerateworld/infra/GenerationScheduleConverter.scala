@@ -18,7 +18,7 @@ private object GenerationScheduleConverter {
     def read(id: UUID): Option[GenerationSchedule] = {
       for {
         nextDate <- Option(section.getString(ConfigKeys.NextDate))
-        interval <- Option(section.getInt(ConfigKeys.Interval))
+        interval <- Option(section.getLong(ConfigKeys.Interval))
         seedPattern <- Option(section.getString(ConfigKeys.SeedPattern))
         worlds = section.getStringList(ConfigKeys.Worlds).asScala.toSet.filterNot(_ == null)
         schedule <- GenerationSchedule.fromRepository(id, nextDate, interval, seedPattern, worlds)
