@@ -9,7 +9,7 @@ import java.util.UUID
 import scala.jdk.CollectionConverters._
 import scala.util.Try
 
-class GenerationScheduleRepositoryImpl(
+case class GenerationScheduleRepositoryImpl(
   getConfig: () => FileConfiguration,
   saveConfig: () => Unit,
   reloadConfig: () => Unit

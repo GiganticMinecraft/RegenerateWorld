@@ -8,7 +8,7 @@ import click.seichi.regenerateworld.usecase.usetraits.{Clock, UseClock, UseGener
 import java.time.ZonedDateTime
 
 trait MixInGenerationScheduleRepository extends UseGenerationScheduleRepository {
-  override def generationScheduleRepository: GenerationScheduleRepository = new GenerationScheduleRepositoryImpl(
+  override def generationScheduleRepository: GenerationScheduleRepository = GenerationScheduleRepositoryImpl(
     INSTANCE.getConfig, INSTANCE.saveConfig, INSTANCE.reloadConfig
   )
 }
