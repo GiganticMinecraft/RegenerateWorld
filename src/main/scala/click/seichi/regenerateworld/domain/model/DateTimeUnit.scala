@@ -11,15 +11,15 @@ object DateTimeUnit extends Enum[DateTimeUnit] {
 
   def fromString(str: String): Option[DateTimeUnit] = values.find(_.entryName == str)
 
-  case object YEAR extends DateTimeUnit("y", ChronoUnit.YEARS)
+  case object Year extends DateTimeUnit("y", ChronoUnit.YEARS)
 
-  case object MONTH extends DateTimeUnit("mo", ChronoUnit.MONTHS)
+  case object Month extends DateTimeUnit("mo", ChronoUnit.MONTHS)
 
-  case object WEEK extends DateTimeUnit("w", ChronoUnit.WEEKS)
+  case object Week extends DateTimeUnit("w", ChronoUnit.WEEKS)
 
-  case object DAY_OF_MONTH extends DateTimeUnit("d", ChronoUnit.DAYS)
+  case object DayOfMonth extends DateTimeUnit("d", ChronoUnit.DAYS)
 
-  case object HOUR extends DateTimeUnit("h", ChronoUnit.HOURS)
+  case object Hour extends DateTimeUnit("h", ChronoUnit.HOURS)
 
-  case object MINUTE extends DateTimeUnit("m", ChronoUnit.MINUTES)
+  case object Minute extends DateTimeUnit("m", ChronoUnit.MINUTES)
 }

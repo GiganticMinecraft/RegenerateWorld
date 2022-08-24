@@ -2,7 +2,7 @@ package click.seichi.regenerateworld.domain.model
 
 import enumeratum.{Enum, EnumEntry}
 
-sealed trait SeedPattern extends EnumEntry
+sealed abstract class SeedPattern(val isNewSeed: Boolean, val isRandomSeed: Boolean) extends EnumEntry
 
 object SeedPattern extends Enum[SeedPattern] {
   override val values: IndexedSeq[SeedPattern] = findValues
@@ -11,15 +11,15 @@ object SeedPattern extends Enum[SeedPattern] {
   /**
    * 現在のSeed値をそのまま利用する。
    */
-  case object CURRENT_SEED extends SeedPattern
+  case object CurrentSeed extends SeedPattern(false, false)
 
   /**
    * Seed値を新しく生成し、その値は自分で指定したものを用いる。
    */
-  case object NEW_SEED extends SeedPattern
+  case object NewSeed extends SeedPattern(true, false)
 
   /**
    * Seed値を新しく生成し、その値はランダムで生成する。
    */
-  case object RANDOM_NEW_SEED extends SeedPattern
+  case object RandomNewSeed extends SeedPattern(true, true)
 }
