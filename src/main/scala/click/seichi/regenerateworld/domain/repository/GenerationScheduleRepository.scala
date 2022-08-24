@@ -1,4 +1,4 @@
-package click.seichi.regenerateworld.domain.model.repository
+package click.seichi.regenerateworld.domain.repository
 
 import click.seichi.regenerateworld.domain.model.GenerationSchedule
 import java.util.UUID

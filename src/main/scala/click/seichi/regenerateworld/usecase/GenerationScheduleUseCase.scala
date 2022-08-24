@@ -1,6 +1,6 @@
 package click.seichi.regenerateworld.usecase
 
-import click.seichi.regenerateworld.domain.{GenerationSchedule, Interval, SeedPattern}
+import click.seichi.regenerateworld.domain.model.{GenerationSchedule, Interval, SeedPattern}
 import click.seichi.regenerateworld.usecase.usetraits.{UseClock, UseGenerationScheduleRepository}
 
 import java.util.UUID
