@@ -1,6 +1,6 @@
 package click.seichi.regenerateworld.infra
 
-import click.seichi.regenerateworld.domain.GenerationSchedule
+import click.seichi.regenerateworld.domain.model.GenerationSchedule
 import org.bukkit.configuration.MemorySection
 
 import java.util.UUID

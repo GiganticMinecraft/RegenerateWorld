@@ -1,5 +1,6 @@
-package click.seichi.regenerateworld.domain
+package click.seichi.regenerateworld.domain.model.repository
 
+import click.seichi.regenerateworld.domain.model.GenerationSchedule
 import java.util.UUID
 
 trait GenerationScheduleRepository {

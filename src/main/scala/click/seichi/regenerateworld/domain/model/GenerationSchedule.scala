@@ -1,4 +1,4 @@
-package click.seichi.regenerateworld.domain
+package click.seichi.regenerateworld.domain.model
 
 import java.time.ZonedDateTime
 import java.util.UUID

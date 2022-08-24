@@ -1,4 +1,4 @@
-package click.seichi.regenerateworld.domain
+package click.seichi.regenerateworld.domain.model
 
 case class Interval(unit: DateTimeUnit, value: Long) {
   // region Init
