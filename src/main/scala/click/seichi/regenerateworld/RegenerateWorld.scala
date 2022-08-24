@@ -1,6 +1,6 @@
 package click.seichi.regenerateworld
 
-import click.seichi.regenerateworld.presenter.Command
+import click.seichi.regenerateworld.presenter.command.Command
 import org.bukkit.plugin.java.JavaPlugin
 
 class RegenerateWorld extends JavaPlugin {
@@ -10,6 +10,8 @@ class RegenerateWorld extends JavaPlugin {
     saveDefaultConfig()
 
     getCommand("regenworld").setExecutor(Command)
+    getServer.getPluginManager.registerEvents(RegenWorldListener, this)
+    // TODO: Print configs
   }
 }
 
