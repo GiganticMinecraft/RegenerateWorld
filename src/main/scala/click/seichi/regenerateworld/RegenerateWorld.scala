@@ -1,6 +1,7 @@
 package click.seichi.regenerateworld
 
 import click.seichi.regenerateworld.presenter.command.Command
+import click.seichi.regenerateworld.presenter.listener.RegenWorldListener
 import org.bukkit.plugin.java.JavaPlugin
 
 class RegenerateWorld extends JavaPlugin {
