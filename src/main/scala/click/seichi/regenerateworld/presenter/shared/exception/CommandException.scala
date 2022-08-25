@@ -8,7 +8,4 @@ sealed abstract class CommandException(override val description: String)
 
 object CommandException extends Enum[CommandException] {
   override val values: IndexedSeq[CommandException] = findValues
-
-  case object OnlyPlayerCanExecute
-      extends CommandException("The command can be executed only by in-game players")
 }
