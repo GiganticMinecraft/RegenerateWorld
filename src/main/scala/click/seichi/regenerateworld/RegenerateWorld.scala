@@ -14,7 +14,7 @@ class RegenerateWorld extends JavaPlugin {
 
     saveDefaultConfig()
 
-    getCommand("regenworld").setExecutor(Command)
+    getCommand("regenworld").setExecutor(Command.executor)
     getServer.getPluginManager.registerEvents(RegenWorldListener, this)
   }
 }
