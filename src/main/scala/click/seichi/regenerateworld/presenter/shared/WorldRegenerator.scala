@@ -8,15 +8,15 @@ import org.bukkit.World
 
 case object WorldRegenerator {
   def regen(world: MultiverseWorld, seedPattern: SeedPattern, newSeed: Option[String]): Either[WorldRegeneratorError, Unit] = {
-    if (seedPattern == SeedPattern.NewSeed && newSeed.isEmpty) return Left(WorldRegeneratorError.SeedIsNeeded)
+    if (seedPattern == SeedPattern.NewSeed && newSeed.isEmpty) return Left(WorldRegeneratorError.SeedIsRequired)
 
     val isSuccessful = Multiverse.regenWorld(world, seedPattern.isNewSeed, seedPattern.isRandomSeed, newSeed)
     if (isSuccessful) Right() else Left(WorldRegeneratorError.MultiverseError)
   }
 
-  def regenFromWorld(world: World, seedPattern: SeedPattern, newSeed: Option[String]): Either[WorldRegeneratorError, Unit] = {
+  def regenFromWorld(bukkitWorld: World, seedPattern: SeedPattern, newSeed: Option[String]): Either[WorldRegeneratorError, Unit] = {
     for {
-      mvWorld <- world.asMVWorld().toRight(WorldRegeneratorError.WorldIsNotMVWorld)
+      mvWorld <- bukkitWorld.asMVWorld().toRight(WorldRegeneratorError.BukkitWorldIsNotMVWorld)
       result <- regen(mvWorld, seedPattern, newSeed)
     } yield result
   }
@@ -27,9 +27,9 @@ sealed abstract class WorldRegeneratorError(val description: String) extends Enu
 object WorldRegeneratorError extends Enum[WorldRegeneratorError] {
   override val values: IndexedSeq[WorldRegeneratorError] = findValues
 
-  case object SeedIsNeeded extends WorldRegeneratorError("Seed is needed with the SeedPattern")
+  case object SeedIsRequired extends WorldRegeneratorError("Seed is required with the SeedPattern")
 
   case object MultiverseError extends WorldRegeneratorError("Multiverse occured an error while regeneration")
 
-  case object WorldIsNotMVWorld extends WorldRegeneratorError("The world is not Multiverse World")
+  case object BukkitWorldIsNotMVWorld extends WorldRegeneratorError("The Bukkit world is not Multiverse World")
 }
