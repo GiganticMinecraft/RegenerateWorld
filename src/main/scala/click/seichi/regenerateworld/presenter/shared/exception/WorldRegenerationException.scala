@@ -19,4 +19,9 @@ object WorldRegenerationException extends Enum[WorldRegenerationException] {
 
   case object BukkitWorldIsNotMVWorld
       extends WorldRegenerationException("The Bukkit world is not a Multiverse World")
+
+  case object WorldIsNotFound extends WorldRegenerationException("The world is not found")
+
+  case object SeedPatternIsNotFound
+      extends WorldRegenerationException("The SeedPattern is not found")
 }
