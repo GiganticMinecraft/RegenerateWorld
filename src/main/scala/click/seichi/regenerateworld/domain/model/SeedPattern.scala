@@ -2,7 +2,8 @@ package click.seichi.regenerateworld.domain.model
 
 import enumeratum.{Enum, EnumEntry}
 
-sealed abstract class SeedPattern(val isNewSeed: Boolean, val isRandomSeed: Boolean) extends EnumEntry
+sealed abstract class SeedPattern(val isNewSeed: Boolean, val isRandomSeed: Boolean)
+    extends EnumEntry
 
 object SeedPattern extends Enum[SeedPattern] {
   override val values: IndexedSeq[SeedPattern] = findValues

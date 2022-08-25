@@ -4,7 +4,8 @@ import enumeratum.{Enum, EnumEntry}
 
 import java.time.temporal.ChronoUnit
 
-sealed abstract class DateTimeUnit(val suffix: String, val chronoUnit: ChronoUnit) extends EnumEntry
+sealed abstract class DateTimeUnit(val suffix: String, val chronoUnit: ChronoUnit)
+    extends EnumEntry
 
 object DateTimeUnit extends Enum[DateTimeUnit] {
   override val values: IndexedSeq[DateTimeUnit] = findValues

@@ -8,7 +8,9 @@ class RegenerateWorld extends JavaPlugin {
   override def onEnable(): Unit = {
     RegenerateWorld.INSTANCE = this
     if (!getServer.getPluginManager.isPluginEnabled("Multiverse-Core")) {
-      getServer.getLogger.severe("Since Multiverse-Core is not enabled, RegenerateWorld will be disabled.")
+      getServer
+        .getLogger
+        .severe("Since Multiverse-Core is not enabled, RegenerateWorld will be disabled.")
       getServer.getPluginManager.disablePlugin(this)
     }
 

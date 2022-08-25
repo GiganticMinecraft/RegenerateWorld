@@ -1,6 +1,10 @@
 package click.seichi.regenerateworld.presenter.shared.contextualexecutor.executor
 
-import click.seichi.regenerateworld.presenter.shared.contextualexecutor.{CommandContext, ContextualExecutor, Result}
+import click.seichi.regenerateworld.presenter.shared.contextualexecutor.{
+  CommandContext,
+  ContextualExecutor,
+  Result
+}
 
 case class BranchedExecutor(
   branches: Map[String, ContextualExecutor],
@@ -11,12 +15,12 @@ case class BranchedExecutor(
     def executeOptionally(executor: Option[ContextualExecutor]): Result[Unit] =
       executor match {
         case Some(executor) => executor.executionWith(context)
-        case None => Right(())
+        case None           => Right(())
       }
 
     val (firstArg, remaining) = context.args match {
       case head :: tail => (head, tail)
-      case Nil => return executeOptionally(whenArgInsufficient)
+      case Nil          => return executeOptionally(whenArgInsufficient)
     }
     val branch = branches.getOrElse(firstArg, return executeOptionally(whenBranchNotFound))
     val nextContext = context.copy(args = remaining)

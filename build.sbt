@@ -48,39 +48,38 @@ Compile / filteredResourceGenerator :=
 
 Compile / resourceGenerators += (Compile / filteredResourceGenerator)
 
-Compile / unmanagedResources ++= Seq(
-  baseDirectory.value / "LICENSE"
-)
+Compile / unmanagedResources ++= Seq(baseDirectory.value / "LICENSE")
 
 // トークン置換を行ったファイルをunmanagedResourcesのコピーから除外する
 unmanagedResources / excludeFilter :=
-  filesToBeReplacedInResourceFolder.foldLeft((unmanagedResources / excludeFilter).value)(_.||(_))
+  filesToBeReplacedInResourceFolder.foldLeft((unmanagedResources / excludeFilter).value)(
+    _.||(_)
+  )
 
 // endregion
 
 // region Other settings
 
-lazy val root = (project in file("."))
-  .settings(
-    name := "RegenerateWorld",
-    version := "0.1.0",
-    scalaVersion := "2.13.8",
-    assembly / assemblyOutputPath := baseDirectory.value / "target" / "build" / s"${name.value}-${version.value}.jar",
-    semanticdbEnabled := true, // scalafix requires semanticdb
-    semanticdbVersion := scalafixSemanticdb.revision,
-    scalacOptions ++= Seq(
-      "-encoding",
-      "utf8",
-      "-unchecked",
-      "-language:higherKinds",
-      "-deprecation",
-      "-Ypatmat-exhaust-depth",
-      "320",
-      "-Ymacro-annotations",
-      "-Ywarn-unused"
-    ),
-    javacOptions ++= Seq("-encoding", "utf8"),
-    Global / onChangedBuildSource := ReloadOnSourceChanges
-  )
+lazy val root = (project in file(".")).settings(
+  name := "RegenerateWorld",
+  version := "0.1.0",
+  scalaVersion := "2.13.8",
+  assembly / assemblyOutputPath := baseDirectory.value / "target" / "build" / s"${name.value}-${version.value}.jar",
+  semanticdbEnabled := true, // scalafix requires semanticdb
+  semanticdbVersion := scalafixSemanticdb.revision,
+  scalacOptions ++= Seq(
+    "-encoding",
+    "utf8",
+    "-unchecked",
+    "-language:higherKinds",
+    "-deprecation",
+    "-Ypatmat-exhaust-depth",
+    "320",
+    "-Ymacro-annotations",
+    "-Ywarn-unused"
+  ),
+  javacOptions ++= Seq("-encoding", "utf8"),
+  Global / onChangedBuildSource := ReloadOnSourceChanges
+)
 
 // endregion

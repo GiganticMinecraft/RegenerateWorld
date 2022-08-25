@@ -6,13 +6,17 @@ import org.bukkit.Bukkit
 import org.bukkit.event.{EventHandler, Listener}
 
 case object RegenWorldListener extends Listener {
-  private def replaceWithWorldName(s: String, worldName: String) = s.replaceAll("%world%", worldName)
+  private def replaceWithWorldName(s: String, worldName: String) =
+    s.replaceAll("%world%", worldName)
 
   @EventHandler
   def onPreRegenWorld(event: PreRegenWorldEvent): Unit = {
     for {
       setting <- Setting.settingRepository.get()
-      _ = setting.beforeCommand.map(replaceWithWorldName(_, event.worldName)).foreach(Bukkit.dispatchCommand(Bukkit.getConsoleSender, _))
+      _ = setting
+        .beforeCommand
+        .map(replaceWithWorldName(_, event.worldName))
+        .foreach(Bukkit.dispatchCommand(Bukkit.getConsoleSender, _))
       world <- Option(Bukkit.getWorld(event.worldName))
       worldName = setting.teleportWorldName
       teleportWorld <- Option(Bukkit.getWorld(worldName))
@@ -24,7 +28,10 @@ case object RegenWorldListener extends Listener {
   def onRegenWorld(event: RegenWorldEvent): Unit = {
     for {
       setting <- Setting.settingRepository.get()
-      _ = setting.afterCommand.map(replaceWithWorldName(_, event.worldName)).foreach(Bukkit.dispatchCommand(Bukkit.getConsoleSender, _))
+      _ = setting
+        .afterCommand
+        .map(replaceWithWorldName(_, event.worldName))
+        .foreach(Bukkit.dispatchCommand(Bukkit.getConsoleSender, _))
     } yield ()
   }
 }

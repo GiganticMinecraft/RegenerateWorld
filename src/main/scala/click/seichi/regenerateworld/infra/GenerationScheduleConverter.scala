@@ -24,7 +24,14 @@ private object GenerationScheduleConverter {
         intervalValue <- Option(section.getLong(ConfigKeys.IntervalValue))
         seedPattern <- Option(section.getString(ConfigKeys.SeedPattern))
         worlds = section.getStringList(ConfigKeys.Worlds).asScala.toSet.filterNot(_ == null)
-        schedule <- GenerationSchedule.fromRepository(id, nextDateTime, intervalUnit, intervalValue, seedPattern, worlds)
+        schedule <- GenerationSchedule.fromRepository(
+          id,
+          nextDateTime,
+          intervalUnit,
+          intervalValue,
+          seedPattern,
+          worlds
+        )
       } yield schedule
     }
 
@@ -35,7 +42,7 @@ private object GenerationScheduleConverter {
         ConfigKeys.IntervalValue -> schedule.interval.value,
         ConfigKeys.SeedPattern -> schedule.seedPattern.toString,
         ConfigKeys.Worlds -> schedule.worlds.toList.asJava
-      ).foreach { case (key, value) => section.set(key, value)  }
+      ).foreach { case (key, value) => section.set(key, value) }
     }
   }
 }

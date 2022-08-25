@@ -6,7 +6,10 @@ import click.seichi.regenerateworld.infra.GenerationScheduleRepositoryImpl
 import click.seichi.regenerateworld.usecase.usetraits.UseGenerationScheduleRepository
 
 trait MixInGenerationScheduleRepository extends UseGenerationScheduleRepository {
-  override def generationScheduleRepository: GenerationScheduleRepository = GenerationScheduleRepositoryImpl(
-    INSTANCE.getConfig, INSTANCE.saveConfig, INSTANCE.reloadConfig
-  )
+  override def generationScheduleRepository: GenerationScheduleRepository =
+    GenerationScheduleRepositoryImpl(
+      INSTANCE.getConfig,
+      INSTANCE.saveConfig,
+      INSTANCE.reloadConfig
+    )
 }
