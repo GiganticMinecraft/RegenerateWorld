@@ -66,6 +66,8 @@ lazy val root = (project in file("."))
     version := "0.1.0",
     scalaVersion := "2.13.8",
     assembly / assemblyOutputPath := baseDirectory.value / "target" / "build" / s"${name.value}-${version.value}.jar",
+    semanticdbEnabled := true, // scalafix requires semanticdb
+    semanticdbVersion := scalafixSemanticdb.revision,
     scalacOptions ++= Seq(
       "-encoding",
       "utf8",
