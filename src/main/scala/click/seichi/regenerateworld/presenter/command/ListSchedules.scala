@@ -10,7 +10,7 @@ import click.seichi.regenerateworld.presenter.shared.contextualexecutor.{
 import org.bukkit.ChatColor
 
 object ListSchedules extends ContextualExecutor {
-  val help: EchoExecutor = EchoExecutor(List("/rw list", "有効な再生成予定の一覧を表示します。"))
+  val help: EchoExecutor = EchoExecutor(List("/rw list", "    有効な再生成予定の一覧を表示します。"))
 
   def executionWith(context: CommandContext): Result[Unit] = {
     val formattedSchedules = for {

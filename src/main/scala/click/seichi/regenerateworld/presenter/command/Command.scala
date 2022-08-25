@@ -6,7 +6,7 @@ import org.bukkit.command.TabExecutor
 case object Command {
   val executor: TabExecutor =
     BranchedExecutor(
-      Map("list" -> ListSchedules, "help" -> Help),
+      Map("list" -> ListSchedules, "regen" -> regen.executor, "help" -> Help),
       Some(Help),
       Some(Help)
     ).asTabExecutor
