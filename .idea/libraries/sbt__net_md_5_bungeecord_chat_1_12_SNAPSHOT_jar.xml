@@ -1,9 +1,0 @@
-<component name="libraryTable">
-  <library name="sbt: net.md-5:bungeecord-chat:1.12-SNAPSHOT:jar">
-    <CLASSES>
-      <root url="jar://$USER_HOME$/.cache/coursier/v1/https/maven.elmakers.com/repository/net/md-5/bungeecord-chat/1.12-SNAPSHOT/bungeecord-chat-1.12-SNAPSHOT.jar!/" />
-    </CLASSES>
-    <JAVADOC />
-    <SOURCES />
-  </library>
-</component>
