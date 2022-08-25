@@ -26,7 +26,7 @@ lazy val root = (project in file("."))
   .settings(
     name := "RegenerateWorld",
     scalaVersion := "2.13.8",
-    assembly / assemblyOutputPath := baseDirectory.value / "target" / "build" / s"${name.value}.jar",
+    assembly / assemblyOutputPath := baseDirectory.value / "target" / "build" / s"${name.value}-${version.value}.jar",
     scalacOptions ++= Seq(
       "-encoding",
       "utf8",
