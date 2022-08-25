@@ -3,7 +3,6 @@ import sbt.Keys.baseDirectory
 Global / onChangedBuildSource := ReloadOnSourceChanges
 
 ThisBuild / version := "0.1.0"
-ThisBuild / scalaVersion := "2.13.8"
 
 resolvers ++= Seq(
   "maven.elmakers.com" at "https://maven.elmakers.com/repository/", // spigot
@@ -26,6 +25,7 @@ excludeDependencies ++= Seq(
 lazy val root = (project in file("."))
   .settings(
     name := "RegenerateWorld",
+    scalaVersion := "2.13.8",
     assembly / assemblyOutputPath := baseDirectory.value / "target" / "build" / "RegenerateWorld.jar",
     scalacOptions ++= Seq(
       "-encoding",
