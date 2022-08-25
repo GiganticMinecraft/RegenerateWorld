@@ -11,7 +11,7 @@ case class BranchedExecutor(
     def executeOptionally(executor: Option[ContextualExecutor]): Either[Throwable, Unit] =
       executor match {
         case Some(executor) => executor.executionWith(context)
-        case None => Right()
+        case None => Right(())
       }
 
     val (firstArg, remaining) = context.args match {

@@ -11,7 +11,7 @@ case object WorldRegenerator {
     if (seedPattern == SeedPattern.NewSeed && newSeed.isEmpty) return Left(WorldRegeneratorError.SeedIsRequired)
 
     val isSuccessful = Multiverse.regenWorld(world, seedPattern.isNewSeed, seedPattern.isRandomSeed, newSeed)
-    if (isSuccessful) Right() else Left(WorldRegeneratorError.MultiverseError)
+    if (isSuccessful) Right(()) else Left(WorldRegeneratorError.MultiverseError)
   }
 
   def regenFromWorld(bukkitWorld: World, seedPattern: SeedPattern, newSeed: Option[String]): Either[WorldRegeneratorError, Unit] = {
