@@ -12,7 +12,7 @@ trait ContextualExecutor {
 
 object ContextualExecutor {
   implicit class ContextualTabExecutor(val contextualExecutor: ContextualExecutor) {
-    def asTabExecutor(): TabExecutor = new TabExecutor {
+    def asTabExecutor: TabExecutor = new TabExecutor {
       override def onCommand(commandSender: CommandSender, command: Command, alias: String, args: Array[String]): Boolean = {
         true
       }
