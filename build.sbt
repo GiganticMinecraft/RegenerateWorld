@@ -1,8 +1,6 @@
 import ResourceFilter.filterResources
 import sbt.Keys.baseDirectory
 
-Global / onChangedBuildSource := ReloadOnSourceChanges
-
 // region Dependencies
 
 resolvers ++= Seq(
@@ -79,7 +77,8 @@ lazy val root = (project in file("."))
       "-Ymacro-annotations",
       "-Ywarn-unused"
     ),
-    javacOptions ++= Seq("-encoding", "utf8")
+    javacOptions ++= Seq("-encoding", "utf8"),
+    Global / onChangedBuildSource := ReloadOnSourceChanges
   )
 
 // endregion
