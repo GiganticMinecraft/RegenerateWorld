@@ -1,14 +1,13 @@
 package click.seichi.regenerateworld.presenter.command
 
-import org.bukkit.command.{Command, CommandSender, TabExecutor}
+import click.seichi.regenerateworld.presenter.shared.contextualexecutor.executor.BranchedExecutor
+import org.bukkit.command.TabExecutor
 
-import java.util
-import java.util.Collections.emptyList
-
-object Command extends TabExecutor {
-  override def onCommand(commandSender: CommandSender, command: Command, s: String, strings: Array[String]): Boolean = {
-    true
-  }
-
-  override def onTabComplete(commandSender: CommandSender, command: Command, s: String, strings: Array[String]): util.List[String] = emptyList()
+case object Command {
+  val executor: TabExecutor =
+    BranchedExecutor(
+      Map("list" -> ListSchedules),
+      Some(ListSchedules.help), // TODO: HelpのExecutorにする
+      Some(ListSchedules.help)
+    ).asTabExecutor
 }
