@@ -16,7 +16,6 @@ class RegenerateWorld extends JavaPlugin {
 
     getCommand("regenworld").setExecutor(Command)
     getServer.getPluginManager.registerEvents(RegenWorldListener, this)
-    // TODO: Print configs
   }
 }
 
