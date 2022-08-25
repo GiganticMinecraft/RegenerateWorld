@@ -1,14 +1,14 @@
 package click.seichi.regenerateworld.presenter.shared.contextualexecutor.executor
 
-import click.seichi.regenerateworld.presenter.shared.contextualexecutor.{CommandContext, ContextualExecutor}
+import click.seichi.regenerateworld.presenter.shared.contextualexecutor.{CommandContext, ContextualExecutor, Result}
 
 case class BranchedExecutor(
   branches: Map[String, ContextualExecutor],
   whenArgInsufficient: Option[ContextualExecutor] = Some(PrintUsageExecutor),
   whenBranchNotFound: Option[ContextualExecutor] = Some(PrintUsageExecutor)
 ) extends ContextualExecutor {
-  override def executionWith(context: CommandContext): Either[Throwable, Unit] = {
-    def executeOptionally(executor: Option[ContextualExecutor]): Either[Throwable, Unit] =
+  override def executionWith(context: CommandContext): Result[Unit] = {
+    def executeOptionally(executor: Option[ContextualExecutor]): Result[Unit] =
       executor match {
         case Some(executor) => executor.executionWith(context)
         case None => Right(())

@@ -6,7 +6,7 @@ import scala.jdk.CollectionConverters._
 import java.util
 
 trait ContextualExecutor {
-  def executionWith(context: CommandContext): Either[Throwable, Unit]
+  def executionWith(context: CommandContext): Result[Unit]
   def tabCandidatesFor(context: CommandContext): List[String] = Nil
 }
 
