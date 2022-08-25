@@ -14,6 +14,6 @@ settings:
   teleport-world-name: world
   command:
     before:
-      - say Start regenerating %world%
+      - say %world%の再生成を開始します。
     after:
-      - say Finish regenerating %world%
+      - say %world%の再生成を終了しました。運営チームからのアナウンスがあるまでワールドに入場しないでください。
