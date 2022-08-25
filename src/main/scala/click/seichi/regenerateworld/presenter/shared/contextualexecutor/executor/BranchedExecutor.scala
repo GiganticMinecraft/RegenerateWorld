@@ -4,8 +4,8 @@ import click.seichi.regenerateworld.presenter.shared.contextualexecutor.{Command
 
 case class BranchedExecutor(
   branches: Map[String, ContextualExecutor],
-  whenArgInsufficient: Option[ContextualExecutor],
-  whenBranchNotFound: Option[ContextualExecutor]
+  whenArgInsufficient: Option[ContextualExecutor] = Some(PrintUsageExecutor),
+  whenBranchNotFound: Option[ContextualExecutor] = Some(PrintUsageExecutor)
 ) extends ContextualExecutor {
   override def executionWith(context: CommandContext): Either[Throwable, Unit] = {
     def executeOptionally(executor: Option[ContextualExecutor]): Either[Throwable, Unit] =
