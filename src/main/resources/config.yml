@@ -3,9 +3,9 @@ schedules:
   d863cee6-c381-4255-87a5-1ef17cf041e9:
     next-date-time: '2011-12-03T10:15:30+09:00[Asia/Tokyo]'
     interval:
-      unit: MINUTE
+      unit: Minute
       value: 1
-    seed-pattern: CURRENT_SEED
+    seed-pattern: CurrentSeed
     worlds:
       - world
       - world_TEST
