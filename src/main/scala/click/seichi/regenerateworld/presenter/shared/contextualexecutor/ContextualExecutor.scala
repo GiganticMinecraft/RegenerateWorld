@@ -14,6 +14,15 @@ object ContextualExecutor {
   implicit class ContextualTabExecutor(val contextualExecutor: ContextualExecutor) {
     def asTabExecutor: TabExecutor = new TabExecutor {
       override def onCommand(commandSender: CommandSender, command: Command, alias: String, args: Array[String]): Boolean = {
+        val context = CommandContext(commandSender, command, args.toList)
+
+        contextualExecutor.executionWith(context) match {
+          case Left(err) =>
+            println(s"The exception has thrown while executing ${command.getName} command")
+            err.printStackTrace()
+          case Right(_) =>
+        }
+
         true
       }
 
