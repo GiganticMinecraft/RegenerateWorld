@@ -2,7 +2,11 @@ package click.seichi.regenerateworld.presenter.command
 
 import click.seichi.regenerateworld.presenter.GenerationScheduleUseCase
 import click.seichi.regenerateworld.presenter.shared.contextualexecutor.executor.EchoExecutor
-import click.seichi.regenerateworld.presenter.shared.contextualexecutor.{CommandContext, ContextualExecutor, Result}
+import click.seichi.regenerateworld.presenter.shared.contextualexecutor.{
+  CommandContext,
+  ContextualExecutor,
+  Result
+}
 import click.seichi.regenerateworld.presenter.shared.exception.CommandException
 import org.bukkit.ChatColor
 import org.bukkit.entity.Player
