@@ -2,8 +2,6 @@ import sbt.Keys.baseDirectory
 
 Global / onChangedBuildSource := ReloadOnSourceChanges
 
-ThisBuild / version := "0.1.0"
-
 resolvers ++= Seq(
   "maven.elmakers.com" at "https://maven.elmakers.com/repository/", // spigot
   "Sonatype OSS" at "https://s01.oss.sonatype.org/content/groups/public/",
@@ -25,6 +23,7 @@ excludeDependencies ++= Seq(
 lazy val root = (project in file("."))
   .settings(
     name := "RegenerateWorld",
+    version := "0.1.0",
     scalaVersion := "2.13.8",
     assembly / assemblyOutputPath := baseDirectory.value / "target" / "build" / s"${name.value}-${version.value}.jar",
     scalacOptions ++= Seq(
