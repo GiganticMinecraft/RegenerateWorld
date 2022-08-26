@@ -1,0 +1,58 @@
+name: CI
+on:
+  - push
+  - pull_request
+jobs:
+  build_lint_and_test:
+    name: Build, Lint and Test
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      # https://github.com/GiganticMinecraft/SeichiAssist/blob/274fda643d713745ffd4d2ef2c0e64cb06152a8e/.github/workflows/build_and_deploy.yml
+      - name: Prepare build dependencies cache
+        uses: actions/cache@v3
+        env:
+          cache-name: cache-build-dependencies
+          cache-version: v-1
+        with:
+          path: |
+            /root/.ivy2/cache
+            /root/.sbt
+            /root/.m2
+            /root/.cache
+          key: build-${{ env.cache-name }}-${{ env.cache-version }}-${{ github.ref }}-${{ hashFiles('**/build.sbt') }}
+          restore-keys: |
+            build-${{ env.cache-name }}-${{ env.cache-version }}-${{ github.ref }}-
+            build-${{ env.cache-name }}-${{ env.cache-version }}-
+      - name: Prepare build cache
+        if: github.ref != 'refs/heads/main'
+        uses: actions/cache@v3
+        env:
+          cache-name: cache-build
+          cache-version: v-1
+        with:
+          path: |
+            target
+            project/target
+            project/project/target
+          key: build-${{ env.cache-name }}-${{ env.cache-version }}-${{ github.ref }}-${{ github.sha }}
+          restore-keys: |
+            build-${{ env.cache-name }}-${{ env.cache-version }}-${{ github.ref }}-
+            build-${{ env.cache-name }}-${{ env.cache-version }}-
+
+      - name: Check format with Scalafmt
+        run: sbt scalafmtCheckAll
+      - name: Check lint with Scalafix
+        run: sbt "scalafix --check"
+      - name: Test and build artifact
+        run: sbt assembly
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: artifact
+          path: target/build/RegenerateWorld-*.jar
+
+      - name: Clean build artifact for caching target folder
+        run: rm -r target/build
