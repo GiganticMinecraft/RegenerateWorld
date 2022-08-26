@@ -32,5 +32,5 @@ object WorldRegenerationException extends Enum[WorldRegenerationException] {
       extends WorldRegenerationException("The RegenerationSchedule is not found")
 
   case object RegenWorldEventIsCancelled
-      extends WorldRegenerationException("The RegenWorldEvent is cancelled")
+      extends WorldRegenerationException("The RegenWorldEvent was cancelled")
 }
