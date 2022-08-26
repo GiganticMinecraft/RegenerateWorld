@@ -24,4 +24,10 @@ object WorldRegenerationException extends Enum[WorldRegenerationException] {
 
   case object SeedPatternIsNotFound
       extends WorldRegenerationException("The SeedPattern is not found")
+
+  case object ScheduleIsNotFound
+      extends WorldRegenerationException("The RegenerationSchedule is not found")
+
+  case object RegenWorldEventIsCancelled
+      extends WorldRegenerationException("The RegenWorldEvent is cancelled")
 }
