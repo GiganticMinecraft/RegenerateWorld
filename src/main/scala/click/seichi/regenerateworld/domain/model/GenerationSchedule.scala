@@ -34,7 +34,7 @@ object GenerationSchedule {
       date <- Try(ZonedDateTime.parse(nextDateTime)).toOption
       pattern <- SeedPattern.fromString(seedPattern)
       unit <- DateTimeUnit.fromString(intervalUnit)
-      interval = Interval(unit, intervalValue)
+      interval <- Try(Interval(unit, intervalValue)).toOption
     } yield this(id, date, interval, pattern, worlds)
   }
 }
