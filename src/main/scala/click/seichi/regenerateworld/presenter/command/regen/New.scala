@@ -26,13 +26,13 @@ case object New extends ContextualExecutor {
     for {
       worldName <- Try(context.args(1)).toOption.toRight(CommandException.ArgIsInsufficient)
       world <- Option(Bukkit.getWorld(worldName))
-        .toRight(WorldRegenerationException.WorldIsNotFound)
+        .toRight(WorldRegenerationException.WorldIsNotFound(worldName))
       seedPatternStr <- Try(context.args(2))
         .toOption
         .toRight(CommandException.ArgIsInsufficient)
       seedPattern <- SeedPattern
         .fromString(seedPatternStr)
-        .toRight(WorldRegenerationException.SeedPatternIsNotFound)
+        .toRight(WorldRegenerationException.SeedPatternIsNotFound(seedPatternStr))
       newSeed = Try(context.args(3)).toOption
     } yield {
       Set("ワールドの再生成を開始します。", "この処理には時間がかかる可能性があります。")

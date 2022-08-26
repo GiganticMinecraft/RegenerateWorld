@@ -34,7 +34,7 @@ case object WorldRegenerator {
     for {
       mvWorld <- bukkitWorld
         .asMVWorld()
-        .toRight(WorldRegenerationException.BukkitWorldIsNotMVWorld)
+        .toRight(WorldRegenerationException.BukkitWorldIsNotMVWorld(bukkitWorld.getName))
       result <- regen(mvWorld, seedPattern, newSeed)
     } yield result
   }

@@ -17,13 +17,16 @@ object WorldRegenerationException extends Enum[WorldRegenerationException] {
         "Multiverse occurred an error while regenerating the world"
       )
 
-  case object BukkitWorldIsNotMVWorld
-      extends WorldRegenerationException("The Bukkit world is not a Multiverse World")
+  case class BukkitWorldIsNotMVWorld(worldName: String)
+      extends WorldRegenerationException(
+        s"The Bukkit world ($worldName) is not a Multiverse World"
+      )
 
-  case object WorldIsNotFound extends WorldRegenerationException("The world is not found")
+  case class WorldIsNotFound(worldName: String)
+      extends WorldRegenerationException(s"The world ($worldName) is not found")
 
-  case object SeedPatternIsNotFound
-      extends WorldRegenerationException("The SeedPattern is not found")
+  case class SeedPatternIsNotFound(seedPattern: String)
+      extends WorldRegenerationException(s"The SeedPattern ($seedPattern) is not found")
 
   case object ScheduleIsNotFound
       extends WorldRegenerationException("The RegenerationSchedule is not found")
