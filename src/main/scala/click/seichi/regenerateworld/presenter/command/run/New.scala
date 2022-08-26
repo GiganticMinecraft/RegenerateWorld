@@ -1,4 +1,4 @@
-package click.seichi.regenerateworld.presenter.command.regen
+package click.seichi.regenerateworld.presenter.command.run
 
 import click.seichi.regenerateworld.domain.model.SeedPattern
 import click.seichi.regenerateworld.presenter.shared.WorldRegenerator
@@ -19,7 +19,7 @@ import scala.util.Try
 
 case object New extends ContextualExecutor {
   val help: EchoExecutor = EchoExecutor(
-    List("/rw regen new <ワールド名> <シード値の設定> <新しいシード値>", "    指定されたワールドを指定された設定で再生成します。")
+    List("/rw run new <ワールド名> <シード値の設定> <新しいシード値>", "    指定されたワールドを指定された設定で再生成します。")
   )
 
   override def executionWith(context: CommandContext): Result[Unit] = {

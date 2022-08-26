@@ -1,4 +1,4 @@
-package click.seichi.regenerateworld.presenter.command.regen
+package click.seichi.regenerateworld.presenter.command.run
 
 import click.seichi.regenerateworld.presenter.GenerationScheduleUseCase
 import click.seichi.regenerateworld.presenter.shared.WorldRegenerator
@@ -20,7 +20,7 @@ import scala.util.Try
 
 case object Schedule extends ContextualExecutor {
   val help: EchoExecutor = EchoExecutor(
-    List("/rw regen schedule <スケジュールID> <新しいシード値>", "    指定されたスケジュールの再生成を行います。")
+    List("/rw run schedule <スケジュールID> <新しいシード値>", "    指定されたスケジュールの再生成を即時に行います。")
   )
 
   override def executionWith(context: CommandContext): Result[Unit] = {
