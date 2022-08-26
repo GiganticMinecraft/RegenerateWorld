@@ -6,7 +6,7 @@ import org.scalatest.flatspec.AnyFlatSpec
 import org.scalatest.Inspectors.forAll
 
 class SeedPatternSpec extends AnyFlatSpec with Diagrams {
-  "SeedPattern#fromString" should "return Some" in {
+  "SeedPattern#fromString" should "parse variant names" in {
     val legalSeedPatternStringsMap: Map[String, SeedPattern] =
       Map(
         "CurrentSeed" -> SeedPattern.CurrentSeed,
@@ -19,13 +19,13 @@ class SeedPatternSpec extends AnyFlatSpec with Diagrams {
     }
   }
 
-  it should "return None when different string cases" in {
+  it should "parse variant names unsuccessfully when different string cases" in {
     forAll(Set("currentSeed", "CURRENT_SEED", "current-seed")) { str =>
       assert(SeedPattern.fromString(str).isEmpty)
     }
   }
 
-  it should "return None when different words" in {
+  it should "parse variant names unsuccessfully when different words" in {
     forAll(Set("hello", "myName", "is-Lucky!!!")) { str =>
       assert(SeedPattern.fromString(str).isEmpty)
     }
