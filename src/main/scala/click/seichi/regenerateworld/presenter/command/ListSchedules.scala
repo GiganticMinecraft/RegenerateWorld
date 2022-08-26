@@ -12,7 +12,7 @@ import org.bukkit.ChatColor
 object ListSchedules extends ContextualExecutor {
   val help: EchoExecutor = EchoExecutor(List("/rw list", "    有効な再生成予定の一覧を表示します。"))
 
-  def executionWith(context: CommandContext): Result[Unit] = {
+  override def executionWith(context: CommandContext): Result[Unit] = {
     val formattedSchedules = for {
       schedule <- GenerationScheduleUseCase.list()
       formattedInterval = s"${schedule.interval.value}${schedule.interval.unit.suffix}"
