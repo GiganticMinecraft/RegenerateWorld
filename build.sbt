@@ -9,11 +9,20 @@ resolvers ++= Seq(
   "Multiverse" at "https://repo.onarandombox.com/content/repositories/multiverse/"
 )
 
-libraryDependencies ++= Seq(
-  "org.spigotmc" % "spigot-api" % "1.12.2-R0.1-SNAPSHOT" % "provided",
-  "com.onarandombox.multiversecore" % "Multiverse-Core" % "2.5.0" % "provided",
-  "com.beachape" %% "enumeratum" % "1.7.0"
-)
+val providedDependencies = Seq(
+  "org.spigotmc" % "spigot-api" % "1.12.2-R0.1-SNAPSHOT",
+  "com.onarandombox.multiversecore" % "Multiverse-Core" % "2.5.0"
+).map(_ % "provided")
+
+val embeddedDependencies = Seq("com.beachape" %% "enumeratum" % "1.7.0")
+
+val testDependencies = Seq(
+  "org.scalamock" %% "scalamock" % "5.2.0",
+  "org.scalatest" %% "scalatest" % "3.2.13",
+  "org.scalatestplus" %% "scalacheck-1-16" % "3.2.13.0"
+).map(_ % "test")
+
+libraryDependencies := providedDependencies ++ embeddedDependencies ++ testDependencies
 
 excludeDependencies ++= Seq(
   ExclusionRule(organization = "org.bukkit", name = "bukkit"),
