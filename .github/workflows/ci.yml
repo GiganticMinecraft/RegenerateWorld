@@ -8,6 +8,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
+      - uses: actions/setup-java@v3
+        with:
+          distribution: temurin
+          java-version: 8
 
       # https://github.com/GiganticMinecraft/SeichiAssist/blob/274fda643d713745ffd4d2ef2c0e64cb06152a8e/.github/workflows/build_and_deploy.yml
       - name: Prepare build dependencies cache
