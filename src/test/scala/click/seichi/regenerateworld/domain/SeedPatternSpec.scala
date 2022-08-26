@@ -6,28 +6,6 @@ import org.scalatest.flatspec.AnyFlatSpec
 import org.scalatest.Inspectors.forAll
 
 class SeedPatternSpec extends AnyFlatSpec with Diagrams {
-  "SeedPattern#isNewSeed" should "return each value" in {
-    val isNewSeedMap = Map(
-      SeedPattern.CurrentSeed -> false,
-      SeedPattern.NewSeed -> true,
-      SeedPattern.RandomNewSeed -> true
-    )
-
-    forAll(isNewSeedMap) { case (pattern, isNewSeed) => assert(pattern.isNewSeed == isNewSeed) }
-  }
-
-  "SeedPattern#isRandomSeed" should "return each value" in {
-    val isRandomSeedMap = Map(
-      SeedPattern.CurrentSeed -> false,
-      SeedPattern.NewSeed -> false,
-      SeedPattern.RandomNewSeed -> true
-    )
-
-    forAll(isRandomSeedMap) {
-      case (pattern, isRandomSeed) => assert(pattern.isRandomSeed == isRandomSeed)
-    }
-  }
-
   "SeedPattern#fromString" should "return Some" in {
     val legalSeedPatternStringsMap: Map[String, SeedPattern] =
       Map(
