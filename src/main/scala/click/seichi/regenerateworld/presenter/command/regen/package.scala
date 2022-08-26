@@ -4,6 +4,7 @@ import click.seichi.regenerateworld.presenter.shared.contextualexecutor.executor
   BranchedExecutor,
   EchoExecutor
 }
+import org.bukkit.ChatColor
 
 package object regen {
   val help: EchoExecutor = EchoExecutor(
@@ -15,4 +16,12 @@ package object regen {
     Some(Help),
     Some(Help)
   )
+
+  private[regen] def regenStartMessages(worldName: String): Set[String] =
+    Set(s"${worldName}の再生成を開始します。", "この処理には時間がかかる可能性があります。").map { msg =>
+      s"${ChatColor.GREEN}$msg"
+    }
+
+  private[regen] def regenSuccessfulMessage(worldName: String) =
+    s"${ChatColor.GREEN}${worldName}ワールドの再生成が終了しました。"
 }

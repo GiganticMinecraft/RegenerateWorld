@@ -13,7 +13,7 @@ import click.seichi.regenerateworld.presenter.shared.exception.{
   CommandException,
   WorldRegenerationException
 }
-import org.bukkit.{Bukkit, ChatColor}
+import org.bukkit.Bukkit
 
 import scala.util.Try
 
@@ -35,12 +35,10 @@ case object New extends ContextualExecutor {
         .toRight(WorldRegenerationException.SeedPatternIsNotFound(seedPatternStr))
       newSeed = Try(context.args(3)).toOption
     } yield {
-      Set("ワールドの再生成を開始します。", "この処理には時間がかかる可能性があります。")
-        .map { msg => s"${ChatColor.GREEN}$msg" }
-        .foreach(context.sender.sendMessage)
+      regenStartMessages(worldName).foreach(context.sender.sendMessage)
 
       WorldRegenerator.regenFromWorld(world, seedPattern, newSeed).onSuccess { _ =>
-        context.sender.sendMessage(s"${ChatColor.GREEN}ワールドの再生成が終了しました。")
+        context.sender.sendMessage(regenSuccessfulMessage(worldName))
       }
     }
   }
