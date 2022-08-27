@@ -65,7 +65,7 @@ jobs:
           release-count: 1
           preset: 'eslint'
           skip-version-file: 'true'
-          git-push: 'false'
+
       - name: Build artifact
         run: sbt assembly
       - name: Debug step
