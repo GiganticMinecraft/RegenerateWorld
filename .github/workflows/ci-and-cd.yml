@@ -41,6 +41,7 @@ jobs:
 
       - name: Clean build artifact for caching target folder
         run: rm -r target/build
+  # TODO: run on only main branch
   cd:
     name: Release
     runs-on: ubuntu-latest
