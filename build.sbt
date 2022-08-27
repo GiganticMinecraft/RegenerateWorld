@@ -74,8 +74,17 @@ lazy val root = (project in file(".")).settings(
   version := "0.1.0",
   scalaVersion := "2.13.8",
   assembly / assemblyOutputPath := baseDirectory.value / "target" / "build" / s"${name.value}-${version.value}.jar",
-  semanticdbEnabled := true, // scalafix requires semanticdb
+  // scalafixがsemanticdbを必要とする
+  semanticdbEnabled := true,
   semanticdbVersion := scalafixSemanticdb.revision,
+  // CIビルドで詳細なログを確認するため、ロギングのレベルを設定
+  logLevel := {
+    if (scala.sys.env.get("BUILD_ENVIRONMENT_IS_CI_OR_LOCAL").contains("CI")) {
+      Level.Debug
+    } else {
+      Level.Info
+    }
+  },
   scalacOptions ++= Seq(
     "-encoding",
     "utf8",
@@ -88,7 +97,10 @@ lazy val root = (project in file(".")).settings(
     "-Ywarn-unused"
   ),
   javacOptions ++= Seq("-encoding", "utf8"),
-  Global / onChangedBuildSource := ReloadOnSourceChanges
+  // build.sbtそのほかビルドの設定が変わったときにsbtを自動リロードさせる
+  Global / onChangedBuildSource := ReloadOnSourceChanges,
+  // テストが落ちた時にスタックトレースを表示する
+  Compile / testOptions += Tests.Argument("-oS")
 )
 
 // endregion
