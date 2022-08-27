@@ -62,7 +62,7 @@ jobs:
         with:
           github-token: ${{ secrets.github_token }}
           release-count: 1
-          preset: 'eslint'
+          config-file-path: './.github/changelog.config.json'
           skip-version-file: 'true'
           skip-git-pull: 'true'
           git-push: 'false'
