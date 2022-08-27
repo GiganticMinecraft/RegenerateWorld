@@ -61,11 +61,14 @@ jobs:
         id: changelog
         with:
           github-token: ${{ secrets.github_token }}
-          git-message: 'chore(release): {version}'
-          output-file: 'false'
           release-count: 1
           preset: 'eslint'
           skip-version-file: 'true'
+          skip-git-pull: 'true'
+          git-push: 'false'
+      # 何もcommitするものがないので、Actionではなく自分でtagをpush
+      - name: Push the tag
+        run: git push origin ${{ steps.changelog.outputs.tag }}
 
       - name: Build artifact
         run: sbt assembly
