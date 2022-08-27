@@ -42,6 +42,10 @@ jobs:
             /root/.sbt
             /root/.m2
             /root/.cache
+            ~/.ivy2/cache
+            ~/.sbt
+            ~/.m2
+            ~/.cache
           key: build-${{ env.cache-name }}-${{ env.cache-version }}-${{ github.ref }}-${{ hashFiles('**/build.sbt') }}
           restore-keys: |
             build-${{ env.cache-name }}-${{ env.cache-version }}-${{ github.ref }}-
