@@ -23,8 +23,6 @@ jobs:
   ci:
     name: Build, Lint and Test
     runs-on: ubuntu-latest
-    env:
-      BUILD_ENVIRONMENT_IS_CI_OR_LOCAL: CI
     steps:
       - uses: actions/checkout@v3
         with:

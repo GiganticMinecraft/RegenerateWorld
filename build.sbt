@@ -76,14 +76,6 @@ lazy val root = (project in file(".")).settings(
   // scalafixがsemanticdbを必要とする
   semanticdbEnabled := true,
   semanticdbVersion := scalafixSemanticdb.revision,
-  // CIビルドで詳細なログを確認するため、ロギングのレベルを設定
-  logLevel := {
-    if (scala.sys.env.get("BUILD_ENVIRONMENT_IS_CI_OR_LOCAL").contains("CI")) {
-      Level.Debug
-    } else {
-      Level.Info
-    }
-  },
   scalacOptions ++= Seq(
     "-encoding",
     "utf8",
