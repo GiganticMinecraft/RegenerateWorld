@@ -58,7 +58,7 @@ jobs:
         with:
           github-token: ${{ secrets.github_token }}
           git-message: 'chore(release): {version}'
-#          output-file: 'false'
+          output-file: 'false'
           release-count: 1
           preset: 'eslint'
           skip-version-file: 'true'
