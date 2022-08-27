@@ -15,10 +15,6 @@ runs:
         cache-version: v-1
       with:
         path: |
-          /root/.ivy2/cache
-          /root/.sbt
-          /root/.m2
-          /root/.cache
           ~/.ivy2/cache
           ~/.sbt
           ~/.m2
