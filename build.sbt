@@ -71,7 +71,6 @@ unmanagedResources / excludeFilter :=
 
 lazy val root = (project in file(".")).settings(
   name := "RegenerateWorld",
-  version := "0.1.0",
   scalaVersion := "2.13.8",
   assembly / assemblyOutputPath := baseDirectory.value / "target" / "build" / s"${name.value}-${version.value}.jar",
   // scalafixがsemanticdbを必要とする
