@@ -7,7 +7,6 @@ runs:
       with:
         distribution: temurin
         java-version: 8
-    # https://github.com/GiganticMinecraft/SeichiAssist/blob/274fda643d713745ffd4d2ef2c0e64cb06152a8e/.github/workflows/build_and_deploy.yml
     - name: Prepare build dependencies cache
       uses: actions/cache@v3
       env:
