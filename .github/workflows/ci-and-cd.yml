@@ -41,11 +41,11 @@ jobs:
 
       - name: Clean build artifact for caching target folder
         run: rm -r target/build
-  # TODO: run on only main branch
   cd:
     name: Release
     runs-on: ubuntu-latest
     needs: ci
+    if: github.ref == 'refs/heads/main'
     # softprops/action-gh-release requires this permisson
     permissions:
       contents: write
