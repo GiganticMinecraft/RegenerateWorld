@@ -12,10 +12,7 @@ case class GenerationSchedule(
   worlds: Set[String]
 ) {
   def finish(now: ZonedDateTime): GenerationSchedule = {
-    val maybeNextDateTime = nextDateTime.plus(interval.value, interval.unit.chronoUnit)
-    val newNextDateTime =
-      if (maybeNextDateTime.isBefore(now)) now.plus(interval.value, interval.unit.chronoUnit)
-      else maybeNextDateTime
+    val newNextDateTime = now.plus(interval.value, interval.unit.chronoUnit)
 
     GenerationSchedule(id, newNextDateTime, interval, seedPattern, worlds)
   }
