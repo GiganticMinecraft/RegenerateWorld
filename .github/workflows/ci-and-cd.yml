@@ -68,11 +68,14 @@ jobs:
 
       - name: Build artifact
         run: sbt assembly
-      - name: Debug step
-        run: |
-          git tag
-          git --no-pager log --pretty=oneline -n1
-          ls target/build
-          cat CHANGELOG.md
+
+      - name: Release
+        uses: softprops/action-gh-release@v1
+        with:
+          body: ${{ steps.changelog.outputs.clean_changelog }}
+          tag_name: ${{ steps.changelog.outputs.tag }}
+          release_name: ${{ steps.changelog.outputs.tag }}
+          files: ./target/build/RegenerateWorld-*.jar
+
       - name: Clean build artifact for caching target folder
         run: rm -r target/build
