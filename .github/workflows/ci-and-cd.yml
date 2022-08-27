@@ -59,6 +59,7 @@ jobs:
           git-message: 'chore(release): {version}'
 #          output-file: 'false'
           release-count: 1
+          preset: 'eslint'
           skip-version-file: 'true'
           git-push: 'false'
       - name: Build artifact
