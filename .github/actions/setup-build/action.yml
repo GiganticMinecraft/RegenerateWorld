@@ -1,0 +1,39 @@
+name: Setup Java and Cache deps
+description: Setup Java and cache deps
+runs:
+  using: composite
+  steps:
+    - uses: actions/setup-java@v3
+      with:
+        distribution: temurin
+        java-version: 8
+    - name: Prepare build dependencies cache
+      uses: actions/cache@v3
+      env:
+        cache-name: cache-build-dependencies
+        cache-version: v-1
+      with:
+        path: |
+          ~/.ivy2/cache
+          ~/.sbt
+          ~/.m2
+          ~/.cache
+        key: build-${{ env.cache-name }}-${{ env.cache-version }}-${{ github.ref }}-${{ hashFiles('**/build.sbt') }}
+        restore-keys: |
+          build-${{ env.cache-name }}-${{ env.cache-version }}-${{ github.ref }}-
+          build-${{ env.cache-name }}-${{ env.cache-version }}-
+    - name: Prepare build cache
+      if: github.ref != 'refs/heads/main'
+      uses: actions/cache@v3
+      env:
+        cache-name: cache-build
+        cache-version: v-1
+      with:
+        path: |
+          target
+          project/target
+          project/project/target
+        key: build-${{ env.cache-name }}-${{ env.cache-version }}-${{ github.ref }}-${{ github.sha }}
+        restore-keys: |
+          build-${{ env.cache-name }}-${{ env.cache-version }}-${{ github.ref }}-
+          build-${{ env.cache-name }}-${{ env.cache-version }}-

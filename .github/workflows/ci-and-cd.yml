@@ -1,0 +1,82 @@
+name: CI and CD
+on:
+  push:
+    paths:
+      - src/**
+      - build.sbt
+      - .scalafix.conf
+      - .scalafmt.conf
+      - project/*
+      - .github/workflows/ci-and-cd.yml
+      - .github/actions/setup-build/action.yml
+  pull_request:
+    paths:
+      - src/**
+      - build.sbt
+      - .scalafix.conf
+      - .scalafmt.conf
+      - project/*
+      - .github/workflows/ci-and-cd.yml
+      - .github/actions/setup-build/action.yml
+
+jobs:
+  ci:
+    name: Build, Lint and Test
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+      - name: Setup Java and Cache deps
+        uses: ./.github/actions/setup-build
+
+      - name: Check format with Scalafmt
+        run: sbt scalafmtCheckAll
+      - name: Check lint with Scalafix
+        run: sbt "scalafix --check"
+      - name: Test
+        run: sbt test
+      - name: Build artifact
+        run: sbt assembly
+
+      - name: Clean build artifact for caching target folder
+        run: rm -r target/build
+  cd:
+    name: Release
+    runs-on: ubuntu-latest
+    needs: ci
+    if: github.ref == 'refs/heads/main'
+    # softprops/action-gh-release requires this permisson
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+      - name: Setup Java and Cache deps
+        uses: ./.github/actions/setup-build
+
+      - name: Conventional Changelog Action
+        uses: TriPSs/conventional-changelog-action@v3.14.0
+        id: changelog
+        with:
+          github-token: ${{ secrets.github_token }}
+          git-message: 'chore(release): {version}'
+          output-file: 'false'
+          release-count: 1
+          preset: 'eslint'
+          skip-version-file: 'true'
+
+      - name: Build artifact
+        run: sbt assembly
+
+      - name: Release
+        uses: softprops/action-gh-release@v1
+        with:
+          body: ${{ steps.changelog.outputs.clean_changelog }}
+          tag_name: ${{ steps.changelog.outputs.tag }}
+          release_name: ${{ steps.changelog.outputs.tag }}
+          files: ./target/build/RegenerateWorld-*.jar
+
+      - name: Clean build artifact for caching target folder
+        run: rm -r target/build
