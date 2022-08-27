@@ -21,7 +21,7 @@ trait GenerationScheduleUseCase extends UseGenerationScheduleRepository with Use
   def addWorld(id: UUID, worldName: String): Unit = {
     for {
       schedule <- findById(id)
-      worlds = schedule.worlds + worldName
+      worlds = schedule.worlds + worldName if !schedule.worlds.contains(worldName)
       newSchedule = schedule.copy(worlds = worlds)
     } yield generationScheduleRepository.save(newSchedule)
   }
@@ -29,7 +29,7 @@ trait GenerationScheduleUseCase extends UseGenerationScheduleRepository with Use
   def removeWorld(id: UUID, worldName: String): Unit = {
     for {
       schedule <- findById(id)
-      worlds = schedule.worlds.filterNot(_ == worldName)
+      worlds = schedule.worlds.filterNot(_ == worldName) if schedule.worlds.contains(worldName)
       newSchedule = schedule.copy(worlds = worlds)
     } yield generationScheduleRepository.save(newSchedule)
   }
@@ -44,14 +44,14 @@ trait GenerationScheduleUseCase extends UseGenerationScheduleRepository with Use
   def changeInterval(id: UUID, interval: Interval): Unit = {
     for {
       schedule <- findById(id)
-      newSchedule = schedule.copy(interval = interval)
+      newSchedule = schedule.copy(interval = interval) if schedule.interval != interval
     } yield generationScheduleRepository.save(newSchedule)
   }
 
   def changeSeedPattern(id: UUID, pattern: SeedPattern): Unit = {
     for {
       schedule <- findById(id)
-      newSchedule = schedule.copy(seedPattern = pattern)
+      newSchedule = schedule.copy(seedPattern = pattern) if schedule.seedPattern != pattern
     } yield generationScheduleRepository.save(newSchedule)
   }
 }
