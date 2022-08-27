@@ -9,11 +9,20 @@ resolvers ++= Seq(
   "Multiverse" at "https://repo.onarandombox.com/content/repositories/multiverse/"
 )
 
-libraryDependencies ++= Seq(
-  "org.spigotmc" % "spigot-api" % "1.12.2-R0.1-SNAPSHOT" % "provided",
-  "com.onarandombox.multiversecore" % "Multiverse-Core" % "2.5.0" % "provided",
-  "com.beachape" %% "enumeratum" % "1.7.0"
-)
+val providedDependencies = Seq(
+  "org.spigotmc" % "spigot-api" % "1.12.2-R0.1-SNAPSHOT",
+  "com.onarandombox.multiversecore" % "Multiverse-Core" % "2.5.0"
+).map(_ % "provided")
+
+val embeddedDependencies = Seq("com.beachape" %% "enumeratum" % "1.7.0")
+
+val testDependencies = Seq(
+  "org.scalamock" %% "scalamock" % "5.2.0",
+  "org.scalatest" %% "scalatest" % "3.2.13",
+  "org.scalatestplus" %% "scalacheck-1-16" % "3.2.13.0"
+).map(_ % "test")
+
+libraryDependencies := providedDependencies ++ embeddedDependencies ++ testDependencies
 
 excludeDependencies ++= Seq(
   ExclusionRule(organization = "org.bukkit", name = "bukkit"),
@@ -65,8 +74,17 @@ lazy val root = (project in file(".")).settings(
   version := "0.1.0",
   scalaVersion := "2.13.8",
   assembly / assemblyOutputPath := baseDirectory.value / "target" / "build" / s"${name.value}-${version.value}.jar",
-  semanticdbEnabled := true, // scalafix requires semanticdb
+  // scalafixがsemanticdbを必要とする
+  semanticdbEnabled := true,
   semanticdbVersion := scalafixSemanticdb.revision,
+  // CIビルドで詳細なログを確認するため、ロギングのレベルを設定
+  logLevel := {
+    if (scala.sys.env.get("BUILD_ENVIRONMENT_IS_CI_OR_LOCAL").contains("CI")) {
+      Level.Debug
+    } else {
+      Level.Info
+    }
+  },
   scalacOptions ++= Seq(
     "-encoding",
     "utf8",
@@ -79,7 +97,10 @@ lazy val root = (project in file(".")).settings(
     "-Ywarn-unused"
   ),
   javacOptions ++= Seq("-encoding", "utf8"),
-  Global / onChangedBuildSource := ReloadOnSourceChanges
+  // build.sbtそのほかビルドの設定が変わったときにsbtを自動リロードさせる
+  Global / onChangedBuildSource := ReloadOnSourceChanges,
+  // テストが落ちた時にスタックトレースを表示する
+  Compile / testOptions += Tests.Argument("-oS")
 )
 
 // endregion
