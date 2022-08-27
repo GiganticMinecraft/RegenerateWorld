@@ -72,6 +72,7 @@ jobs:
       # 何もcommitするものがないので、Actionではなく自分でtagをpush
       - name: Push the tag
         run: git push origin ${{ steps.changelog.outputs.tag }}
+      # バージョンが異なっているので、再度Build
       - name: Build artifact
         run: sbt assembly
       - name: Release
