@@ -8,6 +8,7 @@ on:
       - .scalafmt.conf
       - project/*
       - .github/workflows/ci-and-cd.yml
+      - .github/actions/setup-build/action.yml
   pull_request:
     paths:
       - src/**
@@ -16,6 +17,7 @@ on:
       - .scalafmt.conf
       - project/*
       - .github/workflows/ci-and-cd.yml
+      - .github/actions/setup-build/action.yml
 
 jobs:
   ci:
