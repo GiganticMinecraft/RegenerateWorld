@@ -62,6 +62,7 @@ jobs:
           release-count: 1
           skip-version-file: 'true'
           skip-git-pull: 'true'
+          output-file: 'false'
           git-push: 'false'
       - name: Stop workflow if there is no changelogs
         if: ${{ steps.changelog.outputs.skipped }} == 'true'
