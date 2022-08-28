@@ -13,6 +13,10 @@ object DateTimeUnit extends Enum[DateTimeUnit] {
   def fromString(str: String): Option[DateTimeUnit] =
     values.find(_.entryName.toLowerCase == str.toLowerCase)
 
+  // TODO: add test
+  def fromAliasString(str: String): Option[DateTimeUnit] =
+    values.find(_.alias.toLowerCase == str.toLowerCase)
+
   case object Year extends DateTimeUnit("y", ChronoUnit.YEARS)
 
   case object Month extends DateTimeUnit("mo", ChronoUnit.MONTHS)
