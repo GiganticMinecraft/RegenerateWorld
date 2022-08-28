@@ -5,7 +5,8 @@ import click.seichi.regenerateworld.presenter.shared.contextualexecutor.executor
 import click.seichi.regenerateworld.presenter.shared.contextualexecutor.{
   CommandContext,
   ContextualExecutor,
-  Result
+  Result,
+  parser
 }
 import click.seichi.regenerateworld.presenter.shared.exception.{
   CommandException,
@@ -13,7 +14,6 @@ import click.seichi.regenerateworld.presenter.shared.exception.{
 }
 
 import java.util.UUID
-import scala.util.Try
 
 case object Remove extends ContextualExecutor {
   val help: EchoExecutor = EchoExecutor(
@@ -22,10 +22,10 @@ case object Remove extends ContextualExecutor {
 
   override def executionWith(context: CommandContext): Result[Unit] =
     for {
-      uuidStr <- Try(context.args(1)).toOption.toRight(CommandException.ArgIsInsufficient)
-      schedule <- Try(UUID.fromString(uuidStr))
-        .toOption
-        .flatMap(GenerationScheduleUseCase.findById)
+      args <- parseArguments(List(parser.uuid))(context)
+      uuid = args.parsed.head.asInstanceOf[UUID]
+      schedule <- GenerationScheduleUseCase
+        .findById(uuid)
         .toRight(WorldRegenerationException.ScheduleIsNotFound)
       isSuccessful = GenerationScheduleUseCase.remove(schedule.id)
     } yield if (isSuccessful) Right(()) else Left(CommandException.CommandExecutionFailed)
