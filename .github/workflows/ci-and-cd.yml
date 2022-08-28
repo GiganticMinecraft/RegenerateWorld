@@ -54,13 +54,15 @@ jobs:
       - name: Setup Java and Cache deps
         uses: ./.github/actions/setup-build
 
+      - name: Install conventional-changelog-conventionalcommits
+        run: npm install -g conventional-changelog-conventionalcommits
       - name: Conventional Changelog Action
         uses: TriPSs/conventional-changelog-action@v3.14.0
         id: changelog
         with:
           github-token: ${{ secrets.github_token }}
           release-count: 1
-          config-file-path: './.github/changelog.config.json'
+          config-file-path: './.github/changelog.config.js'
           skip-version-file: 'true'
           skip-git-pull: 'true'
           git-push: 'false'
