@@ -12,6 +12,4 @@ object CommandException extends Enum[CommandException] {
   case object ArgIsInsufficient extends CommandException("Arg is insufficient. See /rw help")
 
   case object CommandExecutionFailed extends CommandException("Execution has failed")
-
-  case object ArgIsNotUuid extends CommandException("Arg is not UUID")
 }
