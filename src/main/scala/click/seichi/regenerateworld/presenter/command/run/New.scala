@@ -21,7 +21,7 @@ case object New extends ContextualExecutor {
       args <- parseArguments(List(parser.bukkitWorld, parser.seedPattern))(context)
       world = args.parsed.head.asInstanceOf[World]
       worldName = world.getName
-      seedPattern = args.parsed[1].asInstanceOf[SeedPattern]
+      seedPattern = args.parsed(1).asInstanceOf[SeedPattern]
       newSeed = args.yetToBeParsed.headOption
     } yield {
       regenStartMessages(worldName).foreach(context.sender.sendMessage)
