@@ -9,8 +9,7 @@ import click.seichi.regenerateworld.presenter.shared.contextualexecutor.{
   Result
 }
 import click.seichi.regenerateworld.presenter.shared.contextualexecutor._
-import click.seichi.regenerateworld.presenter.shared.exception.WorldRegenerationException
-import org.bukkit.{Bukkit, World}
+import org.bukkit.World
 
 case object New extends ContextualExecutor {
   val help: EchoExecutor = EchoExecutor(
@@ -18,13 +17,8 @@ case object New extends ContextualExecutor {
   )
 
   override def executionWith(context: CommandContext): Result[Unit] = {
-    def parseWorld: SingleArgumentParser = arg =>
-      Option(Bukkit.getWorld(arg)).toRight(WorldRegenerationException.WorldIsNotFound(arg))
-    def parseSeedPattern: SingleArgumentParser = arg =>
-      SeedPattern.fromString(arg).toRight(WorldRegenerationException.SeedPatternIsNotFound(arg))
-
     for {
-      args <- parseArguments(List(parseWorld, parseSeedPattern))(context)
+      args <- parseArguments(List(parser.bukkitWorld, parser.seedPattern))(context)
       world = args.parsed.head.asInstanceOf[World]
       worldName = world.getName
       seedPattern = args.parsed[1].asInstanceOf[SeedPattern]
