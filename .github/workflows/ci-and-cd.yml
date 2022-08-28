@@ -64,7 +64,7 @@ jobs:
           skip-git-pull: 'true'
           git-push: 'false'
       - name: Stop workflow if there is no changelogs
-        if: steps.changelog.outputs.skipped == 'true'
+        if: ${{ steps.changelog.outputs.skipped }} == 'true'
         run: exit 1
       # 何もcommitするものがないので、Actionではなく自分でtagをpush
       - name: Push the tag
