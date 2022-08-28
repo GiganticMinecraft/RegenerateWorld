@@ -77,7 +77,6 @@ jobs:
         with:
           body: ${{ steps.changelog.outputs.clean_changelog }}
           tag_name: ${{ steps.changelog.outputs.tag }}
-          release_name: ${{ steps.changelog.outputs.tag }}
           files: ./target/build/RegenerateWorld-*.jar
 
       - name: Clean build artifact for caching target folder
