@@ -10,7 +10,8 @@ sealed abstract class DateTimeUnit(val suffix: String, val chronoUnit: ChronoUni
 object DateTimeUnit extends Enum[DateTimeUnit] {
   override val values: IndexedSeq[DateTimeUnit] = findValues
 
-  def fromString(str: String): Option[DateTimeUnit] = values.find(_.entryName == str)
+  def fromString(str: String): Option[DateTimeUnit] =
+    values.find(_.entryName.toLowerCase == str.toLowerCase)
 
   case object Year extends DateTimeUnit("y", ChronoUnit.YEARS)
 

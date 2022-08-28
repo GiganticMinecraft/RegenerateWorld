@@ -7,23 +7,25 @@ import org.scalatest.flatspec.AnyFlatSpec
 
 class DateTimeUnitSpec extends AnyFlatSpec with Diagrams {
   "DateTimeUnit#fromString" should "parse variant names" in {
-    val legalDateTimeUnitStringsMap: Map[String, DateTimeUnit] =
-      Map(
-        "Year" -> DateTimeUnit.Year,
-        "Month" -> DateTimeUnit.Month,
-        "Week" -> DateTimeUnit.Week,
-        "DayOfMonth" -> DateTimeUnit.DayOfMonth,
-        "Hour" -> DateTimeUnit.Hour,
-        "Minute" -> DateTimeUnit.Minute
-      )
+    forAll(DateTimeUnit.namesToValuesMap) {
+      case (entryName, unit) => assert(DateTimeUnit.fromString(entryName).contains(unit))
+    }
+  }
 
-    forAll(legalDateTimeUnitStringsMap) {
-      case (str, unit) => assert(DateTimeUnit.fromString(str).contains(unit))
+  it should "parse variant names successfully when upper string cases" in {
+    forAll(DateTimeUnit.upperCaseNameValuesToMap) {
+      case (entryName, unit) => assert(DateTimeUnit.fromString(entryName).contains(unit))
+    }
+  }
+
+  it should "parse variant names successfully when lower string cases" in {
+    forAll(DateTimeUnit.lowerCaseNamesToValuesMap) {
+      case (entryName, unit) => assert(DateTimeUnit.fromString(entryName).contains(unit))
     }
   }
 
   it should "parse variant names unsuccessfully when different string cases" in {
-    forAll(Set("year", "YEAR", "day-of-month")) { str =>
+    forAll(Set("day_of_month", "day-of-month")) { str =>
       assert(DateTimeUnit.fromString(str).isEmpty)
     }
   }

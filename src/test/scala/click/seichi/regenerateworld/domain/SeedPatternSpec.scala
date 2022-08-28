@@ -7,20 +7,25 @@ import org.scalatest.Inspectors.forAll
 
 class SeedPatternSpec extends AnyFlatSpec with Diagrams {
   "SeedPattern#fromString" should "parse variant names" in {
-    val legalSeedPatternStringsMap: Map[String, SeedPattern] =
-      Map(
-        "CurrentSeed" -> SeedPattern.CurrentSeed,
-        "NewSeed" -> SeedPattern.NewSeed,
-        "RandomNewSeed" -> SeedPattern.RandomNewSeed
-      )
+    forAll(SeedPattern.namesToValuesMap) {
+      case (entryName, pattern) => assert(SeedPattern.fromString(entryName).contains(pattern))
+    }
+  }
 
-    forAll(legalSeedPatternStringsMap) {
-      case (str, pattern) => assert(SeedPattern.fromString(str).contains(pattern))
+  it should "parse variant names when upper string cases" in {
+    forAll(SeedPattern.upperCaseNameValuesToMap) {
+      case (entryName, pattern) => assert(SeedPattern.fromString(entryName).contains(pattern))
+    }
+  }
+
+  it should "parse variant names when lower string cases" in {
+    forAll(SeedPattern.lowerCaseNamesToValuesMap) {
+      case (entryName, pattern) => assert(SeedPattern.fromString(entryName).contains(pattern))
     }
   }
 
   it should "parse variant names unsuccessfully when different string cases" in {
-    forAll(Set("currentSeed", "CURRENT_SEED", "current-seed")) { str =>
+    forAll(Set("CURRENT_SEED", "current-seed")) { str =>
       assert(SeedPattern.fromString(str).isEmpty)
     }
   }
