@@ -4,7 +4,7 @@ import enumeratum.{Enum, EnumEntry}
 
 import java.time.temporal.ChronoUnit
 
-sealed abstract class DateTimeUnit(val suffix: String, val chronoUnit: ChronoUnit)
+sealed abstract class DateTimeUnit(val alias: String, val chronoUnit: ChronoUnit)
     extends EnumEntry
 
 object DateTimeUnit extends Enum[DateTimeUnit] {
