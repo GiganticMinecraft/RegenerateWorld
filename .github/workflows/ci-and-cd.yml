@@ -53,6 +53,10 @@ jobs:
           fetch-depth: 0
       - name: Setup Java and Cache deps
         uses: ./.github/actions/setup-build
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 18
+          cache: 'npm'
 
       - name: Install conventional-changelog-conventionalcommits
         run: npm install -g conventional-changelog-conventionalcommits
