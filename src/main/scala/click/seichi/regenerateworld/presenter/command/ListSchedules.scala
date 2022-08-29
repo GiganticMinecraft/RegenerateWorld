@@ -15,7 +15,7 @@ object ListSchedules extends ContextualExecutor {
   override def executionWith(context: CommandContext): Result[Unit] = {
     val formattedSchedules = for {
       schedule <- GenerationScheduleUseCase.list()
-      formattedInterval = s"${schedule.interval.value}${schedule.interval.unit.suffix}"
+      formattedInterval = s"${schedule.interval.value}${schedule.interval.unit.alias}"
       formattedSchedule = s"${schedule.id}: ${schedule.worlds.mkString(", ")} | $formattedInterval | ${schedule.seedPattern.entryName} | ${schedule.nextDateTime}"
     } yield formattedSchedule
 
@@ -26,8 +26,6 @@ object ListSchedules extends ContextualExecutor {
           .map { str => s"${ChatColor.WHITE}$str" }
           .concat(formattedSchedules)
 
-    messages.foreach(context.sender.sendMessage)
-
-    Right(())
+    Right(messages.foreach(context.sender.sendMessage))
   }
 }

@@ -9,13 +9,7 @@ import click.seichi.regenerateworld.presenter.shared.contextualexecutor.{
   Result
 }
 import click.seichi.regenerateworld.presenter.shared.contextualexecutor._
-import click.seichi.regenerateworld.presenter.shared.exception.{
-  CommandException,
-  WorldRegenerationException
-}
-import org.bukkit.Bukkit
-
-import scala.util.Try
+import org.bukkit.World
 
 case object New extends ContextualExecutor {
   val help: EchoExecutor = EchoExecutor(
@@ -24,16 +18,11 @@ case object New extends ContextualExecutor {
 
   override def executionWith(context: CommandContext): Result[Unit] = {
     for {
-      worldName <- Try(context.args(1)).toOption.toRight(CommandException.ArgIsInsufficient)
-      world <- Option(Bukkit.getWorld(worldName))
-        .toRight(WorldRegenerationException.WorldIsNotFound(worldName))
-      seedPatternStr <- Try(context.args(2))
-        .toOption
-        .toRight(CommandException.ArgIsInsufficient)
-      seedPattern <- SeedPattern
-        .fromString(seedPatternStr)
-        .toRight(WorldRegenerationException.SeedPatternIsNotFound(seedPatternStr))
-      newSeed = Try(context.args(3)).toOption
+      args <- parseArguments(List(Parsers.bukkitWorld, Parsers.seedPattern))(context)
+      world = args.parsed.head.asInstanceOf[World]
+      worldName = world.getName
+      seedPattern = args.parsed(1).asInstanceOf[SeedPattern]
+      newSeed = args.yetToBeParsed.headOption
     } yield {
       regenStartMessages(worldName).foreach(context.sender.sendMessage)
 

@@ -7,7 +7,8 @@ sealed abstract class SeedPattern(val isNewSeed: Boolean, val isRandomSeed: Bool
 
 object SeedPattern extends Enum[SeedPattern] {
   override val values: IndexedSeq[SeedPattern] = findValues
-  def fromString(str: String): Option[SeedPattern] = values.find(_.entryName == str)
+  def fromString(str: String): Option[SeedPattern] =
+    values.find(_.entryName.toLowerCase == str.toLowerCase)
 
   /**
    * 現在のSeed値をそのまま利用する。

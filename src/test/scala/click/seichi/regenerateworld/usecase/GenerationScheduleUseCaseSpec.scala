@@ -32,6 +32,23 @@ class GenerationScheduleUseCaseSpec extends AnyFlatSpec with Diagrams with MockF
       Set()
     )
 
+  "GenerationScheduleUseCase#add" should "add new schedule" in {
+    val now = defaultSchedule.nextDateTime
+    val interval = defaultSchedule.interval
+    val seedPattern = defaultSchedule.seedPattern
+    val worlds = defaultSchedule.worlds
+    (mockClock.now _).expects().returning(now).once()
+    (mockRepo.save _)
+      .expects(where { schedule: GenerationSchedule =>
+        schedule.nextDateTime == now.plus(
+          interval.value,
+          interval.unit.chronoUnit
+        ) && schedule.interval == interval && schedule.seedPattern == seedPattern && schedule.worlds == worlds
+      })
+      .once()
+    useCase.add(interval, seedPattern, worlds)
+  }
+
   "GenerationScheduleUseCase#findById" should "return Some(schedule) when given the existing uuid" in {
     val schedules = (1 to 3).map(_ => defaultSchedule)
     require(schedules.nonEmpty)

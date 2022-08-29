@@ -4,13 +4,17 @@ import enumeratum.{Enum, EnumEntry}
 
 import java.time.temporal.ChronoUnit
 
-sealed abstract class DateTimeUnit(val suffix: String, val chronoUnit: ChronoUnit)
+sealed abstract class DateTimeUnit(val alias: String, val chronoUnit: ChronoUnit)
     extends EnumEntry
 
 object DateTimeUnit extends Enum[DateTimeUnit] {
   override val values: IndexedSeq[DateTimeUnit] = findValues
 
-  def fromString(str: String): Option[DateTimeUnit] = values.find(_.entryName == str)
+  def fromString(str: String): Option[DateTimeUnit] =
+    values.find(_.entryName.toLowerCase == str.toLowerCase)
+
+  def fromAliasString(str: String): Option[DateTimeUnit] =
+    values.find(_.alias.toLowerCase == str.toLowerCase)
 
   case object Year extends DateTimeUnit("y", ChronoUnit.YEARS)
 
