@@ -40,7 +40,10 @@ class GenerationScheduleUseCaseSpec extends AnyFlatSpec with Diagrams with MockF
     (mockClock.now _).expects().returning(now).once()
     (mockRepo.save _)
       .expects(where { schedule: GenerationSchedule =>
-        schedule.nextDateTime == now && schedule.interval == interval && schedule.seedPattern == seedPattern && schedule.worlds == worlds
+        schedule.nextDateTime == now.plus(
+          interval.value,
+          interval.unit.chronoUnit
+        ) && schedule.interval == interval && schedule.seedPattern == seedPattern && schedule.worlds == worlds
       })
       .once()
     useCase.add(interval, seedPattern, worlds)
