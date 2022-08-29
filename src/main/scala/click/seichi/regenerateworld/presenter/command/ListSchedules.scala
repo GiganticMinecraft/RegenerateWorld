@@ -26,8 +26,6 @@ object ListSchedules extends ContextualExecutor {
           .map { str => s"${ChatColor.WHITE}$str" }
           .concat(formattedSchedules)
 
-    messages.foreach(context.sender.sendMessage)
-
-    Right(())
+    Right(messages.foreach(context.sender.sendMessage))
   }
 }
