@@ -61,14 +61,9 @@ jobs:
           github-token: ${{ secrets.github_token }}
           skip-version-file: 'true'
           skip-git-pull: 'true'
-          output-file: 'false'
-          git-push: 'false'
       - name: Stop workflow if there is no changelogs
         if: ${{ steps.changelog.outputs.skipped }} == 'true'
         run: exit 1
-      # 何もcommitするものがないので、Actionではなく自分でtagをpush
-      - name: Push the tag
-        run: git push origin ${{ steps.changelog.outputs.tag }}
       # バージョンが異なっているので、再度Build
       - name: Build artifact
         run: sbt assembly
