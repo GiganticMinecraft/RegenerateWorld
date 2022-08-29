@@ -28,7 +28,7 @@ object Parsers {
 
   def long: SingleArgumentParser = arg => arg.toLongOption.toRight(ParseException.MustBeLong)
 
-  def naturalNumber: SingleArgumentParser = arg =>
+  def naturalLongValue: SingleArgumentParser = arg =>
     long(arg).flatMap(parsed =>
       if (parsed.asInstanceOf[Long] > 0) Right(parsed)
       else Left(ParseException.MustBeNaturalNumber)
@@ -45,7 +45,7 @@ object Parsers {
 
     val interval = for {
       matchResult <- regex.findFirstMatchIn(arg)
-      value <- naturalNumber(matchResult.group(1)).toOption
+      value <- naturalLongValue(matchResult.group(1)).toOption
       unit <- dateTimeUnit(matchResult.group(2)).toOption
     } yield Interval(unit.asInstanceOf[DateTimeUnit], value.asInstanceOf[Long])
 
