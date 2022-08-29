@@ -5,13 +5,14 @@ import click.seichi.regenerateworld.presenter.shared.contextualexecutor.executor
 import click.seichi.regenerateworld.presenter.shared.contextualexecutor.{
   CommandContext,
   ContextualExecutor,
-  Result,
-  Parsers
+  Parsers,
+  Result
 }
 import click.seichi.regenerateworld.presenter.shared.exception.{
   CommandException,
   WorldRegenerationException
 }
+import org.bukkit.ChatColor
 
 import java.util.UUID
 
@@ -28,5 +29,12 @@ case object Remove extends ContextualExecutor {
         .findById(uuid)
         .toRight(WorldRegenerationException.ScheduleIsNotFound)
       isSuccessful = GenerationScheduleUseCase.remove(schedule.id)
-    } yield if (isSuccessful) Right(()) else Left(CommandException.CommandExecutionFailed)
+    } yield
+      if (isSuccessful)
+        Right(
+          context
+            .sender
+            .sendMessage(s"${ChatColor.GREEN}指定されたスケジュール(id: ${uuid.toString})の削除に成功しました")
+        )
+      else Left(CommandException.CommandExecutionFailed)
 }
