@@ -10,34 +10,35 @@ import java.util
 trait ContextualExecutor {
   def executionWith(context: CommandContext): Result[Unit]
   def tabCandidatesFor(context: CommandContext): List[String] = Nil
-  def parseArguments(parsers: List[SingleArgumentParser]): CommandArgumentsParser = { context =>
-    @scala.annotation.tailrec
-    def parse(
-      remainingParsers: List[SingleArgumentParser],
-      remainingArgs: List[String],
-      reverseAccumulator: List[Any] = List()
-    ): Result[PartiallyParsedArgs] = {
-      // parserがなければparseすべき引数はないものとしてreturn
-      val (parserHead, parserTail) = remainingParsers match {
-        case ::(head, next) => (head, next)
-        case Nil =>
-          return Right(PartiallyParsedArgs(reverseAccumulator.reverse, remainingArgs))
+  final def parseArguments(parsers: List[SingleArgumentParser]): CommandArgumentsParser = {
+    context =>
+      @scala.annotation.tailrec
+      def parse(
+        remainingParsers: List[SingleArgumentParser],
+        remainingArgs: List[String],
+        reverseAccumulator: List[Any] = List()
+      ): Result[PartiallyParsedArgs] = {
+        // parserがなければparseすべき引数はないものとしてreturn
+        val (parserHead, parserTail) = remainingParsers match {
+          case ::(head, next) => (head, next)
+          case Nil =>
+            return Right(PartiallyParsedArgs(reverseAccumulator.reverse, remainingArgs))
+        }
+
+        // parserは指定されているので、引数がないということは不足しているということ
+        val (argHead, argTail) = remainingArgs match {
+          case ::(head, next) => (head, next)
+          case Nil            => return Left(CommandException.ArgIsInsufficient)
+        }
+
+        // parserがエラーを返してきた場合は次のparser・引数の処理を行わない
+        parserHead(argHead) match {
+          case Left(err)        => Left(err)
+          case Right(parsedArg) => parse(parserTail, argTail, parsedArg :: reverseAccumulator)
+        }
       }
 
-      // parserは指定されているので、引数がないということは不足しているということ
-      val (argHead, argTail) = remainingArgs match {
-        case ::(head, next) => (head, next)
-        case Nil            => return Left(CommandException.ArgIsInsufficient)
-      }
-
-      // parserがエラーを返してきた場合は次のparser・引数の処理を行わない
-      parserHead(argHead) match {
-        case Left(err)        => Left(err)
-        case Right(parsedArg) => parse(parserTail, argTail, parsedArg :: reverseAccumulator)
-      }
-    }
-
-    parse(parsers, context.args)
+      parse(parsers, context.args)
   }
 }
 
