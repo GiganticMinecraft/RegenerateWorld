@@ -32,9 +32,7 @@ jobs:
         run: sbt scalafmtCheckAll
       - name: Check lint with Scalafix
         run: sbt "scalafix --check"
-      - name: Test
-        run: sbt test
-      - name: Build artifact
+      - name: Build artifact with Test
         run: sbt assembly
 
       - name: Clean build artifact for caching target folder
