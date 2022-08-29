@@ -21,7 +21,7 @@ case object Schedule extends ContextualExecutor {
 
   override def executionWith(context: CommandContext): Result[Unit] = {
     for {
-      args <- parseArguments(List(parser.uuid))(context)
+      args <- parseArguments(List(Parsers.uuid))(context)
       uuid = args.parsed.head.asInstanceOf[UUID]
       schedule <- GenerationScheduleUseCase
         .findById(uuid)

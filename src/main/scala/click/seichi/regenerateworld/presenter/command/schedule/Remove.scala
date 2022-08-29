@@ -6,7 +6,7 @@ import click.seichi.regenerateworld.presenter.shared.contextualexecutor.{
   CommandContext,
   ContextualExecutor,
   Result,
-  parser
+  Parsers
 }
 import click.seichi.regenerateworld.presenter.shared.exception.{
   CommandException,
@@ -22,7 +22,7 @@ case object Remove extends ContextualExecutor {
 
   override def executionWith(context: CommandContext): Result[Unit] =
     for {
-      args <- parseArguments(List(parser.uuid))(context)
+      args <- parseArguments(List(Parsers.uuid))(context)
       uuid = args.parsed.head.asInstanceOf[UUID]
       schedule <- GenerationScheduleUseCase
         .findById(uuid)

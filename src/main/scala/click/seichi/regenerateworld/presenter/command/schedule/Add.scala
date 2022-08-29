@@ -7,7 +7,7 @@ import click.seichi.regenerateworld.presenter.shared.contextualexecutor.{
   CommandContext,
   ContextualExecutor,
   Result,
-  parser
+  Parsers
 }
 
 import java.time.ZonedDateTime
@@ -21,7 +21,7 @@ case object Add extends ContextualExecutor {
   override def executionWith(context: CommandContext): Result[Unit] = {
     // TODO: UseCaseに#addを実装する
     for {
-      args <- parseArguments(List(parser.interval, parser.seedPattern))(context)
+      args <- parseArguments(List(Parsers.interval, Parsers.seedPattern))(context)
       interval = args.parsed.head.asInstanceOf[Interval]
       seedPattern = args.parsed(1).asInstanceOf[SeedPattern]
       worlds = args.yetToBeParsed.toSet

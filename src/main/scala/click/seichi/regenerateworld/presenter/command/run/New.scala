@@ -18,7 +18,7 @@ case object New extends ContextualExecutor {
 
   override def executionWith(context: CommandContext): Result[Unit] = {
     for {
-      args <- parseArguments(List(parser.bukkitWorld, parser.seedPattern))(context)
+      args <- parseArguments(List(Parsers.bukkitWorld, Parsers.seedPattern))(context)
       world = args.parsed.head.asInstanceOf[World]
       worldName = world.getName
       seedPattern = args.parsed(1).asInstanceOf[SeedPattern]

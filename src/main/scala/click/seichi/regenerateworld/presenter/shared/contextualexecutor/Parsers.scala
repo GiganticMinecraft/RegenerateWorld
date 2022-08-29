@@ -12,7 +12,7 @@ import scala.util.Try
 import scala.jdk.CollectionConverters._
 
 // TODO: add tests except for #bukkitWorld
-object parser {
+object Parsers {
   def uuid: SingleArgumentParser = arg =>
     Try(UUID.fromString(arg)).toOption.toRight(ParseException.IsNotUuid)
 
