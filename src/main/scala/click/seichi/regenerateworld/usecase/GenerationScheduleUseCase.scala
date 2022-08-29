@@ -10,9 +10,9 @@ import java.util.UUID
 
 trait GenerationScheduleUseCase extends UseGenerationScheduleRepository with UseClock {
   def add(interval: Interval, seedPattern: SeedPattern, worlds: Set[String]): UUID = {
-    // TODO: 再生成日時をきちんとする
+    val nextDateTime = clock.now.plus(interval.value, interval.unit.chronoUnit)
     val schedule =
-      GenerationSchedule(UUID.randomUUID(), clock.now, interval, seedPattern, worlds)
+      GenerationSchedule(UUID.randomUUID(), nextDateTime, interval, seedPattern, worlds)
 
     generationScheduleRepository.save(schedule)
 
