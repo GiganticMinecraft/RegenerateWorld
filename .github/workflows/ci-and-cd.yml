@@ -64,8 +64,10 @@ jobs:
       # バージョンが異なっているので、再度Build
       - name: Build artifact
         run: sbt assembly
+        if: ${{ steps.changelog.outputs.skipped == 'false' }}
       - name: Release
         uses: softprops/action-gh-release@v1
+        if: ${{ steps.changelog.outputs.skipped == 'false' }}
         with:
           body: ${{ steps.changelog.outputs.clean_changelog }}
           tag_name: ${{ steps.changelog.outputs.tag }}
