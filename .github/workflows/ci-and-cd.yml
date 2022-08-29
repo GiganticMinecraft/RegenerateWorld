@@ -61,9 +61,6 @@ jobs:
           github-token: ${{ secrets.github_token }}
           skip-version-file: 'true'
           skip-git-pull: 'true'
-      - name: Stop workflow if there is no changelogs
-        if: ${{ steps.changelog.outputs.skipped }} == 'true'
-        run: exit 1
       # バージョンが異なっているので、再度Build
       - name: Build artifact
         run: sbt assembly
