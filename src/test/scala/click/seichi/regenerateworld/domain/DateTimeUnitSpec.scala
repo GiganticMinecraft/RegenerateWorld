@@ -59,5 +59,4 @@ class DateTimeUnitSpec extends AnyFlatSpec with Diagrams {
       assert(DateTimeUnit.fromAliasString(str).isEmpty)
     }
   }
-
 }
