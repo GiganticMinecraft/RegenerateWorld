@@ -72,4 +72,5 @@ jobs:
           files: ./target/build/RegenerateWorld-*.jar
 
       - name: Clean build artifact for caching target folder
+        if: ${{ steps.changelog.outputs.skipped == 'false' }}
         run: rm -r target/build
