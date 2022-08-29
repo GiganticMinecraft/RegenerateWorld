@@ -57,6 +57,8 @@ jobs:
         id: changelog
         with:
           github-token: ${{ secrets.github_token }}
+          git-user-name: "github-actions[bot]"
+          git-user-email: "github-actions[bot]@users.noreply.github.com"
           skip-version-file: 'true'
           skip-git-pull: 'true'
       # バージョンが異なっているので、再度Build
