@@ -30,7 +30,7 @@ object Parsers {
 
   def naturalNumber: SingleArgumentParser = arg =>
     long(arg).flatMap(parsed =>
-      if (parsed.asInstanceOf[Int] > 0) Right(parsed)
+      if (parsed.asInstanceOf[Long] > 0) Right(parsed)
       else Left(ParseException.MustBeNaturalNumber)
     )
 
