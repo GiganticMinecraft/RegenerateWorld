@@ -36,4 +36,28 @@ class DateTimeUnitSpec extends AnyFlatSpec with Diagrams {
     }
   }
 
+  "DateTimeUnit#fromAliasString" should "parse variant names successfully when upper string cases" in {
+    val upperCaseAliasValuesToMap =
+      DateTimeUnit.values.map(unit => unit.alias.toUpperCase -> unit)
+
+    forAll(upperCaseAliasValuesToMap) {
+      case (alias, unit) => assert(DateTimeUnit.fromAliasString(alias).contains(unit))
+    }
+  }
+
+  it should "parse variant names successfully when lower string cases" in {
+    val lowerCaseAliasValuesToMap =
+      DateTimeUnit.values.map(unit => unit.alias.toLowerCase -> unit)
+
+    forAll(lowerCaseAliasValuesToMap) {
+      case (alias, unit) => assert(DateTimeUnit.fromAliasString(alias).contains(unit))
+    }
+  }
+
+  it should "parse variant names unsuccessfully when different words" in {
+    forAll(Set("hello", "myName", "is-Lucky!!!")) { str =>
+      assert(DateTimeUnit.fromAliasString(str).isEmpty)
+    }
+  }
+
 }
