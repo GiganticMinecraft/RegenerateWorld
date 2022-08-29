@@ -1,17 +1,15 @@
 package click.seichi.regenerateworld.presenter.command.schedule
 
-import click.seichi.regenerateworld.domain.model.{GenerationSchedule, Interval, SeedPattern}
+import click.seichi.regenerateworld.domain.model.{Interval, SeedPattern}
 import click.seichi.regenerateworld.presenter.GenerationScheduleUseCase
 import click.seichi.regenerateworld.presenter.shared.contextualexecutor.executor.EchoExecutor
 import click.seichi.regenerateworld.presenter.shared.contextualexecutor.{
   CommandContext,
   ContextualExecutor,
-  Result,
-  Parsers
+  Parsers,
+  Result
 }
-
-import java.time.ZonedDateTime
-import java.util.UUID
+import org.bukkit.ChatColor
 
 case object Add extends ContextualExecutor {
   val help: EchoExecutor = EchoExecutor(
@@ -19,19 +17,14 @@ case object Add extends ContextualExecutor {
   )
 
   override def executionWith(context: CommandContext): Result[Unit] = {
-    // TODO: UseCaseに#addを実装する
     for {
       args <- parseArguments(List(Parsers.interval, Parsers.seedPattern))(context)
       interval = args.parsed.head.asInstanceOf[Interval]
       seedPattern = args.parsed(1).asInstanceOf[SeedPattern]
       worlds = args.yetToBeParsed.toSet
-      schedule = GenerationSchedule(
-        UUID.randomUUID(),
-        ZonedDateTime.now(),
-        interval,
-        seedPattern,
-        worlds
-      )
-    } yield GenerationScheduleUseCase.generationScheduleRepository.save(schedule)
+      uuid = GenerationScheduleUseCase.add(interval, seedPattern, worlds)
+    } yield context
+      .sender
+      .sendMessage(s"${ChatColor.GREEN}スケジュールの追加に成功しました(id: ${uuid.toString})")
   }
 }
