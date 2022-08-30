@@ -18,4 +18,7 @@ object ParseException extends Enum[ParseException] {
   case object MustBeDateTimeUnit extends ParseException("It must be DateTimeUnit")
 
   case object MustBeInterval extends ParseException("It must be Interval")
+
+  case class MustBeIncludedIn[*](keys: Iterable[*])
+      extends ParseException(s"It must be included in ${keys.mkString(", ")}")
 }

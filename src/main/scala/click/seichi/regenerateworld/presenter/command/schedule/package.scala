@@ -12,7 +12,7 @@ package object schedule {
 
   val executor: BranchedExecutor =
     BranchedExecutor(
-      Map("remove" -> Remove, "add" -> Add, "help" -> Help),
+      Map("remove" -> Remove, "add" -> Add, "edit" -> Edit, "help" -> Help),
       Some(Help),
       Some(Help)
     )

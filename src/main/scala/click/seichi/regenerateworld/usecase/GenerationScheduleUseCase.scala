@@ -28,19 +28,10 @@ trait GenerationScheduleUseCase extends UseGenerationScheduleRepository with Use
 
   def remove(id: UUID): Boolean = generationScheduleRepository.remove(id)
 
-  def addWorld(id: UUID, worldName: String): Unit = {
+  def setWorlds(id: UUID, worldNames: Set[String]): Unit = {
     for {
       schedule <- findById(id)
-      worlds = schedule.worlds + worldName if !schedule.worlds.contains(worldName)
-      newSchedule = schedule.copy(worlds = worlds)
-    } yield generationScheduleRepository.save(newSchedule)
-  }
-
-  def removeWorld(id: UUID, worldName: String): Unit = {
-    for {
-      schedule <- findById(id)
-      worlds = schedule.worlds.filterNot(_ == worldName) if schedule.worlds.contains(worldName)
-      newSchedule = schedule.copy(worlds = worlds)
+      newSchedule = schedule.copy(worlds = worldNames)
     } yield generationScheduleRepository.save(newSchedule)
   }
 
