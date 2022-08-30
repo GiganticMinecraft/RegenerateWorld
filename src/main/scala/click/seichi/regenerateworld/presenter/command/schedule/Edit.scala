@@ -19,7 +19,7 @@ import enumeratum.{Enum, EnumEntry}
 import java.util.UUID
 import scala.util.Try
 
-private abstract class EditKey() extends EnumEntry
+sealed abstract class EditKey() extends EnumEntry
 
 private object EditKey extends Enum[EditKey] {
   override val values: IndexedSeq[EditKey] = findValues
