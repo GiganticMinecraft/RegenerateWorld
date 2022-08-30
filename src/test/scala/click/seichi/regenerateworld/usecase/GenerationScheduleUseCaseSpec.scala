@@ -61,60 +61,13 @@ class GenerationScheduleUseCaseSpec extends AnyFlatSpec with Diagrams with MockF
     assert(useCase.findById(UUID.randomUUID()).isEmpty)
   }
 
-  "GenerationScheduleUseCase#addWorld" should "add the worldName to worlds list" in {
-    val worlds = Set("world_1", "world_2", "world_3")
-    val newWorldName = "newWorldName"
+  "GenerationScheduleUseCase#setWorlds" should "add the worldName to worlds list" in {
+    val newWorlds = Set("new_world")
 
-    val schedule = defaultSchedule.copy(worlds = worlds)
+    val schedule = defaultSchedule.copy(worlds = Set("world_1", "world_2", "world_3"))
     (mockRepo.find _).expects(*).returning(Some(schedule)).once()
-    (mockRepo.save _).expects(schedule.copy(worlds = worlds + newWorldName)).once()
-    useCase.addWorld(schedule.id, newWorldName)
-  }
-
-  it should "add nothing when world names already have the same one" in {
-    val worlds = Set("world_1", "world_2", "world_3")
-    require(worlds.nonEmpty)
-    val newWorldName = worlds.head
-
-    val schedule = defaultSchedule.copy(worlds = worlds)
-    (mockRepo.find _).expects(*).returning(Some(schedule)).once()
-    (mockRepo.save _).expects(schedule).never()
-    useCase.addWorld(schedule.id, newWorldName)
-  }
-
-  it should "add nothing if the schedule is not found" in {
-    val id = UUID.randomUUID()
-    (mockRepo.find _).expects(*).returning(None).once()
-    (mockRepo.save _).expects(*).never()
-    useCase.addWorld(id, "newWorldName")
-  }
-
-  "GenerationScheduleUseCase#removeWorld" should "remove the worldName from worlds list" in {
-    val worlds = Set("world_1", "world_2", "world_3")
-    require(worlds.nonEmpty)
-    val removedWorldName = worlds.head
-
-    val schedule = defaultSchedule.copy(worlds = worlds)
-    (mockRepo.find _).expects(*).returning(Some(schedule)).once()
-    (mockRepo.save _).expects(schedule.copy(worlds = worlds - removedWorldName)).once()
-    useCase.removeWorld(schedule.id, removedWorldName)
-  }
-
-  it should "remove nothing when world names don't have the name" in {
-    val worlds = Set("world_1", "world_2", "world_3")
-    val removedWorldName = "sonzaisinaiyo"
-
-    val schedule = defaultSchedule.copy(worlds = worlds)
-    (mockRepo.find _).expects(*).returning(Some(schedule)).once()
-    (mockRepo.save _).expects(schedule).never()
-    useCase.removeWorld(schedule.id, removedWorldName)
-  }
-
-  it should "remove nothing if the schedule is not found" in {
-    val id = UUID.randomUUID()
-    (mockRepo.find _).expects(*).returning(None).once()
-    (mockRepo.save _).expects(*).never()
-    useCase.removeWorld(id, "removedWorldName")
+    (mockRepo.save _).expects(schedule.copy(worlds = newWorlds)).once()
+    useCase.setWorlds(schedule.id, newWorlds)
   }
 
   "GenerationScheduleUseCase#changeInterval" should "change the interval" in {
