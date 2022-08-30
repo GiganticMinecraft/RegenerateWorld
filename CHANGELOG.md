@@ -1,3 +1,19 @@
+# [0.2.0](https://github.com/GiganticMinecraft/RegenerateWorld/compare/v0.1.0...v0.2.0) (2022-08-30)
+
+
+### Bug Fixes
+
+* fix enum entry class access modifier ([ac2e167](https://github.com/GiganticMinecraft/RegenerateWorld/commit/ac2e167d2116dd8ab37babf7db03ab039e0f21ad))
+* remove `UseCase#(add|remove)World` and add `#setWorlds` ([844b9fc](https://github.com/GiganticMinecraft/RegenerateWorld/commit/844b9fcca6223c198bec61a0d23cfb815216539d))
+
+
+### Features
+
+* add `/rw schedule edit` ([212e4ea](https://github.com/GiganticMinecraft/RegenerateWorld/commit/212e4ea273351776e3df1659e4a27f35a8550761))
+* add ParseException.MustBeIncludedIn ([50c86cb](https://github.com/GiganticMinecraft/RegenerateWorld/commit/50c86cb3cdb539cde723e99ff4597f866a8c1439))
+
+
+
 # [0.1.0](https://github.com/GiganticMinecraft/RegenerateWorld/compare/v0.0.1...v0.1.0) (2022-08-29)
 
 
