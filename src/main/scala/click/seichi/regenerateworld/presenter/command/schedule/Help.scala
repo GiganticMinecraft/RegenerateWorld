@@ -11,7 +11,7 @@ case object Help extends ContextualExecutor {
   val help: EchoExecutor = EchoExecutor(List("/rw schedule help", "    ヘルプメッセージを表示します。"))
 
   override def executionWith(context: CommandContext): Result[Unit] = {
-    List(Remove.help, Add.help, help).foreach(_.executionWith(context))
+    List(Remove.help, Add.help, Edit.help, help).foreach(_.executionWith(context))
 
     Right(())
   }
