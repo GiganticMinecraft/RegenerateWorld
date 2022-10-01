@@ -19,7 +19,7 @@ val embeddedDependencies = Seq("com.beachape" %% "enumeratum" % "1.7.0")
 val testDependencies = Seq(
   "org.scalamock" %% "scalamock" % "5.2.0",
   "org.scalatest" %% "scalatest" % "3.2.13",
-  "org.scalatestplus" %% "scalacheck-1-16" % "3.2.13.0"
+  "org.scalatestplus" %% "scalacheck-1-16" % "3.2.14.0"
 ).map(_ % "test")
 
 libraryDependencies := providedDependencies ++ embeddedDependencies ++ testDependencies
