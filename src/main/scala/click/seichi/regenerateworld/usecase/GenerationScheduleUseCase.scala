@@ -9,10 +9,21 @@ import click.seichi.regenerateworld.usecase.usetraits.{
 import java.util.UUID
 
 trait GenerationScheduleUseCase extends UseGenerationScheduleRepository with UseClock {
-  def add(interval: Interval, seedPattern: SeedPattern, worlds: Set[String]): UUID = {
+  def add(
+    interval: Interval,
+    seedPattern: SeedPattern,
+    seedValue: String,
+    worlds: Set[String]
+  ): UUID = {
     val nextDateTime = clock.now.plus(interval.value, interval.unit.chronoUnit)
-    val schedule =
-      GenerationSchedule(UUID.randomUUID(), nextDateTime, interval, seedPattern, worlds)
+    val schedule = GenerationSchedule(
+      UUID.randomUUID(),
+      nextDateTime,
+      interval,
+      seedPattern,
+      seedValue,
+      worlds
+    )
 
     generationScheduleRepository.save(schedule)
 
@@ -41,6 +52,12 @@ trait GenerationScheduleUseCase extends UseGenerationScheduleRepository with Use
       newSchedule = schedule.finish(clock.now)
     } yield generationScheduleRepository.save(newSchedule)
   }
+
+  def changeSeedValue(id: UUID, seedValue: String): Unit =
+    for {
+      schedule <- findById(id)
+      newSchedule = schedule.copy(seedValue = seedValue) if schedule.seedValue != seedValue
+    } yield generationScheduleRepository.save(newSchedule)
 
   def changeInterval(id: UUID, interval: Interval): Unit = {
     for {

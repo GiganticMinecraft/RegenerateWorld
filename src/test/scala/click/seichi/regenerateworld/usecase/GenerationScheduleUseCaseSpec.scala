@@ -28,25 +28,26 @@ class GenerationScheduleUseCaseSpec extends AnyFlatSpec with Diagrams with MockF
       UUID.randomUUID(),
       ZonedDateTime.now(),
       Interval(DateTimeUnit.Year, 1),
-      SeedPattern.NewSeed,
+      SeedPattern.CurrentSeed,
+      "",
       Set()
     )
 
   "GenerationScheduleUseCase#add" should "add new schedule" in {
     val now = defaultSchedule.nextDateTime
     val interval = defaultSchedule.interval
-    val seedPattern = defaultSchedule.seedPattern
-    val worlds = defaultSchedule.worlds
-    (mockClock.now _).expects().returning(now).once()
+    (() => mockClock.now).expects().returning(now).once()
     (mockRepo.save _)
       .expects(where { schedule: GenerationSchedule =>
-        schedule.nextDateTime == now.plus(
-          interval.value,
-          interval.unit.chronoUnit
-        ) && schedule.interval == interval && schedule.seedPattern == seedPattern && schedule.worlds == worlds
+        schedule.nextDateTime == now.plus(interval.value, interval.unit.chronoUnit)
       })
       .once()
-    useCase.add(interval, seedPattern, worlds)
+    useCase.add(
+      interval,
+      defaultSchedule.seedPattern,
+      defaultSchedule.seedValue,
+      defaultSchedule.worlds
+    )
   }
 
   "GenerationScheduleUseCase#findById" should "return Some(schedule) when given the existing uuid" in {

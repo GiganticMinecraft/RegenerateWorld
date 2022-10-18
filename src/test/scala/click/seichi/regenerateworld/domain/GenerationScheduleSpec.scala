@@ -21,11 +21,18 @@ class GenerationScheduleSpec extends AnyFlatSpec with Diagrams {
 
     forAll(intervalsSet) { interval =>
       val schedule =
-        GenerationSchedule(UUID.randomUUID(), nowDateTime, interval, SeedPattern.NewSeed, Set())
+        GenerationSchedule(
+          UUID.randomUUID(),
+          nowDateTime,
+          interval,
+          SeedPattern.NewSeed,
+          "",
+          Set()
+        )
 
       assert(
-        schedule.finish(nowDateTime).nextDateTime == nowDateTime
-          .plus(interval.value, interval.unit.chronoUnit)
+        schedule.finish(nowDateTime).nextDateTime ==
+          nowDateTime.plus(interval.value, interval.unit.chronoUnit)
       )
     }
   }

@@ -30,6 +30,8 @@ private object EditKey extends Enum[EditKey] {
 
   case object SeedPattern extends EditKey
 
+  case object SeedValue extends EditKey
+
   case object Worlds extends EditKey
 }
 
@@ -59,6 +61,8 @@ case object Edit extends ContextualExecutor {
           }
 
           GenerationScheduleUseCase.changeSeedPattern(id, pattern)
+        case EditKey.SeedValue =>
+          GenerationScheduleUseCase.changeSeedValue(id, value)
         case EditKey.Interval =>
           val interval = Parsers.interval(value).map(_.asInstanceOf[Interval]) match {
             case Right(interval) => interval
