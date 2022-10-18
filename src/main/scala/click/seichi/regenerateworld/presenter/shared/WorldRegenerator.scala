@@ -26,7 +26,7 @@ case object WorldRegenerator {
     if (isSuccessful) Right(()) else Left(WorldRegenerationException.MultiverseException)
   }
 
-  def regenFromWorld(
+  def regenBukkitWorld(
     bukkitWorld: World,
     seedPattern: SeedPattern,
     newSeed: Option[String]
