@@ -3,7 +3,8 @@ package click.seichi.regenerateworld.presenter.shared.external
 import click.seichi.regenerateworld.presenter.RegenerateWorld.INSTANCE
 import com.onarandombox.MultiverseCore.MultiverseCore
 import com.onarandombox.MultiverseCore.api.MultiverseWorld
-import org.bukkit.World
+import org.bukkit.{Bukkit, Location, World}
+import org.bukkit.entity.Player
 
 private[shared] case object Multiverse {
   private val instance =
@@ -16,7 +17,10 @@ private[shared] case object Multiverse {
   def fromBukkitWorld(world: World): Option[MultiverseWorld] =
     Option(instance.getMVWorldManager.getMVWorld(world))
 
-  def regenWorld(
+  def teleportPlayer(player: Player, location: Location): Unit =
+    instance.teleportPlayer(Bukkit.getConsoleSender, player, location)
+
+  private[shared] def regenWorld(
     world: MultiverseWorld,
     isNewSeed: Boolean,
     isRandomSeed: Boolean,
