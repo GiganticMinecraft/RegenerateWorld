@@ -30,12 +30,7 @@ case object Add extends ContextualExecutor {
           Right(())
         }
       worlds = if (seedValue.isDefined) args.yetToBeParsed.tail else args.yetToBeParsed
-      uuid = GenerationScheduleUseCase.add(
-        interval,
-        seedPattern,
-        seedValue.getOrElse(""),
-        worlds.toSet
-      )
+      uuid = GenerationScheduleUseCase.add(interval, seedPattern, worlds.toSet)
     } yield context
       .sender
       .sendMessage(s"${ChatColor.GREEN}スケジュールの追加に成功しました(id: ${uuid.toString})")

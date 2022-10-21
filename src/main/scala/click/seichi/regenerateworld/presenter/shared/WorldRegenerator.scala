@@ -13,7 +13,7 @@ case object WorldRegenerator {
     seedPattern: SeedPattern,
     newSeed: Option[String]
   ): Either[WorldRegenerationException, Unit] = {
-    if (seedPattern == SeedPattern.NewSeed && newSeed.isEmpty)
+    if (seedPattern == SeedPattern.NewSeed && newSeed.forall(_.isEmpty))
       return Left(WorldRegenerationException.SeedIsRequired)
 
     val preEvent = PreRegenWorldEvent(world.getName)
@@ -35,7 +35,6 @@ case object WorldRegenerator {
       mvWorld <- bukkitWorld
         .asMVWorld()
         .toRight(WorldRegenerationException.BukkitWorldIsNotMVWorld(bukkitWorld.getName))
-      result <- regen(mvWorld, seedPattern, newSeed)
-    } yield result
+    } yield regen(mvWorld, seedPattern, newSeed)
   }
 }

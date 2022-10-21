@@ -12,7 +12,6 @@ private object ConfigKeys {
   val IntervalUnit = s"$Interval.unit"
   val IntervalValue = s"$Interval.value"
   val SeedPattern = "seed-pattern"
-  val SeedValue = "seed-value"
   val Worlds = "worlds"
 }
 
@@ -24,7 +23,6 @@ private object GenerationScheduleConverter {
         intervalUnit <- Option(section.getString(ConfigKeys.IntervalUnit))
         intervalValue <- Option(section.getLong(ConfigKeys.IntervalValue))
         seedPattern <- Option(section.getString(ConfigKeys.SeedPattern))
-        seedValue <- Option(section.getString(ConfigKeys.SeedValue))
         worlds = section.getStringList(ConfigKeys.Worlds).asScala.toSet.filterNot(_ == null)
         schedule <- GenerationSchedule.fromRepository(
           id,
@@ -32,7 +30,6 @@ private object GenerationScheduleConverter {
           intervalUnit,
           intervalValue,
           seedPattern,
-          seedValue,
           worlds
         )
       } yield schedule
@@ -44,7 +41,6 @@ private object GenerationScheduleConverter {
         ConfigKeys.IntervalUnit -> schedule.interval.unit.toString,
         ConfigKeys.IntervalValue -> schedule.interval.value,
         ConfigKeys.SeedPattern -> schedule.seedPattern.toString,
-        ConfigKeys.SeedValue -> schedule.seedValue,
         ConfigKeys.Worlds -> schedule.worlds.toList.asJava
       ).foreach { case (key, value) => section.set(key, value) }
     }

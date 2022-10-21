@@ -29,7 +29,6 @@ class GenerationScheduleUseCaseSpec extends AnyFlatSpec with Diagrams with MockF
       ZonedDateTime.now(),
       Interval(DateTimeUnit.Year, 1),
       SeedPattern.CurrentSeed,
-      "",
       Set()
     )
 
@@ -42,12 +41,7 @@ class GenerationScheduleUseCaseSpec extends AnyFlatSpec with Diagrams with MockF
         schedule.nextDateTime == now.plus(interval.value, interval.unit.chronoUnit)
       })
       .once()
-    useCase.add(
-      interval,
-      defaultSchedule.seedPattern,
-      defaultSchedule.seedValue,
-      defaultSchedule.worlds
-    )
+    useCase.add(interval, defaultSchedule.seedPattern, defaultSchedule.worlds)
   }
 
   "GenerationScheduleUseCase#findById" should "return Some(schedule) when given the existing uuid" in {

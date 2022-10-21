@@ -5,7 +5,7 @@ import com.onarandombox.MultiverseCore.MultiverseCore
 import com.onarandombox.MultiverseCore.api.MultiverseWorld
 import org.bukkit.World
 
-case object Multiverse {
+private[shared] case object Multiverse {
   private val instance =
     INSTANCE
       .getServer
@@ -22,9 +22,7 @@ case object Multiverse {
     isRandomSeed: Boolean,
     newSeed: Option[String]
   ): Boolean =
-    instance
-      .getMVWorldManager
-      .regenWorld(world.getName, isNewSeed, isRandomSeed, newSeed.orNull)
+    instance.getMVWorldManager.regenWorld(world.getName, isNewSeed, isRandomSeed, newSeed.orNull)
 
   implicit class BukkitWorldOps(val world: World) {
     def asMVWorld(): Option[MultiverseWorld] = fromBukkitWorld(world)
