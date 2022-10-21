@@ -39,11 +39,9 @@ case object WorldRegenerator {
     bukkitWorld: World,
     seedPattern: SeedPattern,
     newSeed: Option[String]
-  ): Either[WorldRegenerationException, Unit] = {
-    for {
-      mvWorld <- bukkitWorld
-        .asMVWorld()
-        .toRight(WorldRegenerationException.BukkitWorldIsNotMVWorld(bukkitWorld.getName))
-    } yield regen(mvWorld, seedPattern, newSeed)
-  }
+  ): Either[WorldRegenerationException, Unit] =
+    bukkitWorld
+      .asMVWorld()
+      .toRight(WorldRegenerationException.BukkitWorldIsNotMVWorld(bukkitWorld.getName))
+      .flatMap(regen(_, seedPattern, newSeed))
 }
