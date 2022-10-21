@@ -31,11 +31,13 @@ private class RegenerateTask(private val schedule: GenerationSchedule)(
         result = world.flatMap(w => WorldRegenerator.regenBukkitWorld(w, seedPattern, None))
         logger = instance.getLogger
       } yield result match {
-        case Right(_) => // TODO
-          logger.info(s"The world regeneration schedule (ID: ${schedule.id}) has completed")
+        case Right(_) =>
+          logger.info(
+            s"The world ($worldName) regeneration schedule (ID: ${schedule.id}) has completed"
+          )
         case Left(e) =>
           logger.severe(
-            s"Error has occurred while regenerating a world with the schedule (ID: ${schedule.id}): ${e.description}"
+            s"Error has occurred while regenerating a world ($worldName) with the schedule (ID: ${schedule.id}): ${e.description}"
           )
       }
 
