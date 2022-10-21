@@ -27,7 +27,7 @@ class GenerationScheduleUseCaseSpec extends AnyFlatSpec with Diagrams with MockF
     GenerationSchedule(
       UUID.randomUUID(),
       ZonedDateTime.now(),
-      Interval(DateTimeUnit.Year, 1),
+      Interval(1, DateTimeUnit.Year),
       SeedPattern.CurrentSeed,
       Set()
     )
@@ -66,7 +66,7 @@ class GenerationScheduleUseCaseSpec extends AnyFlatSpec with Diagrams with MockF
   }
 
   "GenerationScheduleUseCase#changeInterval" should "change the interval" in {
-    val changedInterval = Interval(DateTimeUnit.Minute, 10)
+    val changedInterval = Interval(10, DateTimeUnit.Minute)
 
     val schedule = defaultSchedule
     (mockRepo.find _).expects(*).returning(Some(schedule)).once()

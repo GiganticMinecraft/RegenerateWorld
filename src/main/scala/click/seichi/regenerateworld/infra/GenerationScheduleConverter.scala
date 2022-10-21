@@ -38,8 +38,8 @@ private object GenerationScheduleConverter {
     def write(schedule: GenerationSchedule): Unit = {
       Map(
         ConfigKeys.NextDateTime -> schedule.nextDateTime.toString,
-        ConfigKeys.IntervalUnit -> schedule.interval.unit.toString,
         ConfigKeys.IntervalValue -> schedule.interval.value,
+        ConfigKeys.IntervalUnit -> schedule.interval.unit.toString,
         ConfigKeys.SeedPattern -> schedule.seedPattern.toString,
         ConfigKeys.Worlds -> schedule.worlds.toList.asJava
       ).foreach { case (key, value) => section.set(key, value) }

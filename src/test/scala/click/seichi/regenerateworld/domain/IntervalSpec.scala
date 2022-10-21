@@ -11,7 +11,7 @@ class IntervalSpec extends AnyFlatSpec with Diagrams {
 
   "Interval" should "be generated successfully with positive value" in {
     require(positiveNumber > 0)
-    val interval = Interval(dateTimeUnit, positiveNumber)
+    val interval = Interval(positiveNumber, dateTimeUnit)
     assert(interval.unit == dateTimeUnit)
     assert(interval.value == positiveNumber)
   }
@@ -19,13 +19,13 @@ class IntervalSpec extends AnyFlatSpec with Diagrams {
   it should "not be generated successfully with negative value" in {
     assertThrows[IllegalArgumentException] {
       require(negativeNumber < 0)
-      Interval(DateTimeUnit.Hour, -1)
+      Interval(-1, DateTimeUnit.Hour)
     }
   }
 
   it should "not be generated successfully with 0 value" in {
     assertThrows[IllegalArgumentException] {
-      Interval(DateTimeUnit.Hour, 0)
+      Interval(0, DateTimeUnit.Hour)
     }
   }
 }
