@@ -4,7 +4,7 @@ import enumeratum.{Enum, EnumEntry}
 
 sealed abstract class SeedPattern(val isNewSeed: Boolean, val isRandomSeed: Boolean)
     extends EnumEntry {
-  def isSeedValueRequiredExplicitly: Boolean = isNewSeed && !isRandomSeed
+  def seedValueIsRequiredExplicitly: Boolean = isNewSeed && !isRandomSeed
 }
 
 object SeedPattern extends Enum[SeedPattern] {

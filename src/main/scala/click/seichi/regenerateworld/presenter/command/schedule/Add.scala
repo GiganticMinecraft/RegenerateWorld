@@ -24,7 +24,7 @@ case object Add extends ContextualExecutor {
       seedPattern = args.parsed(1).asInstanceOf[SeedPattern]
       seedValue = args.yetToBeParsed.headOption
       _ <-
-        if (seedPattern.isSeedValueRequiredExplicitly && seedValue.isEmpty) {
+        if (seedPattern.seedValueIsRequiredExplicitly && seedValue.isEmpty) {
           Left(WorldRegenerationException.SeedIsRequired)
         } else {
           Right(())
