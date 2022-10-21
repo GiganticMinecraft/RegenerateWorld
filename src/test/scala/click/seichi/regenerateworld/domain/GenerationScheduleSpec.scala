@@ -14,8 +14,6 @@ import java.time.{LocalDate, LocalTime, ZoneId, ZonedDateTime}
 import java.util.UUID
 
 class GenerationScheduleSpec extends AnyFlatSpec with Diagrams {
-  // TODO: GenerationSchedule#fromRepository
-
   "GenerationSchedule#finish" should "calculate Interval plus now" in {
     val nowDateTime =
       ZonedDateTime.of(LocalDate.of(2020, 1, 1), LocalTime.of(0, 0, 0), ZoneId.of("Asia/Tokyo"))
