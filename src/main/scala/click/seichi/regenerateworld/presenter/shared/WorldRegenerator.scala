@@ -14,17 +14,25 @@ case object WorldRegenerator {
     seedPattern: SeedPattern,
     newSeed: Option[String]
   ): Either[WorldRegenerationException, Unit] = {
-    if (seedPattern == SeedPattern.NewSeed && newSeed.forall(_.isEmpty))
-      return Left(WorldRegenerationException.SeedIsRequired)
-
-    val preEvent = PreRegenWorldEvent(world.getName)
-    Bukkit.getPluginManager.callEvent(preEvent)
-    if (preEvent.isCancelled) return Left(WorldRegenerationException.RegenWorldEventIsCancelled)
-
-    val isSuccessful =
-      Multiverse.regenWorld(world, seedPattern.isNewSeed, seedPattern.isRandomSeed, newSeed)
-    Bukkit.getPluginManager.callEvent(RegenWorldEvent(world.getName))
-    if (isSuccessful) Right(()) else Left(WorldRegenerationException.MultiverseException)
+    for {
+      _ <-
+        if (seedPattern == SeedPattern.NewSeed && newSeed.forall(_.isEmpty))
+          Left(WorldRegenerationException.SeedIsRequired)
+        else Right(())
+      preEvent = PreRegenWorldEvent(world.getName)
+      _ = Bukkit.getPluginManager.callEvent(preEvent)
+      _ <-
+        if (preEvent.isCancelled) Left(WorldRegenerationException.RegenWorldEventIsCancelled)
+        else Right(())
+      _ = Bukkit.getPluginManager.callEvent(RegenWorldEvent(world.getName))
+      isSuccessful = Multiverse.regenWorld(
+        world,
+        seedPattern.isNewSeed,
+        seedPattern.isRandomSeed,
+        newSeed
+      )
+      _ <- if (isSuccessful) Right(()) else Left(WorldRegenerationException.MultiverseException)
+    } yield ()
   }
 
   def regenBukkitWorld(
