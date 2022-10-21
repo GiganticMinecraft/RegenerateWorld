@@ -1,4 +1,4 @@
-package click.seichi.regenerateworld
+package click.seichi.regenerateworld.presenter
 
 import click.seichi.regenerateworld.presenter.command.Command
 import click.seichi.regenerateworld.presenter.listener.RegenWorldListener
@@ -12,6 +12,7 @@ class RegenerateWorld extends JavaPlugin {
 
     getCommand("regenworld").setExecutor(Command.executor)
     getServer.getPluginManager.registerEvents(RegenWorldListener, this)
+    // TODO: register runnable per each schedule
   }
 }
 
