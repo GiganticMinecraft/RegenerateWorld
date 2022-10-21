@@ -5,7 +5,7 @@ import click.seichi.regenerateworld.presenter.mixin.{
   MixInGenerationScheduleRepository,
   MixInSetting
 }
-import click.seichi.regenerateworld.usecase.GenerationScheduleUseCase
+import click.seichi.regenerateworld.usecase.{GenerationScheduleUseCase, SettingUseCase}
 
 package object presenter {
   object GenerationScheduleUseCase
@@ -13,5 +13,5 @@ package object presenter {
       with MixInGenerationScheduleRepository
       with MixInClock
 
-  object Setting extends MixInSetting
+  object Setting extends SettingUseCase with MixInSetting
 }
