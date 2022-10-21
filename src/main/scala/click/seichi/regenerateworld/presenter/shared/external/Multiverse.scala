@@ -1,4 +1,4 @@
-package click.seichi.regenerateworld.presenter.shared
+package click.seichi.regenerateworld.presenter.shared.external
 
 import click.seichi.regenerateworld.presenter.RegenerateWorld.INSTANCE
 import com.onarandombox.MultiverseCore.MultiverseCore
@@ -22,7 +22,9 @@ private[shared] case object Multiverse {
     isRandomSeed: Boolean,
     newSeed: Option[String]
   ): Boolean =
-    instance.getMVWorldManager.regenWorld(world.getName, isNewSeed, isRandomSeed, newSeed.orNull)
+    instance
+      .getMVWorldManager
+      .regenWorld(world.getName, isNewSeed, isRandomSeed, newSeed.orNull)
 
   implicit class BukkitWorldOps(val world: World) {
     def asMVWorld(): Option[MultiverseWorld] = fromBukkitWorld(world)

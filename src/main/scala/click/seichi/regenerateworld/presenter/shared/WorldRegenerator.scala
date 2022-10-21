@@ -1,9 +1,10 @@
 package click.seichi.regenerateworld.presenter.shared
 
 import click.seichi.regenerateworld.domain.model.SeedPattern
-import Multiverse._
+import click.seichi.regenerateworld.presenter.shared.external.Multiverse._
 import click.seichi.regenerateworld.presenter.event.{PreRegenWorldEvent, RegenWorldEvent}
 import click.seichi.regenerateworld.presenter.shared.exception.WorldRegenerationException
+import click.seichi.regenerateworld.presenter.shared.external.Multiverse
 import com.onarandombox.MultiverseCore.api.MultiverseWorld
 import org.bukkit.{Bukkit, World}
 
