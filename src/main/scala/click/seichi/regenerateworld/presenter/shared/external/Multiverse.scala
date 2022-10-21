@@ -6,7 +6,7 @@ import com.onarandombox.MultiverseCore.api.MultiverseWorld
 import org.bukkit.{Bukkit, Location, World}
 import org.bukkit.entity.Player
 
-private[shared] case object Multiverse {
+object Multiverse {
   private val instance =
     INSTANCE
       .getServer
