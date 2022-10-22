@@ -6,6 +6,7 @@ import click.seichi.regenerateworld.presenter.listener.RegenWorldListener
 import click.seichi.regenerateworld.presenter.runnable.RegenerationTask
 import org.bukkit.Bukkit
 import org.bukkit.plugin.java.JavaPlugin
+import org.bukkit.scheduler.BukkitTask
 
 import java.time.ZonedDateTime
 import java.util.UUID
@@ -32,7 +33,7 @@ class RegenerateWorld extends JavaPlugin {
   }
 
   private def runRegeneration(): Unit = {
-    implicit val instance: RegenerateWorld = this
+    import RegenerateWorld._
 
     GenerationScheduleUseCase
       .filteredList(schedule => {
@@ -43,15 +44,14 @@ class RegenerateWorld extends JavaPlugin {
       })
       .foreach(RegenerationTask.runInstantly)
 
-    // TODO: Add・Edit・Deleteされた際にBukkitTaskを登録し直す
     GenerationScheduleUseCase
       .list()
-      .map(schedule => (schedule.id, RegenerationTask.runAtNextDate(schedule).getTaskId))
-      .foreach { case (scheduleId, taskId) => regenerationTasks.put(scheduleId, taskId) }
+      .map(schedule => (schedule.id, RegenerationTask.runAtNextDate(schedule)))
+      .foreach { case (scheduleId, task) => regenerationTasks.put(scheduleId, task) }
   }
 }
 
 object RegenerateWorld {
-  var instance: RegenerateWorld = _
-  val regenerationTasks: mutable.Map[UUID, Int] = mutable.Map()
+  implicit var instance: RegenerateWorld = _
+  val regenerationTasks: mutable.Map[UUID, BukkitTask] = mutable.Map()
 }
