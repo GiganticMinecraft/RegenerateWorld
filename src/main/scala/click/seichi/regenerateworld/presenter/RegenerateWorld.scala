@@ -1,5 +1,6 @@
 package click.seichi.regenerateworld.presenter
 
+import click.seichi.regenerateworld.presenter.RegenerateWorld.regenerationTasks
 import click.seichi.regenerateworld.presenter.command.Command
 import click.seichi.regenerateworld.presenter.listener.RegenWorldListener
 import click.seichi.regenerateworld.presenter.runnable.RegenerationTask
@@ -7,6 +8,8 @@ import org.bukkit.Bukkit
 import org.bukkit.plugin.java.JavaPlugin
 
 import java.time.ZonedDateTime
+import java.util.UUID
+import scala.collection.mutable
 
 class RegenerateWorld extends JavaPlugin {
   override def onEnable(): Unit = {
@@ -40,11 +43,15 @@ class RegenerateWorld extends JavaPlugin {
       })
       .foreach(RegenerationTask.runInstantly)
 
-    // TODO: Add・Edit・Deleteされた際に変更を反映させる必要があるので、TaskIdを持っておきたい
-    GenerationScheduleUseCase.list().foreach(RegenerationTask.runAtNextDate)
+    // TODO: Add・Edit・Deleteされた際にBukkitTaskを登録し直す
+    GenerationScheduleUseCase
+      .list()
+      .map(schedule => (schedule.id, RegenerationTask.runAtNextDate(schedule).getTaskId))
+      .foreach { case (scheduleId, taskId) => regenerationTasks.put(scheduleId, taskId) }
   }
 }
 
 object RegenerateWorld {
   var instance: RegenerateWorld = _
+  val regenerationTasks: mutable.Map[UUID, Int] = mutable.Map()
 }
