@@ -15,6 +15,7 @@ import click.seichi.regenerateworld.presenter.shared.exception.{
   WorldRegenerationException
 }
 import enumeratum.{Enum, EnumEntry}
+import org.bukkit.ChatColor
 
 import java.util.UUID
 import scala.util.Try
@@ -71,6 +72,8 @@ case object Edit extends ContextualExecutor {
 
           GenerationScheduleUseCase.setWorlds(id, worlds.toSet)
       }
+
+      context.sender.sendMessage(s"${ChatColor.GREEN}スケジュールの編集に成功しました")
     }
   }
 }
