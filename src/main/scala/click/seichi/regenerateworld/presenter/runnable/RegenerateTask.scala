@@ -2,14 +2,28 @@ package click.seichi.regenerateworld.presenter.runnable
 
 import click.seichi.regenerateworld.domain.model.{GenerationSchedule, SeedPattern}
 import click.seichi.regenerateworld.presenter.GenerationScheduleUseCase
+import click.seichi.regenerateworld.presenter.mixin.MixInClock
 import click.seichi.regenerateworld.presenter.shared.WorldRegenerator
 import click.seichi.regenerateworld.presenter.shared.exception.WorldRegenerationException
 import org.bukkit.{Bukkit, ChatColor}
 import org.bukkit.plugin.java.JavaPlugin
-import org.bukkit.scheduler.BukkitRunnable
+import org.bukkit.scheduler.{BukkitRunnable, BukkitTask}
 
-object RegenerateTask {
-  def run(schedule: GenerationSchedule)(implicit instance: JavaPlugin): Unit = {
+import java.time.temporal.ChronoUnit
+
+object RegenerateTask extends MixInClock {
+  def runAtNextDate(
+    schedule: GenerationSchedule
+  )(implicit instance: JavaPlugin): BukkitTask = {
+    val difference = clock.now.until(schedule.nextDateTime, ChronoUnit.SECONDS)
+    require(difference >= 0, "The schedule's NextDateTime must be in the future")
+
+    new BukkitRunnable {
+      override def run(): Unit = runInstantly(schedule)
+    }.runTaskLaterAsynchronously(instance, difference * 20L)
+  }
+
+  def runInstantly(schedule: GenerationSchedule)(implicit instance: JavaPlugin): BukkitTask = {
     new RegenerateTask(schedule).runTaskTimerAsynchronously(instance, 0L, 20L)
   }
 }
