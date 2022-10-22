@@ -8,7 +8,6 @@ schedules:
     seed-pattern: CurrentSeed
     worlds:
       - world
-      - world_TEST
 
 settings:
   teleport-world-name: world
