@@ -36,11 +36,7 @@ case object Remove extends ContextualExecutor {
         regenerationTasks(schedule.id).cancel()
         regenerationTasks.remove(schedule.id)
 
-        Right(
-          context
-            .sender
-            .sendMessage(s"${ChatColor.GREEN}スケジュールの削除に成功しました")
-        )
+        Right(context.sender.sendMessage(s"${ChatColor.GREEN}スケジュールの削除に成功しました"))
       } else Left(CommandException.CommandExecutionFailed)
   }
 }
