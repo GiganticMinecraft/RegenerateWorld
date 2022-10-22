@@ -17,5 +17,5 @@ class RegenerateWorld extends JavaPlugin {
 }
 
 object RegenerateWorld {
-  var INSTANCE: RegenerateWorld = _
+  var instance: RegenerateWorld = _
 }
