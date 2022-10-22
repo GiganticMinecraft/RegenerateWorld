@@ -26,7 +26,7 @@ class RegenerateWorld extends JavaPlugin {
   }
 
   override def onDisable(): Unit = {
-    // TODO: cancel all tasks
+    regenerationTasks.values.foreach(_.cancel())
 
     Bukkit.getLogger.info("RegenerateWorld is disabled!")
   }
