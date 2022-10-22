@@ -46,7 +46,7 @@ object Parsers {
       matchResult <- regex.findFirstMatchIn(arg)
       value <- naturalLongValue(matchResult.group(1)).toOption
       unit <- dateTimeUnit(matchResult.group(2)).toOption
-    } yield Interval(unit.asInstanceOf[DateTimeUnit], value.asInstanceOf[Long])
+    } yield Interval(value.asInstanceOf[Long], unit.asInstanceOf[DateTimeUnit])
 
     interval.toRight(ParseException.MustBeInterval)
   }

@@ -17,15 +17,15 @@ class GenerationScheduleSpec extends AnyFlatSpec with Diagrams {
   "GenerationSchedule#finish" should "calculate Interval plus now" in {
     val nowDateTime =
       ZonedDateTime.of(LocalDate.of(2020, 1, 1), LocalTime.of(0, 0, 0), ZoneId.of("Asia/Tokyo"))
-    val intervalsSet = DateTimeUnit.values.map { unit => Interval(unit, 1) }
+    val intervalsSet = DateTimeUnit.values.map { unit => Interval(1, unit) }
 
     forAll(intervalsSet) { interval =>
       val schedule =
         GenerationSchedule(UUID.randomUUID(), nowDateTime, interval, SeedPattern.NewSeed, Set())
 
       assert(
-        schedule.finish(nowDateTime).nextDateTime == nowDateTime
-          .plus(interval.value, interval.unit.chronoUnit)
+        schedule.finish(nowDateTime).nextDateTime ==
+          nowDateTime.plus(interval.value, interval.unit.chronoUnit)
       )
     }
   }

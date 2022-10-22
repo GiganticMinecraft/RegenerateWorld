@@ -16,7 +16,10 @@ import java.util.UUID
 
 case object Schedule extends ContextualExecutor {
   val help: EchoExecutor = EchoExecutor(
-    List("/rw run schedule <スケジュールID> <新しいシード値>", "    指定されたスケジュールの再生成を即時に行います。")
+    List(
+      "/rw run schedule <スケジュールID> <新しいシード値>",
+      "    指定されたスケジュールの再生成を即時に行います。(シード値の設定がNewになっている場合は新しいシード値を指定する必要があります)"
+    )
   )
 
   override def executionWith(context: CommandContext): Result[Unit] = {
@@ -31,10 +34,10 @@ case object Schedule extends ContextualExecutor {
       worldName <- schedule.worlds
       world = Option(Bukkit.getWorld(worldName))
     } yield world match {
-      case Some(w) =>
+      case Some(world) =>
         regenStartMessages(worldName).foreach(context.sender.sendMessage)
 
-        WorldRegenerator.regenFromWorld(w, schedule.seedPattern, newSeed).onSuccess { _ =>
+        WorldRegenerator.regenBukkitWorld(world, schedule.seedPattern, newSeed).onSuccess { _ =>
           GenerationScheduleUseCase.finish(schedule.id)
           context.sender.sendMessage(regenSuccessfulMessage(worldName))
         }

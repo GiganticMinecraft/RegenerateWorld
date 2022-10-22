@@ -8,7 +8,7 @@ import scala.jdk.CollectionConverters._
 
 private object ConfigKeys {
   val NextDateTime = "next-date-time"
-  private val Interval = "interval"
+  val Interval = "interval"
   val IntervalUnit = s"$Interval.unit"
   val IntervalValue = s"$Interval.value"
   val SeedPattern = "seed-pattern"
@@ -38,8 +38,8 @@ private object GenerationScheduleConverter {
     def write(schedule: GenerationSchedule): Unit = {
       Map(
         ConfigKeys.NextDateTime -> schedule.nextDateTime.toString,
-        ConfigKeys.IntervalUnit -> schedule.interval.unit.toString,
         ConfigKeys.IntervalValue -> schedule.interval.value,
+        ConfigKeys.IntervalUnit -> schedule.interval.unit.toString,
         ConfigKeys.SeedPattern -> schedule.seedPattern.toString,
         ConfigKeys.Worlds -> schedule.worlds.toList.asJava
       ).foreach { case (key, value) => section.set(key, value) }

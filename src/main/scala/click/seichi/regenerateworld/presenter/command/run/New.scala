@@ -13,7 +13,10 @@ import org.bukkit.World
 
 case object New extends ContextualExecutor {
   val help: EchoExecutor = EchoExecutor(
-    List("/rw run new <ワールド名> <シード値の設定> <新しいシード値>", "    指定されたワールドを指定された設定で再生成します。")
+    List(
+      "/rw run new <ワールド名> <シード値の設定> <新しいシード値>",
+      "    指定されたワールドを指定された設定で再生成します。(シード値の設定がNewになっている場合は新しいシード値を指定する必要があります)"
+    )
   )
 
   override def executionWith(context: CommandContext): Result[Unit] = {
@@ -26,7 +29,7 @@ case object New extends ContextualExecutor {
     } yield {
       regenStartMessages(worldName).foreach(context.sender.sendMessage)
 
-      WorldRegenerator.regenFromWorld(world, seedPattern, newSeed).onSuccess { _ =>
+      WorldRegenerator.regenBukkitWorld(world, seedPattern, newSeed).onSuccess { _ =>
         context.sender.sendMessage(regenSuccessfulMessage(worldName))
       }
     }

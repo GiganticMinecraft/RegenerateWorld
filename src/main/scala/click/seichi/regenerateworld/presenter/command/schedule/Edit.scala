@@ -2,6 +2,8 @@ package click.seichi.regenerateworld.presenter.command.schedule
 
 import click.seichi.regenerateworld.domain.model.{Interval, SeedPattern}
 import click.seichi.regenerateworld.presenter.GenerationScheduleUseCase
+import click.seichi.regenerateworld.presenter.RegenerateWorld._
+import click.seichi.regenerateworld.presenter.runnable.RegenerationTask
 import click.seichi.regenerateworld.presenter.shared.contextualexecutor.executor.EchoExecutor
 import click.seichi.regenerateworld.presenter.shared.contextualexecutor.{
   CommandContext,
@@ -15,6 +17,7 @@ import click.seichi.regenerateworld.presenter.shared.exception.{
   WorldRegenerationException
 }
 import enumeratum.{Enum, EnumEntry}
+import org.bukkit.ChatColor
 
 import java.util.UUID
 import scala.util.Try
@@ -71,6 +74,13 @@ case object Edit extends ContextualExecutor {
 
           GenerationScheduleUseCase.setWorlds(id, worlds.toSet)
       }
+
+      regenerationTasks(id).cancel()
+      val newSchedule = GenerationScheduleUseCase.findById(id).get
+      val newTask = RegenerationTask.runAtNextDate(newSchedule)
+      regenerationTasks.put(id, newTask)
+
+      context.sender.sendMessage(s"${ChatColor.GREEN}スケジュールの編集に成功しました")
     }
   }
 }

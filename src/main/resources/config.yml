@@ -3,12 +3,11 @@ schedules:
   d863cee6-c381-4255-87a5-1ef17cf041e9:
     next-date-time: '2011-12-03T10:15:30+09:00[Asia/Tokyo]'
     interval:
-      unit: Minute
       value: 1
+      unit: Minute
     seed-pattern: CurrentSeed
     worlds:
       - world
-      - world_TEST
 
 settings:
   teleport-world-name: world

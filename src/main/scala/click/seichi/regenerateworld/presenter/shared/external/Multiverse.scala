@@ -1,28 +1,32 @@
-package click.seichi.regenerateworld.presenter.shared
+package click.seichi.regenerateworld.presenter.shared.external
 
-import click.seichi.regenerateworld.RegenerateWorld.INSTANCE
+import click.seichi.regenerateworld.presenter.RegenerateWorld.instance
 import com.onarandombox.MultiverseCore.MultiverseCore
 import com.onarandombox.MultiverseCore.api.MultiverseWorld
-import org.bukkit.World
+import org.bukkit.{Bukkit, Location, World}
+import org.bukkit.entity.Player
 
-case object Multiverse {
-  private val instance =
-    INSTANCE
+object Multiverse {
+  private val multiverse =
+    instance
       .getServer
       .getPluginManager
       .getPlugin("Multiverse-Core")
       .asInstanceOf[MultiverseCore]
 
   def fromBukkitWorld(world: World): Option[MultiverseWorld] =
-    Option(instance.getMVWorldManager.getMVWorld(world))
+    Option(multiverse.getMVWorldManager.getMVWorld(world))
 
-  def regenWorld(
+  def teleportPlayer(player: Player, location: Location): Unit =
+    multiverse.teleportPlayer(Bukkit.getConsoleSender, player, location)
+
+  private[shared] def regenWorld(
     world: MultiverseWorld,
     isNewSeed: Boolean,
     isRandomSeed: Boolean,
     newSeed: Option[String]
   ): Boolean =
-    instance
+    multiverse
       .getMVWorldManager
       .regenWorld(world.getName, isNewSeed, isRandomSeed, newSeed.orNull)
 

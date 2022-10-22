@@ -21,7 +21,9 @@ case object Remove extends ContextualExecutor {
     List("/rw schedule remove <スケジュールID>", "    指定されたIDのスケジュールを削除します。")
   )
 
-  override def executionWith(context: CommandContext): Result[Unit] =
+  override def executionWith(context: CommandContext): Result[Unit] = {
+    import click.seichi.regenerateworld.presenter.RegenerateWorld._
+
     for {
       args <- parseArguments(List(Parsers.uuid))(context)
       uuid = args.parsed.head.asInstanceOf[UUID]
@@ -30,11 +32,11 @@ case object Remove extends ContextualExecutor {
         .toRight(WorldRegenerationException.ScheduleIsNotFound)
       isSuccessful = GenerationScheduleUseCase.remove(schedule.id)
     } yield
-      if (isSuccessful)
-        Right(
-          context
-            .sender
-            .sendMessage(s"${ChatColor.GREEN}指定されたスケジュール(id: ${uuid.toString})の削除に成功しました")
-        )
-      else Left(CommandException.CommandExecutionFailed)
+      if (isSuccessful) {
+        regenerationTasks(schedule.id).cancel()
+        regenerationTasks.remove(schedule.id)
+
+        Right(context.sender.sendMessage(s"${ChatColor.GREEN}スケジュールの削除に成功しました"))
+      } else Left(CommandException.CommandExecutionFailed)
+  }
 }

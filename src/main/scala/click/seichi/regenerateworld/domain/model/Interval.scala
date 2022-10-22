@@ -1,6 +1,6 @@
 package click.seichi.regenerateworld.domain.model
 
-case class Interval(unit: DateTimeUnit, value: Long) {
+case class Interval(value: Long, unit: DateTimeUnit) {
   // region Init
 
   if (value <= 0)

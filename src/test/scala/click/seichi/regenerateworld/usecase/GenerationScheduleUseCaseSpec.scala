@@ -27,26 +27,21 @@ class GenerationScheduleUseCaseSpec extends AnyFlatSpec with Diagrams with MockF
     GenerationSchedule(
       UUID.randomUUID(),
       ZonedDateTime.now(),
-      Interval(DateTimeUnit.Year, 1),
-      SeedPattern.NewSeed,
+      Interval(1, DateTimeUnit.Year),
+      SeedPattern.CurrentSeed,
       Set()
     )
 
   "GenerationScheduleUseCase#add" should "add new schedule" in {
     val now = defaultSchedule.nextDateTime
     val interval = defaultSchedule.interval
-    val seedPattern = defaultSchedule.seedPattern
-    val worlds = defaultSchedule.worlds
-    (mockClock.now _).expects().returning(now).once()
+    (() => mockClock.now).expects().returning(now).once()
     (mockRepo.save _)
       .expects(where { schedule: GenerationSchedule =>
-        schedule.nextDateTime == now.plus(
-          interval.value,
-          interval.unit.chronoUnit
-        ) && schedule.interval == interval && schedule.seedPattern == seedPattern && schedule.worlds == worlds
+        schedule.nextDateTime == now.plus(interval.value, interval.unit.chronoUnit)
       })
       .once()
-    useCase.add(interval, seedPattern, worlds)
+    useCase.add(interval, defaultSchedule.seedPattern, defaultSchedule.worlds)
   }
 
   "GenerationScheduleUseCase#findById" should "return Some(schedule) when given the existing uuid" in {
@@ -71,7 +66,7 @@ class GenerationScheduleUseCaseSpec extends AnyFlatSpec with Diagrams with MockF
   }
 
   "GenerationScheduleUseCase#changeInterval" should "change the interval" in {
-    val changedInterval = Interval(DateTimeUnit.Minute, 10)
+    val changedInterval = Interval(10, DateTimeUnit.Minute)
 
     val schedule = defaultSchedule
     (mockRepo.find _).expects(*).returning(Some(schedule)).once()
