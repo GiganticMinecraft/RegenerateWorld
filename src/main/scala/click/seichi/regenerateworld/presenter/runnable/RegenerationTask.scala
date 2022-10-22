@@ -11,10 +11,8 @@ import org.bukkit.scheduler.{BukkitRunnable, BukkitTask}
 
 import java.time.temporal.ChronoUnit
 
-object RegenerateTask extends MixInClock {
-  def runAtNextDate(
-    schedule: GenerationSchedule
-  )(implicit instance: JavaPlugin): BukkitTask = {
+object RegenerationTask extends MixInClock {
+  def runAtNextDate(schedule: GenerationSchedule)(implicit instance: JavaPlugin): BukkitTask = {
     val difference = clock.now.until(schedule.nextDateTime, ChronoUnit.SECONDS)
     require(difference >= 0, "The schedule's NextDateTime must be in the future")
 
@@ -24,12 +22,12 @@ object RegenerateTask extends MixInClock {
   }
 
   def runInstantly(schedule: GenerationSchedule)(implicit instance: JavaPlugin): BukkitTask = {
-    new RegenerateTask(schedule).runTaskTimerAsynchronously(instance, 0L, 20L)
+    new RegenerationTask(schedule).runTaskTimerAsynchronously(instance, 0L, 20L)
   }
 }
 
-private class RegenerateTask(private val schedule: GenerationSchedule)(
-  implicit val instance: JavaPlugin
+private class RegenerationTask(private val schedule: GenerationSchedule)(
+  implicit instance: JavaPlugin
 ) extends BukkitRunnable {
   private var count = 10
 
