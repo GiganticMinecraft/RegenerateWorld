@@ -1,6 +1,6 @@
 package click.seichi.regenerateworld.presenter.shared
 
-import click.seichi.regenerateworld.RegenerateWorld.INSTANCE
+import click.seichi.regenerateworld.presenter.RegenerateWorld.INSTANCE
 import com.onarandombox.MultiverseCore.MultiverseCore
 import com.onarandombox.MultiverseCore.api.MultiverseWorld
 import org.bukkit.World
