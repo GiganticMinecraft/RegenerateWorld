@@ -1,6 +1,5 @@
 # IntelliJ IDEA
-.idea/**/workspace.xml
-.idea/**/libraries
+.idea
 *.iml
 
 # SBT
