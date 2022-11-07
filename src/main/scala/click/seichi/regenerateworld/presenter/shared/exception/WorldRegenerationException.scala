@@ -3,7 +3,8 @@ package click.seichi.regenerateworld.presenter.shared.exception
 import enumeratum.{Enum, EnumEntry}
 
 sealed abstract class WorldRegenerationException(override val description: String)
-    extends EnumEntry
+    extends Throwable
+    with EnumEntry
     with OriginalException
 
 object WorldRegenerationException extends Enum[WorldRegenerationException] {
