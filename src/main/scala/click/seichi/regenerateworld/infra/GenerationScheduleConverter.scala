@@ -17,7 +17,7 @@ private object ConfigKeys {
 
 private object GenerationScheduleConverter {
   implicit class Converter(val section: MemorySection) {
-    def read(id: UUID): Option[GenerationSchedule] = {
+    def read(id: UUID): Option[GenerationSchedule] =
       for {
         nextDateTime <- Option(section.getString(ConfigKeys.NextDateTime))
         intervalUnit <- Option(section.getString(ConfigKeys.IntervalUnit))
@@ -33,9 +33,8 @@ private object GenerationScheduleConverter {
           worlds
         )
       } yield schedule
-    }
 
-    def write(schedule: GenerationSchedule): Unit = {
+    def write(schedule: GenerationSchedule): Unit =
       Map(
         ConfigKeys.NextDateTime -> schedule.nextDateTime.toString,
         ConfigKeys.IntervalValue -> schedule.interval.value,
@@ -43,6 +42,5 @@ private object GenerationScheduleConverter {
         ConfigKeys.SeedPattern -> schedule.seedPattern.toString,
         ConfigKeys.Worlds -> schedule.worlds.toList.asJava
       ).foreach { case (key, value) => section.set(key, value) }
-    }
   }
 }
