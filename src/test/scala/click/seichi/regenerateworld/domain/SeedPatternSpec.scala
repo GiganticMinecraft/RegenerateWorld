@@ -35,4 +35,6 @@ class SeedPatternSpec extends AnyFlatSpec with Diagrams {
       assert(SeedPattern.fromString(str).isEmpty)
     }
   }
+
+  // TODO: add #seedValueIsRequiredExplicitly
 }
