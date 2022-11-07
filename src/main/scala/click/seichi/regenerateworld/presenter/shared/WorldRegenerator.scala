@@ -16,7 +16,7 @@ case object WorldRegenerator {
   ): Either[WorldRegenerationException, Unit] = {
     for {
       _ <-
-        if (seedPattern == SeedPattern.NewSeed && newSeed.forall(_.isEmpty))
+        if (seedPattern.seedValueIsRequiredExplicitly && newSeed.forall(_.isEmpty))
           Left(WorldRegenerationException.SeedIsRequired)
         else Right(())
       preEvent = PreRegenWorldEvent(world.getName)
@@ -25,13 +25,12 @@ case object WorldRegenerator {
         if (preEvent.isCancelled) Left(WorldRegenerationException.RegenWorldEventIsCancelled)
         else Right(())
       _ = Bukkit.getPluginManager.callEvent(RegenWorldEvent(world.getName))
-      isSuccessful = Multiverse.regenWorld(
+      _ <- Multiverse.regenWorld(
         world,
         seedPattern.isNewSeed,
         seedPattern.isRandomSeed,
         newSeed
       )
-      _ <- if (isSuccessful) Right(()) else Left(WorldRegenerationException.MultiverseException)
     } yield ()
   }
 

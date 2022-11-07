@@ -1,6 +1,7 @@
 package click.seichi.regenerateworld.presenter.shared.external
 
 import click.seichi.regenerateworld.presenter.RegenerateWorld.instance
+import click.seichi.regenerateworld.presenter.shared.exception.WorldRegenerationException
 import com.onarandombox.MultiverseCore.MultiverseCore
 import com.onarandombox.MultiverseCore.api.MultiverseWorld
 import org.bukkit.{Bukkit, Location, World}
@@ -25,10 +26,13 @@ object Multiverse {
     isNewSeed: Boolean,
     isRandomSeed: Boolean,
     newSeed: Option[String]
-  ): Boolean =
-    multiverse
+  ) = {
+    val isSucceeded = multiverse
       .getMVWorldManager
       .regenWorld(world.getName, isNewSeed, isRandomSeed, newSeed.orNull)
+
+    if (isSucceeded) Right(()) else Left(WorldRegenerationException.MultiverseException)
+  }
 
   implicit class BukkitWorldOps(val world: World) {
     def asMVWorld(): Option[MultiverseWorld] = fromBukkitWorld(world)
