@@ -33,7 +33,7 @@ private class RegenerationTask(private val schedule: GenerationSchedule)(
   implicit instance: JavaPlugin
 ) {
 
-  private def aaaa[F[_]: Async](worldName: String) =
+  private def aaaa[F[_]: Async](worldName: String): F[String] =
     for {
       world <- Async[F].delay(Option(Bukkit.getWorld(worldName)))
       world <- world match {
@@ -46,21 +46,24 @@ private class RegenerationTask(private val schedule: GenerationSchedule)(
       _ <- Sync[F].blocking(WorldRegenerator.regenBukkitWorld(world, seedPattern, None))
     } yield worldName
 
-  def ooo[F[_]: Async]() =
-    for {
-      count <- 10 to 0 by -1
-    } yield for {
-      _ <-
-        Async[F]
-          .delay {
-            Bukkit.broadcastMessage(
-              s"${ChatColor.RED}The regeneration of ${schedule.worlds.mkString(", ")} will be held in $count minute(s)!"
-            )
-          }
-          .whenA(Set(1, 2, 3, 5, 10).contains(count))
-      _ <- Async[F].delay(schedule.worlds.toList.traverse(aaaa)).whenA(count == 0)
-      _ <- Async[F].sleep(1.seconds)
-    } yield ()
+  def ooo[F[_]: Async](): Unit = {
+    val countDowns = Set(1, 2, 3, 5, 10)
+
+    (10 to 0 by -1).foreach { count =>
+      for {
+        _ <-
+          Async[F]
+            .delay {
+              Bukkit.broadcastMessage(
+                s"${ChatColor.RED}The regeneration of ${schedule.worlds.mkString(", ")} will be held in $count minute(s)!"
+              )
+            }
+            .whenA(countDowns.contains(count))
+        _ <- Async[F].delay(schedule.worlds.toList.traverse(aaaa)).whenA(count == 0)
+        _ <- Async[F].sleep(1.seconds)
+      } yield ()
+    }
+  }
 
   def run(): Unit =
     for (count <- 10 to 0 by -1) {
