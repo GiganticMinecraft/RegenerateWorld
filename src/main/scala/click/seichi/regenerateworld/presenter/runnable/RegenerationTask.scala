@@ -25,7 +25,7 @@ object RegenerationTask extends MixInClock {
     }.runTaskLaterAsynchronously(instance, difference * 20L)
   }
 
-  def runInstantly(schedule: GenerationSchedule)(implicit instance: JavaPlugin) =
+  def runInstantly(schedule: GenerationSchedule)(implicit instance: JavaPlugin): Unit =
     new RegenerationTask(schedule).ooo[IO]()
 }
 
