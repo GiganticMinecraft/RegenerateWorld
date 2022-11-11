@@ -56,7 +56,7 @@ private class RegenerationTask(private val schedule: GenerationSchedule)(
               )
             }
             .whenA(countDowns.contains(count))
-        _ <- Async[F].delay(schedule.worlds.toList.traverse(aaaa(_))).whenA(count == 0)
+        _ <- schedule.worlds.toList.traverse(aaaa(_)).whenA(count == 0)
         _ <- Async[F].sleep(1.seconds)
       } yield ()
     }
