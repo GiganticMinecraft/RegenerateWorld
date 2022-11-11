@@ -1,6 +1,5 @@
 package click.seichi.regenerateworld.presenter.runnable
 
-import cats.syntax.all._
 import cats.implicits._
 import cats.effect.{Async, IO, Sync}
 import click.seichi.regenerateworld.domain.model.{GenerationSchedule, SeedPattern}
