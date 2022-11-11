@@ -35,12 +35,16 @@ case object WorldRegenerator {
   }
 
   def regenBukkitWorld(
-    bukkitWorld: World,
+    bukkitWorld: Option[World],
     seedPattern: SeedPattern,
     newSeed: Option[String]
   ): Either[WorldRegenerationException, Unit] =
-    bukkitWorld
-      .asMVWorld()
-      .toRight(WorldRegenerationException.BukkitWorldIsNotMVWorld(bukkitWorld.getName))
-      .flatMap(regen(_, seedPattern, newSeed))
+    bukkitWorld match {
+      case Some(world) =>
+        world
+          .asMVWorld()
+          .toRight(WorldRegenerationException.BukkitWorldIsNotMVWorld(world.getName))
+          .flatMap(regen(_, seedPattern, newSeed))
+      case None => Left(WorldRegenerationException.WorldIsNotFound(""))
+    }
 }

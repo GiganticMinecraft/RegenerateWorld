@@ -29,7 +29,7 @@ case object New extends ContextualExecutor {
     } yield {
       regenStartMessages(worldName).foreach(context.sender.sendMessage)
 
-      WorldRegenerator.regenBukkitWorld(world, seedPattern, newSeed).onSuccess { _ =>
+      WorldRegenerator.regenBukkitWorld(Some(world), seedPattern, newSeed).onSuccess { _ =>
         context.sender.sendMessage(regenSuccessfulMessage(worldName))
       }
     }
