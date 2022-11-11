@@ -25,31 +25,28 @@ object RegenerationTask extends MixInClock {
     }.runTaskLaterAsynchronously(instance, difference * 20L)
   }
 
-  def runInstantly(schedule: GenerationSchedule)(implicit instance: JavaPlugin): Unit =
+  def runInstantly(schedule: GenerationSchedule)(implicit instance: JavaPlugin): Seq[IO[Unit]] =
     new RegenerationTask(schedule).ooo[IO]()
 }
 
 private class RegenerationTask(private val schedule: GenerationSchedule)(
   implicit instance: JavaPlugin
 ) {
+  private def aaaa[F[_]: Async](worldName: String): F[Unit] = {
+    val seedPattern =
+      if (schedule.seedPattern.seedValueIsRequiredExplicitly) SeedPattern.RandomNewSeed
+      else schedule.seedPattern
 
-  private def aaaa[F[_]: Async](worldName: String): F[String] =
     for {
       world <- Async[F].delay(Option(Bukkit.getWorld(worldName)))
-      world <- world match {
-        case Some(world) => Async[F].pure(world)
-        case None => Async[F].raiseError(WorldRegenerationException.WorldIsNotFound(worldName))
-      }
-      seedPattern =
-        if (schedule.seedPattern.seedValueIsRequiredExplicitly) SeedPattern.RandomNewSeed
-        else schedule.seedPattern
-      _ <- Sync[F].blocking(WorldRegenerator.regenBukkitWorld(world, seedPattern, None))
-    } yield worldName
+      _ <- Sync[F].delay(WorldRegenerator.regenBukkitWorld(world, seedPattern, None))
+    } yield ()
+  }
 
-  def ooo[F[_]: Async](): Unit = {
+  def ooo[F[_]: Async](): Seq[F[Unit]] = {
     val countDowns = Set(1, 2, 3, 5, 10)
 
-    (10 to 0 by -1).foreach { count =>
+    (10 to 0 by -1).map { count =>
       for {
         _ <-
           Async[F]
@@ -59,7 +56,7 @@ private class RegenerationTask(private val schedule: GenerationSchedule)(
               )
             }
             .whenA(countDowns.contains(count))
-        _ <- Async[F].delay(schedule.worlds.toList.traverse(aaaa)).whenA(count == 0)
+        _ <- Async[F].delay(schedule.worlds.toList.traverse(aaaa(_))).whenA(count == 0)
         _ <- Async[F].sleep(1.seconds)
       } yield ()
     }
@@ -78,7 +75,7 @@ private class RegenerationTask(private val schedule: GenerationSchedule)(
             else schedule.seedPattern
           _ = new BukkitRunnable() {
             override def run(): Unit =
-              WorldRegenerator.regenBukkitWorld(world, seedPattern, None)
+              WorldRegenerator.regenBukkitWorld(Some(world), seedPattern, None)
           }.runTask(instance)
         } yield worldName
 
@@ -117,7 +114,7 @@ private class RegenerationTask(private val schedule: GenerationSchedule)(
     )
     new BukkitRunnable() {
       override def run(): Unit = {
-        res = WorldRegenerator.regenBukkitWorld(world, seedPattern, None)
+        res = WorldRegenerator.regenBukkitWorld(Some(world), seedPattern, None)
       }
     }.runTask(instance)
 
