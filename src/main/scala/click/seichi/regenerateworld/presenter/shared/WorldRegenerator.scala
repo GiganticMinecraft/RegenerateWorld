@@ -45,6 +45,6 @@ case object WorldRegenerator {
           .asMVWorld()
           .toRight(WorldRegenerationException.BukkitWorldIsNotMVWorld(world.getName))
           .flatMap(regen(_, seedPattern, newSeed))
-      case None => Left(WorldRegenerationException.WorldIsNotFound(""))
+      case None => Left(WorldRegenerationException.WorldIsRequired)
     }
 }
