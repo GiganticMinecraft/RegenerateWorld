@@ -24,7 +24,9 @@ object RegenerationTask extends MixInClock {
     }.runTaskLaterAsynchronously(instance, difference * 20L)
   }
 
-  def runInstantly(schedule: GenerationSchedule)(implicit instance: JavaPlugin): Seq[IO[Unit]] =
+  def runInstantly(schedule: GenerationSchedule)(
+    implicit instance: JavaPlugin
+  ): IO[List[Unit]] =
     new RegenerationTask(schedule).ooo[IO]()
 }
 
@@ -42,10 +44,10 @@ private class RegenerationTask(private val schedule: GenerationSchedule)(
     } yield ()
   }
 
-  def ooo[F[_]: Async](): Seq[F[Unit]] = {
+  def ooo[F[_]: Async](): F[List[Unit]] = {
     val countDowns = Set(1, 2, 3, 5, 10)
 
-    (10 to 0 by -1).map { count =>
+    (10 to 0 by -1).toList.traverse { count =>
       for {
         _ <-
           Async[F]
