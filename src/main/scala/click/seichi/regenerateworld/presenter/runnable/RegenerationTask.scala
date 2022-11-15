@@ -1,5 +1,7 @@
 package click.seichi.regenerateworld.presenter.runnable
 
+import cats.Monad
+import cats.effect.std.Dispatcher
 import cats.implicits._
 import cats.effect.{Async, IO, Sync}
 import click.seichi.regenerateworld.domain.model.{GenerationSchedule, SeedPattern}
@@ -30,6 +32,46 @@ object RegenerationTask extends MixInClock {
     new RegenerationTask(schedule).ooo[IO]()
 }
 
+trait OnMinecraftServerThread[F[_]] {
+
+  /**
+   * マインクラフトサーバーが走るスレッド上でアクションを実行する。
+   */
+  def runAction[G[_]: Dispatcher: Sync, A](ga: G[A]): F[A]
+}
+
+object OnMinecraftServerThread {
+  def apply[F[_]](implicit ev: OnMinecraftServerThread[F]): OnMinecraftServerThread[F] = ev
+}
+
+class OnBukkitServerThread[F[_]: Monad: Async](implicit plugin: JavaPlugin)
+    extends OnMinecraftServerThread[F] {
+  override def runAction[G[_]: Async, A](ga: G[A]): F[A] = {
+    val checkMainThread = Sync[G].delay {
+      plugin.getServer.isPrimaryThread
+    }
+
+    for {
+      immediateResult <- checkMainThread.ifM[Option[A]](ga.map(Some.apply), Monad[G].pure(None))
+      result <- immediateResult match {
+        case Some(value) => Monad[F].pure(value)
+        case None =>
+          Async[F].async[A] { cb =>
+            val runnable: Runnable = () => {
+              val a =
+                Dispatcher[G].use(dispatcher => Sync[G].delay(dispatcher.unsafeRunSync(ga)))
+
+              cb(a.asRight)
+            }
+
+            val task = Bukkit.getScheduler.runTask(plugin, runnable)
+            Async[F].delay(task.cancel())
+          }
+      }
+    } yield result
+  }
+}
+
 private class RegenerationTask(private val schedule: GenerationSchedule)(
   implicit instance: JavaPlugin
 ) {
@@ -40,8 +82,23 @@ private class RegenerationTask(private val schedule: GenerationSchedule)(
 
     for {
       world <- Async[F].delay(Option(Bukkit.getWorld(worldName)))
-      _ <- Sync[F].delay(WorldRegenerator.regenBukkitWorld(world, seedPattern, None))
-    } yield ()
+      result <- new OnBukkitServerThread[F]
+        .runAction(Sync[F].delay(WorldRegenerator.regenBukkitWorld(world, seedPattern, None)))
+//      result <- Sync[F].delay(WorldRegenerator.regenBukkitWorld(world, seedPattern, None))
+    } yield {
+      val logger = instance.getLogger
+
+      result match {
+        case Right(worldName) =>
+          logger.info(
+            s"The world (name: $worldName) regeneration schedule (ID: ${schedule.id}) has completed"
+          )
+        case Left(e) =>
+          logger.severe(
+            s"Error has occurred while regenerating a world with the schedule (ID: ${schedule.id}): ${e.description}"
+          )
+      }
+    }
   }
 
   def ooo[F[_]: Async](): F[List[Unit]] = {
@@ -108,17 +165,4 @@ private class RegenerationTask(private val schedule: GenerationSchedule)(
       // TODO: wait 60 secs
       Thread.sleep(1 * 1000)
     }
-
-  private def regenSync(world: World, seedPattern: SeedPattern) = {
-    var res: Either[WorldRegenerationException, Unit] = Left(
-      WorldRegenerationException.ScheduleIsNotFound
-    )
-    new BukkitRunnable() {
-      override def run(): Unit = {
-        res = WorldRegenerator.regenBukkitWorld(Some(world), seedPattern, None)
-      }
-    }.runTask(instance)
-
-    res
-  }
 }
