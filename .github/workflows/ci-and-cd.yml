@@ -53,7 +53,7 @@ jobs:
         uses: ./.github/actions/setup-build
 
       - name: Conventional Changelog Action
-        uses: TriPSs/conventional-changelog-action@v4.0.0
+        uses: TriPSs/conventional-changelog-action@v4.1.1
         id: changelog
         with:
           github-token: ${{ secrets.github_token }}
