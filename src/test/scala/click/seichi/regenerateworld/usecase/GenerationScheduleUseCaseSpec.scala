@@ -37,7 +37,7 @@ class GenerationScheduleUseCaseSpec extends AnyFlatSpec with Diagrams with MockF
     val interval = defaultSchedule.interval
     val seedPattern = defaultSchedule.seedPattern
     val worlds = defaultSchedule.worlds
-    (mockClock.now _).expects().returning(now).once()
+    (() => mockClock.now).expects().returning(now).once()
     (mockRepo.save _)
       .expects(where { schedule: GenerationSchedule =>
         schedule.nextDateTime == now.plus(
