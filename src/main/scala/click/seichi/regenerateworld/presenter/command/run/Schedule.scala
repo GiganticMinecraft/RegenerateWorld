@@ -37,10 +37,12 @@ case object Schedule extends ContextualExecutor {
       case Some(world) =>
         regenStartMessages(worldName).foreach(context.sender.sendMessage)
 
-        WorldRegenerator.regenBukkitWorld(Some(world), schedule.seedPattern, newSeed).onSuccess { _ =>
-          GenerationScheduleUseCase.finish(schedule.id)
-          context.sender.sendMessage(regenSuccessfulMessage(worldName))
-        }
+        WorldRegenerator
+          .regenBukkitWorld(Some(world), schedule.seedPattern, newSeed)
+          .onSuccess { _ =>
+            GenerationScheduleUseCase.finish(schedule.id)
+            context.sender.sendMessage(regenSuccessfulMessage(worldName))
+          }
       case _ => Left(WorldRegenerationException.WorldIsNotFound(worldName))
     }
   }

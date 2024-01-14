@@ -23,7 +23,7 @@ object WorldRegenerationException extends Enum[WorldRegenerationException] {
         s"The Bukkit world ($worldName) is not a Multiverse World"
       )
 
-  case object WorldIsRequired extends WorldRegenerationException(s"A world is required")
+  case object WorldIsRequired extends WorldRegenerationException("A world is required")
 
   case class WorldIsNotFound(worldName: String)
       extends WorldRegenerationException(s"The world ($worldName) is not found")
