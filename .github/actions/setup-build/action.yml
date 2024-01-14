@@ -6,7 +6,7 @@ runs:
     - uses: actions/setup-java@v4
       with:
         distribution: temurin
-        java-version: 8
+        java-version: 17
     - name: Prepare build dependencies cache
       uses: actions/cache@v3
       env:
