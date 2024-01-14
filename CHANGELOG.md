@@ -1,3 +1,12 @@
+## [0.2.2](https://github.com/GiganticMinecraft/RegenerateWorld/compare/v0.2.1...v0.2.2) (2024-01-14)
+
+
+### Bug Fixes
+
+* change output jar path" ([102c53a](https://github.com/GiganticMinecraft/RegenerateWorld/commit/102c53a1bd3bbb0f2aca6efecf6dbfd6383e9546))
+
+
+
 ## [0.2.1](https://github.com/GiganticMinecraft/RegenerateWorld/compare/v0.2.0...v0.2.1) (2024-01-14)
 
 
