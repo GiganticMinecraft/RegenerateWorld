@@ -26,7 +26,7 @@ jobs:
         run: sbt assembly
 
       - name: Clean build artifact for caching target folder
-        run: rm -r target/build
+        run: rm -r ./target/scala-*/RegenerateWorld-*.jar
   cd:
     name: Release
     runs-on: ubuntu-22.04
@@ -61,8 +61,8 @@ jobs:
         with:
           body: ${{ steps.changelog.outputs.clean_changelog }}
           tag_name: ${{ steps.changelog.outputs.tag }}
-          files: ./target/build/RegenerateWorld-*.jar
+          files: ./target/scala-*/RegenerateWorld-*.jar
 
       - name: Clean build artifact for caching target folder
         if: ${{ steps.changelog.outputs.skipped == 'false' }}
-        run: rm -r target/build
+        run: rm -r ./target/scala-*/RegenerateWorld-*.jar
