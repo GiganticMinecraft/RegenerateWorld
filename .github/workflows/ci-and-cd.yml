@@ -1,21 +1,11 @@
 name: CI and CD
 on:
   push:
-    paths:
-      - src/**
-      - build.sbt
-      - .scalafix.conf
-      - .scalafmt.conf
-      - project/*
-      - .github/**
+    branches:
+      - main
   pull_request:
-    paths:
-      - src/**
-      - build.sbt
-      - .scalafix.conf
-      - .scalafmt.conf
-      - project/*
-      - .github/**
+    branches:
+      - main
 
 jobs:
   ci:
