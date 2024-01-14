@@ -6,12 +6,12 @@ import sbt.Keys.baseDirectory
 resolvers ++= Seq(
   "maven.elmakers.com" at "https://maven.elmakers.com/repository/", // spigot
   "Sonatype OSS" at "https://s01.oss.sonatype.org/content/groups/public/",
-  "Multiverse" at "https://repo.onarandombox.com/content/repositories/multiverse/"
+  "Multiverse" at "https://repo.onarandombox.com/content/groups/public/"
 )
 
 val providedDependencies = Seq(
-  "org.spigotmc" % "spigot-api" % "1.12.2-R0.1-SNAPSHOT",
-  "com.onarandombox.multiversecore" % "Multiverse-Core" % "2.5.0"
+  "org.spigotmc" % "spigot-api" % "1.18.2-R0.1-SNAPSHOT",
+  "com.onarandombox.multiversecore" % "Multiverse-Core" % "4.3.0"
 ).map(_ % "provided")
 
 val embeddedDependencies = Seq("com.beachape" %% "enumeratum" % "1.7.3")
