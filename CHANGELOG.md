@@ -1,3 +1,12 @@
+## [0.2.1](https://github.com/GiganticMinecraft/RegenerateWorld/compare/v0.2.0...v0.2.1) (2024-01-14)
+
+
+### Bug Fixes
+
+* update Spigot and MV-Core ([0b09193](https://github.com/GiganticMinecraft/RegenerateWorld/commit/0b091935dbf90730bfbcce580e248f870c6f6c2e))
+
+
+
 # [0.2.0](https://github.com/GiganticMinecraft/RegenerateWorld/compare/v0.1.0...v0.2.0) (2022-08-30)
 
 
