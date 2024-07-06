@@ -1,5 +1,5 @@
 // FatJarを生成するためのプラグイン
-addSbtPlugin("com.eed3si9n" % "sbt-assembly" % "2.1.5")
+addSbtPlugin("com.eed3si9n" % "sbt-assembly" % "2.2.0")
 // Lintをするためのプラグイン
 addSbtPlugin("ch.epfl.scala" % "sbt-scalafix" % "0.12.1")
 // Formatをするためのプラグイン
