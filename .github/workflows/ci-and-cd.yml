@@ -4,65 +4,15 @@ on:
     branches:
       - main
   pull_request:
-    branches:
-      - main
-
 jobs:
   ci:
-    name: Build, Lint and Test
-    runs-on: ubuntu-22.04
-    steps:
-      - uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
-      - name: Setup Java and Cache deps
-        uses: ./.github/actions/setup-build
-
-      - name: Check format with Scalafmt
-        run: sbt scalafmtCheckAll
-      - name: Check lint with Scalafix
-        run: sbt "scalafix --check"
-      - name: Build artifact with Test
-        run: sbt assembly
-
-      - name: Clean build artifact for caching target folder
-        run: rm -r ./target/scala-*/RegenerateWorld-*.jar
+    uses: Lucky3028/shared-workflows/.github/workflows/scala-ci.yml@main
+    with:
+      cache-build-deps-ver: v-1
+      cache-build-outputs-ver: v-1
+      jar-output-dir: target/scala-2.13
   cd:
-    name: Release
-    runs-on: ubuntu-22.04
-    needs: ci
+    uses: Lucky3028/shared-workflows/.github/workflows/scala-cd.yml@main
     if: github.ref == 'refs/heads/main'
-    # softprops/action-gh-release requires this permisson
-    permissions:
-      contents: write
-    steps:
-      - uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
-      - name: Setup Java and Cache deps
-        uses: ./.github/actions/setup-build
-
-      - name: Conventional Changelog Action
-        uses: TriPSs/conventional-changelog-action@v6.0.0
-        id: changelog
-        with:
-          github-token: ${{ secrets.github_token }}
-          git-user-name: "github-actions[bot]"
-          git-user-email: "github-actions[bot]@users.noreply.github.com"
-          skip-version-file: 'true'
-          skip-git-pull: 'true'
-      # バージョンが異なっているので、再度Build
-      - name: Build artifact
-        run: sbt assembly
-        if: ${{ steps.changelog.outputs.skipped == 'false' }}
-      - name: Release
-        uses: softprops/action-gh-release@v2
-        if: ${{ steps.changelog.outputs.skipped == 'false' }}
-        with:
-          body: ${{ steps.changelog.outputs.clean_changelog }}
-          tag_name: ${{ steps.changelog.outputs.tag }}
-          files: ./target/scala-*/RegenerateWorld-*.jar
-
-      - name: Clean build artifact for caching target folder
-        if: ${{ steps.changelog.outputs.skipped == 'false' }}
-        run: rm -r ./target/scala-*/RegenerateWorld-*.jar
+    needs:
+      - ci
