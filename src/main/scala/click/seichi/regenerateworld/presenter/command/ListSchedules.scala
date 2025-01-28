@@ -16,7 +16,8 @@ object ListSchedules extends ContextualExecutor {
     val formattedSchedules = for {
       schedule <- GenerationScheduleUseCase.list()
       formattedInterval = s"${schedule.interval.value}${schedule.interval.unit.alias}"
-      formattedSchedule = s"${schedule.id}: ${schedule.worlds.mkString(", ")} | $formattedInterval | ${schedule.seedPattern.entryName} | ${schedule.nextDateTime}"
+      formattedSchedule =
+        s"${schedule.id}: ${schedule.worlds.mkString(", ")} | $formattedInterval | ${schedule.seedPattern.entryName} | ${schedule.nextDateTime}"
     } yield formattedSchedule
 
     val messages =
