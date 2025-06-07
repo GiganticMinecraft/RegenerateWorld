@@ -21,7 +21,7 @@ trait ContextualExecutor {
         // parserがなければparseすべき引数はないものとしてreturn
         val (parserHead, parserTail) = remainingParsers match {
           case ::(head, next) => (head, next)
-          case Nil =>
+          case Nil            =>
             return Right(PartiallyParsedArgs(reverseAccumulator.reverse, remainingArgs))
         }
 
