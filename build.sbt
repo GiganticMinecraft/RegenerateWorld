@@ -11,7 +11,7 @@ resolvers ++= Seq(
 
 val providedDependencies = Seq(
   "io.papermc.paper" % "paper-api" % "1.18.2-R0.1-SNAPSHOT",
-  "com.onarandombox.multiversecore" % "Multiverse-Core" % "4.3.0"
+  "com.onarandombox.multiversecore" % "Multiverse-Core" % "4.3.1"
 ).map(_ % "provided")
 
 val embeddedDependencies = Seq("com.beachape" %% "enumeratum" % "1.9.0")
