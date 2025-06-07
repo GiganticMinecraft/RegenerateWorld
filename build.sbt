@@ -4,13 +4,13 @@ import sbt.Keys.baseDirectory
 // region Dependencies
 
 resolvers ++= Seq(
-  "maven.elmakers.com" at "https://maven.elmakers.com/repository/", // spigot
+  "papermc" at "https://repo.papermc.io/repository/maven-public/",
   "Sonatype OSS" at "https://s01.oss.sonatype.org/content/groups/public/",
   "Multiverse" at "https://repo.onarandombox.com/content/groups/public/"
 )
 
 val providedDependencies = Seq(
-  "org.spigotmc" % "spigot-api" % "1.18.2-R0.1-SNAPSHOT",
+  "io.papermc.paper" % "paper-api" % "1.18.2-R0.1-SNAPSHOT",
   "com.onarandombox.multiversecore" % "Multiverse-Core" % "4.3.0"
 ).map(_ % "provided")
 
