@@ -27,18 +27,19 @@ case object Schedule extends ContextualExecutor {
         .findById(uuid)
         .toRight(WorldRegenerationException.ScheduleIsNotFound)
       newSeed = args.yetToBeParsed.headOption
-    } yield for {
-      worldName <- schedule.worlds
-      world = Option(Bukkit.getWorld(worldName))
-    } yield world match {
-      case Some(w) =>
-        regenStartMessages(worldName).foreach(context.sender.sendMessage)
+    } yield
+      for {
+        worldName <- schedule.worlds
+        world = Option(Bukkit.getWorld(worldName))
+      } yield world match {
+        case Some(w) =>
+          regenStartMessages(worldName).foreach(context.sender.sendMessage)
 
-        WorldRegenerator.regenFromWorld(w, schedule.seedPattern, newSeed).onSuccess { _ =>
-          GenerationScheduleUseCase.finish(schedule.id)
-          context.sender.sendMessage(regenSuccessfulMessage(worldName))
-        }
-      case _ => Left(WorldRegenerationException.WorldIsNotFound(worldName))
-    }
+          WorldRegenerator.regenFromWorld(w, schedule.seedPattern, newSeed).onSuccess { _ =>
+            GenerationScheduleUseCase.finish(schedule.id)
+            context.sender.sendMessage(regenSuccessfulMessage(worldName))
+          }
+        case _ => Left(WorldRegenerationException.WorldIsNotFound(worldName))
+      }
   }
 }
