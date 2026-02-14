@@ -14,7 +14,7 @@ val providedDependencies = Seq(
   "com.onarandombox.multiversecore" % "Multiverse-Core" % "4.3.1"
 ).map(_ % "provided")
 
-val embeddedDependencies = Seq("com.beachape" %% "enumeratum" % "1.9.4")
+val embeddedDependencies = Seq("com.beachape" %% "enumeratum" % "1.9.5")
 
 val testDependencies = Seq(
   "org.scalamock" %% "scalamock" % "7.5.5",
